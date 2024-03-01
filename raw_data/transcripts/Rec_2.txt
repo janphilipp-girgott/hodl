@@ -1,0 +1,496 @@
+00:00:02:22 - 00:00:30:22
+Unbekannt
+All right, It's 205, so let's get started. So, hi, everyone, and welcome to the second recitation. Four hands on deep learning. Today, we're going to be talking about natural language processing. In particular, we're going to cover the bag of words model, which you talk about on Tuesdays, the lecture, as well as the Global Vectors glove word embeddings that we talked about on Wednesdays Lecture.
+
+00:00:30:24 - 00:00:57:00
+Unbekannt
+So the agenda for today is we're going to review some of the concepts from a lecture and then we're going to look into a lab notebook that is going to try to classify news as fake news, a real news. And so kind of some of the goals of this recitation are the following. So by the end of today's recitation, hopefully you'll be able to, you know, explain the key parameters of text factorization for bag of words.
+
+00:00:57:04 - 00:01:33:19
+Unbekannt
+So these include things like, you know, the the max number of tokens and grams, you know, stripping the punctuation, you know, all all these all these parameters that cross makes it super easy for you to use. You're also going to understand the intuition behind how glob vectors are calculated. So, you know, in class we looked at this optimization of formulation for trying to find the trying to find a vector for each word such that some objective is is maximized.
+
+00:01:33:21 - 00:01:57:16
+Unbekannt
+So we'll talk about that as well. And then, you know, we're also going to discuss the strength and weaknesses of love versus the bag of words. And then finally, once we go to the notebook, hopefully you'll get a appreciation of how Cross makes it super easy for us to incorporate a bag of words or glove into a deep neural network architecture.
+
+00:01:57:18 - 00:02:21:20
+Unbekannt
+Okay, So that's the agenda for today. So kind of, you know, a brief overview. I think everyone knows this text classification, of course, is a very important problem in natural language processing. Right. And, you know, but the kind of main challenging part of text classification is how do we convert text free text into a vector of numbers that a module such as a neural network can actually understand?
+
+00:02:21:20 - 00:02:44:21
+Unbekannt
+Right? If you recall, this is also the challenge in image classification, right? How do we go from something that's raw data like images or text? How do we go from that into something that is structured data like a vector of numbers that we can then pass into our model, right? So pretty much everything that we're going to talk about in the natural language processing unit of this course is on that first part, like how do we go from text to a vector?
+
+00:02:45:01 - 00:03:08:17
+Unbekannt
+Because once we have a vector of numbers or features, then we could just imply, you know, any of the, you know, any of the neural network architecture techniques that we talked about in the first week of the class, right? So that's kind of the name of the game in this entire, you know, natural language processing unit is how do we convert text into that vectors.
+
+00:03:08:19 - 00:03:28:19
+Unbekannt
+And so the two ways that we kind of have discussed so far are bag of words and embeddings, right? So we're going to talk about those in more detail in just a moment. But these are kind of the two simplest ways that you could convert text into vectors. Essentially, what these two techniques do is it says, okay, you give me a piece of text, right?
+
+00:03:28:23 - 00:03:50:20
+Unbekannt
+I'm going to take all the words in this piece of text, right. Like, the cat, etc.. Right. And I'm going to assign every single word of a vector, right? So in the bag, in the bag of words, it's a one plot encoded into a vector, right. Whereas in the embeddings, such as a glove, it's going to be a, you know, the vector in some high dimensional space.
+
+00:03:50:20 - 00:04:11:19
+Unbekannt
+Right. So these kind of preliminary models that we've talked about in class this week, the the intuition is just take each word mapped to the of the vector and then aggregate them in some way. You know, we have the multi height encoding or the count encoding and we typically do averaging for the embeddings. Right. So all word, you know, it's a pretty naive approach.
+
+00:04:11:19 - 00:04:37:02
+Unbekannt
+So far all we're doing is just taking every word, turning it into the vector and then aggregating them together. But as you'll see, you know it like, I mean, as, as you have seen already, like this actually results in pretty good classification accuracy for a lot of applications already. Right. So next week in the you know, we're going to talk about Transformers, which are a much more sophisticated type of, you know, of the vector ization technique.
+
+00:04:37:04 - 00:04:58:02
+Unbekannt
+But for the most part, like as you know, like these two pretty, you know, pretty, let's say, naive techniques, bag of words and embeddings actually already perform quite well in practice. Right. And as you know, Rama always says, you know, a given a problem. Right. You should always start with kind of the simplest approaches, see how they do it backwards, does good enough.
+
+00:04:58:02 - 00:05:25:17
+Unbekannt
+Then there's no need to kind of do more complex stuff right. Okay. So the general kind of setup that we have is that we have a table, so we're given our training data, which is a table with two columns. One column is the text and the other column is the label. Okay. So now I'm going to talk about kind of this style standardized tokenize index encode kind of process.
+
+00:05:25:19 - 00:05:44:10
+Unbekannt
+So these first two standardized and token as kind of go hand in hand. So what we're doing in these first two steps is we're kind of creating a vocabulary space or a dictionary, as we call it here. So we're saying, okay, let me take all of the looks. First of all, let me take my my training data, okay?
+
+00:05:44:12 - 00:06:09:00
+Unbekannt
+And let me just look at all of the like take take the text in my training data and do the following, which is I'm going to I'm going to turn everything a lowercase, I'm going to remove punctuation, I'm going to turn, you know, words like eating its eaten like into eat, right, which is stemming. And then I'm going to do tokenization, which is just chopping the sentences into individual words.
+
+00:06:09:00 - 00:06:33:04
+Unbekannt
+Right? So when I do all of this on my training data, I get kind of these tokens over here. So here we have one, two, three, four, five, six, seven, eight, nine tokens. And these nine tokens corresponds to kind of words or groups of words. Right? And so in my vocabulary space, I'm going to basically have, you know, I'm going to have these, let's say one, two, three, four, five, six, seven, eight.
+
+00:06:33:06 - 00:06:49:23
+Unbekannt
+And is there one missing? The cat? The cat, the cat sit on? I think one of them might be, sorry, that is repeated twice. So so it's like that there are only eight words in our vocabulary space that is repeated. So those are the eight words you see here. And then we also have this token called unknown, right?
+
+00:06:49:23 - 00:07:12:17
+Unbekannt
+Basically, we always add this extra token called unknown, because, you know, if, if, if a word appears that's not in these eight words, then we also need to assign that word a particular lecture. Right. And so we have a special token unknown, which is any word that is not in our vocabulary space. We're going to assign that particular we're going to assign that word, this particular vector.
+
+00:07:12:19 - 00:07:39:01
+Unbekannt
+And then we also have this kind of index zero is for padding. So this is going to come up later in the glove part. What basically padding is for, you know, adding versus unknown. So unknown is when a word comes in, it's like hodl or something, a word that, well, well, it wasn't here. I think somebody is unmuted, but I am trying to mute you.
+
+00:07:39:03 - 00:08:02:08
+Unbekannt
+Okay. Anyway, so padding and unknown are are a little bit different. They function the same way. Basically. So unknown is when you know if a word comes in, it's like dog, right? The word dog is not in our vocabulary space. So we would assign it, you know, to be unknown. Padding is going to be used a little bit later on when we want to make sure that all of our vectors are the same length.
+
+00:08:02:10 - 00:08:21:18
+Unbekannt
+So all of our sensors are of the same dimension. So we'll kind of pad our sentences, right? I love you is only three words, but we think we might pad it with two blank spaces to make it a total of five words. Because we want all the sentences to be five words. So adding is going to a little bit different than unknown.
+
+00:08:21:18 - 00:08:43:10
+Unbekannt
+But they're essentially, you know, both of them are just but they're not really that important because they're just saying that I don't have you know, it's a word that I don't really know. So that's the first step. We're going to create a dictionary. And now that we've created a dictionary, right, we can take any sentence, right? And we can kind of convert it into a string of numbers, right?
+
+00:08:43:10 - 00:09:07:12
+Unbekannt
+So here that corresponds to index seven, CAT corresponds to index to right, that corresponds to index five, etc.. So we can take kind of any string, you know, any word, any sentence, and we can convert it into, you know, a, a list of numbers. Right. And the numbers correspond to the index in our vocabulary space over here. Right.
+
+00:09:07:13 - 00:09:36:06
+Unbekannt
+So here you can see we're using the padding, right? So here, basically I'm saying that let me turn every single sentence into a sequence of six tokens. Okay. So it's going to be six numbers. But the sentence I love you is only three tokens long, so I'm just going to pad it with some zeros. And the reason we do this is that when we pass kind of tensor or into our neural network models later, we want to make sure that they have kind of consistent dimensions.
+
+00:09:36:08 - 00:09:56:00
+Unbekannt
+We don't want the first example to be a tensor of three by something, by something, the second one to be six, by something, by something. Right? We want that kind of each tiny example to be represented by, you know, a tensor of six the numbers. Right? So that's kind of that's the reason why we do this whole pattern.
+
+00:09:56:02 - 00:10:22:13
+Unbekannt
+So and here in the code, you can see that I've set the output sequence length to be equal to six, which means that every single sentence, every single training example sentence is going to be converted into a vector of exactly length six. And, you know, if if this sentence is longer than length six, then we just, you know, truncate and only take the first six tokens.
+
+00:10:22:15 - 00:10:56:17
+Unbekannt
+So, yeah, so here, you know, if we have a sentence where none of the words appear in a vocabulary space, then we just convert them to all one. So one is unknown. Any question so far on the on the factorization process so far, basically all we've done so far is just take our training, set tokenize right, create this dictionary of, you know, we have indices and we have the word that they correspond to and then we can just take every single sentence in our training data and convert them into a list of these indices.
+
+00:10:56:17 - 00:11:24:03
+Unbekannt
+That's all we've done so far. Okay. Any questions about okay, so now that we've converted so so far, this process is pretty boring, right? All we've done is just say it's kind of it's it's somewhat like admin work. That's very boring. It's just saying, I've made a dictionary of words, I've converted my sentences into lists of numbers now.
+
+00:11:24:03 - 00:11:51:00
+Unbekannt
+Right. Like 11111 here. So now what I want to do is I want to convert the sentence into a vector. Right. And so let's take this this sentence. The cat sat on the mat, right? So that corresponds to the words 7259, seven three. So basically what we need to decide now is, okay, we have word seven, word two, word five word nine word seven word three.
+
+00:11:51:02 - 00:12:08:17
+Unbekannt
+How should we So what are the factors that each of these words should correspond to? And here's kind of where the bag of words and gloves start to diverge. Okay, So all the steps that we've talked about so far are actually comment a bag of words and gloves. So for both bag of words and gloves, you're going to need to do this tokenisation process.
+
+00:12:08:19 - 00:12:36:10
+Unbekannt
+But the difference now is, okay, so now I've converted every sentence into a number of tokens right now. Now I need to choose how am I going to represent each of these tokens as a vector, right? Like seven over here correspond to the right. How can I represent the words are as of the vector, right? So in the bag of words approach, I'm going to encode the words as just a one plot encoded vector with a with a one in one location and zeros everywhere else.
+
+00:12:36:10 - 00:13:03:04
+Unbekannt
+Right. That's you know, that's, that's the vector. I'm going to choose for the words. Whereas in the glove vectors, the global vectors, right. I'm going to choose some dense vectors that's going to, you know, that's going to come from a pre train that's that's going to come from, you know, Google. It's going to come from a pre-trained model that somebody has built on a very large corpus of data.
+
+00:13:03:06 - 00:13:26:07
+Unbekannt
+So that's kind of, you know, so at this point so far, it's where a kind of bag of words and diverge, right? So we've we've converted all our sentences into tokens, right? We've indexed our tokens in our vocabulary space. Now it's time to assign each token of the vector. Right. And that's exactly. And here's the difference between what bag of words does and what a glove does.
+
+00:13:26:09 - 00:13:51:14
+Unbekannt
+So with bag of words, right? What we do is we assign, as I mentioned, like we assign each word. This one for encoded in the vector, right? So seven just corresponds to a vector of all zeros except with a one in the seventh spot. Right? Two is same in the second spot, etc.. Right. And so now that we have this, now that we have assigned a vector for each word, we need to aggregate these word vectors together into a sentence vector.
+
+00:13:51:14 - 00:14:15:03
+Unbekannt
+Right. For our entire for our sentence, the cat sat on the map. And so there's two ways that we do this. One is called multi hot encoding, which is we just taken or of all of these guys, right? And we get it's called multiply because one hot encoding means that there's only a one in every single column, whereas multi hot encoding means that there can be multiple ones in each column.
+
+00:14:15:05 - 00:14:36:09
+Unbekannt
+So that's kind of so that's, you know, backwards. It's the simplest kind of vector ization that you can think of, right? Every word just corresponds to a vector that is just a single one and all zeros. And then we're just going to aggregate by taking the or, you know, is basically it. This vector represents for this sentence, you know, is there token number two?
+
+00:14:36:12 - 00:15:09:12
+Unbekannt
+Is there token number three? Is there token number five, etc.? And we can also do count vector ization. Right. Which is just summing instead of taking the OR. And so in count vector ization, the resulting vector is going to be a count of how many times did this token appear in this particular sentence? Yes, I think a quick question is, is there a rule of thumb when you're choosing your the length of your token length, if you took as in the number of tokens, number of tokens.
+
+00:15:09:12 - 00:15:29:03
+Unbekannt
+Yeah. I'm is there rules. And so you know, I think Rama kind of said this in class a little bit right. So what you might want to do is you want to plot a histogram, right. Of, of So first just say let me use an infinite number of tokens. Right. I can plot a histogram which shows, you know, for every token.
+
+00:15:29:03 - 00:16:04:05
+Unbekannt
+Right. How many times does it appear in my dataset. Right. And you'll notice that of course there there's going to be a very, very long tail on the right side, right? Because there are a lot of, lot of words that only appear maybe once or twice in your whole corpus. Right. And so you might want to just pick a cutoff such that you say, you know, like so you want to look at that distribution and just pick a place where you think, okay, if a word appears less than five times out of 10,000 training examples, then I really don't care about it.
+
+00:16:04:05 - 00:16:29:19
+Unbekannt
+So I'm going to kind of choose that to be the cutoff point and use however many tokens. That is awesome. Thank you. You know, I'm okay. So this is the bag of words count vector ization. Okay, So, you know, this is just a slide that we talked about in class, right? So what are the disadvantages of bag of words?
+
+00:16:29:19 - 00:16:51:07
+Unbekannt
+Right. There's kind of three disadvantages. So one is that it creates these very, very long vectors corresponding to kind of the number of unique words. Right. So, for example, let's say I chose the number, the max number of tokens to be, you know, 2000, right? That means that I'm going to encode every single word in my vocabulary space as a vector of length 2000.
+
+00:16:51:09 - 00:17:14:00
+Unbekannt
+Right? So that vector has only a single one and it has zeros everywhere else. Right. But I need to store kind of in my computer this huge vector, but it only has one one right in one place. So it creates these. So it's very computationally intensive. And also, you know, it's very computationally intensive because you end up working with these ten colors that are quite large, right?
+
+00:17:14:00 - 00:17:35:22
+Unbekannt
+If you choose your vocabulary space to be like 2000, then you're going to be working in your neural network architecture later on. You're going to be working with these vectors of length 2000 that come in, right? And, you know, that's just not that's not very computationally efficient. The second downside, right, is that, of course, backwards doesn't take into account context in the word order at all.
+
+00:17:35:22 - 00:17:55:07
+Unbekannt
+Right. So, you know, context for sure, because I'm just adding up. I'm taking the vector for each individual word and I'm just adding it up. Right. The vector for any word does not change depending on the context. Right. Like the word the is I guess the word cat. Right. Is going to always have that same, you know, bag of words like that.
+
+00:17:55:07 - 00:18:25:01
+Unbekannt
+Same with zero with all ones in it, right. Yeah. A single one and all zeros regardless of if cat is used as an, as the subject or as the object etc. of the sentence. Right. So you know that and of course word order also doesn't is not taking into account. Right. If the word cat appears before certain word or after a certain word, and that's not really taken into account in the default bag inverse model, you can take into account word order by using the n grams option.
+
+00:18:25:01 - 00:18:46:03
+Unbekannt
+Right. You know, we talked about in class how engrams allows you to, instead of looking at tokens as one word, you can look at tokens as one word or two adjacent words. Right. And we'll see an example of that in the CoLab notebook. But you can take into account word order using engrams. But the disadvantage there is it's going to really blow up the size of your vocabulary space, right?
+
+00:18:46:03 - 00:19:07:08
+Unbekannt
+Because now instead of having just singleton words as your vocabulary space, you're going to also have pairs of words and so the number of possibilities is going to be, you know, it's going to be fairly large and a kind of the third disadvantage of bag of words, which is really what motivates kind of the glove embeddings, right, is that in a bag of words, the distance between all the vectors are the same.
+
+00:19:07:08 - 00:19:31:15
+Unbekannt
+So, you know, a vector for cat, a vector for dog, a vector for dog, like a vector for love like these are all these vectors are just treated as categorical features. Right. Like each of the is completely different than, you know, like hat is completely different than dog, right. And so it doesn't allow me to learn things such much as, you know, maybe in my training data, Right.
+
+00:19:31:15 - 00:19:48:11
+Unbekannt
+So for example, in my training data, I might have a lot of examples with Cat, right? But in my testing data I have, I have an example with Dog, right? It's a bag of words would not be able to tell you that cat and dog are similar. Right. But if you were to use but as we'll see with glove and beddings right.
+
+00:19:48:15 - 00:20:10:24
+Unbekannt
+Because you know cat and dog have a similar embedding, then you know, the model will be able to figure out that okay, in my training examples, I saw that, you know, cats are correlated with this particular class, right? And in my testing example, I see the word dog appears well, dogs and cats are similar. And so I should also have learned that dogs are probably also correlated with that same class.
+
+00:20:11:01 - 00:20:30:20
+Unbekannt
+So that's kind of the idea between up behind why, you know, bag of words just doesn't let you learn. You know, it treats every word independently. Right. And so it doesn't allow you to learn kind of meaning between words, which makes it so that you have to do extra work. Right? You have to learn that dog and cat like you have to learn separately from different training examples.
+
+00:20:30:20 - 00:20:57:10
+Unbekannt
+That dog and cat, you know, are both correlated with a particular, you know, outcome class, right? And so you just, you know, intuitively you just require kind of more training examples. But you know, in practice you'll see that a lot of times it doesn't matter like, you know, yeah, like it, you know, there are disadvantage there, intuitive disadvantage to bag words, but it actually performs surprisingly, surprisingly well in practice.
+
+00:20:57:12 - 00:21:26:19
+Unbekannt
+Yeah. So even for my personal experience, like, you know, I, you know, like, you know, bag of words has it's very hard actually to like, have something that significantly beats that I give words. The only thing that really beats it will be the transformer models that we talk about next week. Typically even the global embeddings, they you know, with with enough fine tuning, you can get to kind of the same performance, a bag of words, but it's actually quite hard to beat back words know.
+
+00:21:26:21 - 00:21:59:12
+Unbekannt
+Okay so any questions on bag of words before we move into the I love embeddings okay. So glove embedding. So gloves you know stands for global a global vector embeddings. Right. And kind of the idea behind glove embeddings right is that we want to represent each word right so each token as a vector and we want those vectors to have some kind of meaning to it, right?
+
+00:21:59:12 - 00:22:21:04
+Unbekannt
+We want it so that the words dog and cat, for example, have vectors that are close to each other. Right? And so the way that we do this is we use we create this thing called a word co-occurrence matrix. So for example, suppose my training example has these, these three sentences, right? Are the cats on the map? I love you and I love the cat.
+
+00:22:21:08 - 00:22:50:03
+Unbekannt
+Okay, so we're going to perform the same kind of tokenization process to get these into tokens. And then we're going to create this matrix, which is how often do you know? The matrix tells me, how often do these two words occur in the same sentence? So for example, the and cat occur together in the first sentence and the third sentence, which is why if you look at the matrix of the cat, there's a two in a matrix.
+
+00:22:50:06 - 00:23:17:05
+Unbekannt
+Okay, So here X is the number of times that token a word I appears in the same context here. The context is sentence as word J So we create this co-occurrence matrix, right? And then what we're going to do right in glove is that we're going to try to learn, we're going to try to learn a weight for each weight, the vector for each word, as well as a biased vector.
+
+00:23:17:07 - 00:23:39:04
+Unbekannt
+The bias vector part is not really that important. It's really the weight vector. That's one point. So for each of these, if one, two, three, four, five, six, seven, eight words, right. I want to learn of the vector w for that word. Okay. And and I want to do it in a way that best captures the co-occurrence matrix that that is happening over here.
+
+00:23:39:06 - 00:24:02:12
+Unbekannt
+And so there's a bunch of math that I'm sure you could take your time to review, Right? But the main idea is the following. Okay, so we have these eight words, right? And we want to, you know, we want to represent each of them as a vector, right? And intuitively, how we're going to use the co-occurrence matrix is that if two words appear often together, right?
+
+00:24:02:12 - 00:24:28:07
+Unbekannt
+So the word if two words appear often in the same sentence, then we would like these two word vectors to also be close to each other. Okay. On the other hand, if two words almost never appear in the same sentence, then we would want the two of the vectors to be far away from each other. So essentially you can think of it as we're trying to put these eight words onto a map or a map which is five dimensional.
+
+00:24:28:07 - 00:24:53:21
+Unbekannt
+So it's maybe a map in 100 dimensional space in a way that the distances between the were. These are the vectors in the high dimensional space are related to how similar the words are and how similar the words are. We're going to as a proxy of how similar the words are. We're going to see how often do these two words occur in the same sentence.
+
+00:24:53:23 - 00:25:16:21
+Unbekannt
+And it's not in the sentence, it's not always so I'm using the word sentence very broadly. So it could be a paragraph, it could be a Wikipedia article. You know, the word sentence just means a collection of words. Okay. So basically, when words appear together in a collection of words, often, then those two words should have a similar embedding that are class that's close to each other.
+
+00:25:16:23 - 00:25:42:12
+Unbekannt
+Whereas if words do not appear often together, then they should have a then they should correspond to vectors that are very far apart. And so here's kind of an example, I guess. So that's kind of the optimization problem that we're trying to solve, right? We're trying to find the embedding for each word that maximizes this objective. And so suppose that someone gave us this, right?
+
+00:25:42:12 - 00:26:14:18
+Unbekannt
+So here we're saying that supposedly solve this, right? We we run an optimization problem and we've come up with the embedding for each word. So here we're saying I'm here in this example, each of the words is a two dimensional embedding of each of the vectors is two dimensional. So zero course zero the padding token corresponds to the vector 1.3 comma, 2.5, etc. So we have, you know, suppose we solved our optimization problem and we got an embedding for each of these, for each of these words.
+
+00:26:14:20 - 00:26:35:05
+Unbekannt
+And then what we would do with, with each sentence right know, Cat sat on the map which corresponds to these five words. Right. We would take their embeddings from this dictionary. Right. You know, we would take the embeddings that corresponds to each of these tokens. And then we just can simply take an average of the, you know, of the x coordinate average of the Y coordinates.
+
+00:26:35:06 - 00:27:02:19
+Unbekannt
+And then this would be kind of the vector that represents the sentence cat set on the net. Okay. So, so, you know, so we use an optimization formulation to find these embeddings. And then once we have the embeddings, then to then we take each sentence and we convert it into a vector by taking each word, looking up its embedding in our dictionary over here, and then taking the average of those of those letters.
+
+00:27:02:19 - 00:27:26:15
+Unbekannt
+And that gives us the final vector for that sentence. Okay. And here, you know these how do we get these embeddings? Well, we could solve the optimization problem that we saw earlier, but typically we would just get them from the Internet. We would say somebody in somebody out there has already done a lot of work to find a vector for, you know, for 4000 or 40,000 English words out there.
+
+00:27:26:15 - 00:27:49:11
+Unbekannt
+Right. And so, you know, we don't really have to reinvent the wheel so we can just take those embeddings and apply them in our particular application and, you know, kind of something fun that we can do with these with these embeddings, right? Is that if we, you know, with two dimensional embeddings, we can easily plot them and visualize them.
+
+00:27:49:13 - 00:28:15:06
+Unbekannt
+And you can see that in general, words that are similar to each other are kind of close together. Right. So here, you know, nice are these are all like family members right over here. You know, these are all kind of like royalty, right? You know, king, Queen, etc.. And so, you know, that's kind of a good embedding. But a good embedding would mean that words that are similar to each other are going to appear close to each other in the in the embedding space.
+
+00:28:15:08 - 00:28:35:19
+Unbekannt
+And there's also kind of this cool like arithmetic that you can do. You know, I think we went over this example in class, so I won't talk about in detail, but yeah, you can do some arithmetic and it's kind of cool to see that indeed these indeed these embeddings are really well done, right? Because you can do this kind of math between words.
+
+00:28:35:21 - 00:29:25:17
+Unbekannt
+Okay, Any questions on the PowerPoint before I go to the call up? Okay. Or not? Okay. All right. So let's look at the collab. The link has not been posted yet, so we can just follow along and it will be posted right after we were recitation. Okay, so I already ran the code, so I'm not going to just to save us the time of having to actually, you know, I think I'll just run the ones that, you know, make sense to rerun.
+
+00:29:25:17 - 00:29:58:03
+Unbekannt
+So okay, so we're going to look at this dataset, fake news dataset. It contains 20,800 news articles that are labeled zero or one, depending on whether the articles represent fake news. So one here corresponds to fake news. Zero is real news. So we're going to download our dataset and unzip it. Okay, I'll just rerun these. So here we're just doing a simple we're going to read our data set and we're going to do a test train split, right?
+
+00:29:58:05 - 00:30:19:14
+Unbekannt
+And then we're going to take the testing set and also split it into a validation set and a testing set. If you recall, the validation set is something we, you know, we have train test and validation. We use the train in the validation in the training process to see how our model is doing. And then at the very end, we evaluated on the testing set.
+
+00:30:19:16 - 00:30:39:06
+Unbekannt
+So if you look at the shape here, yep, that's great. So 10,000 examples in the training set, 5000 each in the test and validation. And let's just take a look to understand this dataset a bit more. So it has two columns. There's just the text which appears in this raw text from each of these news articles in the text column.
+
+00:30:39:06 - 00:30:58:13
+Unbekannt
+And then we have the label from zero or one. Okay. So the first thing we're going to do is we're going to build the bag of words model. And so we're going to do these the S, the T, and B, you know what? We're going to do the entire process. I and E in one kind of simple command.
+
+00:30:58:15 - 00:31:22:14
+Unbekannt
+So we saw this command already in class, which is using the cross layers dot text factorization. Right. And there is a bunch of parameters that we can kind of play with in the text factorization. So we have the max tokens parameter, right, which is the maximum number of tokens, the basics, the size and my vocabulary space, Right. The maximum number of tokens we have n grams, which is, you know, by default it's one.
+
+00:31:22:14 - 00:31:48:13
+Unbekannt
+So one corresponds to unique grams, meaning that we're only going to look at one word at a time, whereas two is by grams, three is tri grams, meaning that we're going to look at two or three words consecutively here we passing standardized is lower and strip punctuation. This is just the default. You know, you didn't have to write this at all, but I just wrote it out because I wanted to show you that these are possible parameters you can play with.
+
+00:31:48:15 - 00:32:11:20
+Unbekannt
+So at lower it means just lowercase and strip punctuation. We have splitting by whitespace. And finally this is actually kind of important. The output mode is multi heart. So basically by telling it multi heart, you're telling us I want a bag of words of representation and just go ahead and you know, and just go ahead and give me the multi height encoding of it.
+
+00:32:11:22 - 00:32:45:21
+Unbekannt
+So and then important thing we need to do is we do need to we need to adapt the text factorization process to our training data. So just creating this is telling us the is kind of configuring the set things of the text declaration and then using ADAPT is going to actually, you know, it's going to adapt that is going to, you know is going to is when you pass in your training data and and you know we end up creating the tokens, we end up stripping the whitespace, you know, doing all the stuff on the training data.
+
+00:32:45:24 - 00:33:07:09
+Unbekannt
+So it's very important that we call adapt and then we can look using the vocabulary function. We can take a look at the vocabulary words and these are ordered by frequency, right? So we have the padding token, which is always going to be the top one regardless, you know, padding is always a top one. And then we have unknown and then these kind of common English words.
+
+00:33:07:11 - 00:33:31:14
+Unbekannt
+Okay, so now that so we created this text vector ization and it's actually a cross layer. So what we can do, we can apply this. So if you remember from homework one, right, we had this in the image argument and the data augmentation problem, right? We had kind of the random rotation and the random zoom. Right. And those are across layers, right?
+
+00:33:31:14 - 00:33:57:16
+Unbekannt
+So that conveniently so that we can call them on a particular image, you know, to rotate them to zoom, etc.. Right. So we can do the same thing here where we have created this text factorization as a layer and cross. We've adapted to our training data and so we can just apply this layer to our data to get kind of to get the vector, to get the one thought, to get the multiclass.
+
+00:33:57:18 - 00:34:21:00
+Unbekannt
+So to get the multipart bag of words encoding. So we apply the function text factorization and then we can take a look at it. So here I'm just looking at X train and you can see that X train is these 10,400 rows and it's 5000 columns, right? 5000 because that was the max number of tokens. Right. And you can see that.
+
+00:34:21:00 - 00:34:46:09
+Unbekannt
+So basically the first sentence contains the word. Now content contains a known token, the two, four, etc.. Okay. And you can see the kind of least frequent words out of the 5000 are here on the right. So now that we have vector ized our input x train x test x value, we can just build a kind of simple neural network right here.
+
+00:34:46:09 - 00:35:09:04
+Unbekannt
+We're just building one that has a single hidden layer of eight of eight neurons. So you'll notice that here the character input, the shape is equal to max tokens, right? So max tokens, remember, was 5000. And that makes sense because each of our examples, right, is now a vector of length, 5000, right? Like each of our training examples is a row of this table.
+
+00:35:09:09 - 00:35:44:12
+Unbekannt
+And so the shape of that training input is, is 5000. So that's why the shape here is 5000. And then for the output, we just put one here because we're doing a binary classification and we can, we can then, you know, look at the model summary and then we can run it on some training data. So here I was, let me just do it again so we could run it on the training data and see how it does.
+
+00:35:44:14 - 00:36:36:20
+Unbekannt
+So sorry, this is because I ran too many things later on that overwrite stuff up here. So well. yes, yes. Okay. I did not run this so. Evan, sorry, I just have a quick question. Are you running glove? And so, yeah, that. Is that the Co-occurrence matrix right there? No, this is just the this is the one hard and the multi hard encoding.
+
+00:36:36:22 - 00:36:59:10
+Unbekannt
+That's just a multi. I'm going. Okay, that makes sense. That's why live coding. Okay. Yeah. I'm not. I think I'll just not run the cells anymore. I ran it once. I ran it all of them once before recitation and then they all worked fine. And then when you go back sometimes because you have to run the cells in certain order, because I've already ran other cells later.
+
+00:36:59:10 - 00:37:28:20
+Unbekannt
+So if I don't run them all, it's going to be an issue. So okay. Anyway, so the test accuracy you can see is pretty high, right? From just the simple backwards model. We already get about like a 90% accuracy. So I'm going to skip this part. This part is a slight, slightly alternative model formulation. It's more of a technical cross thing, so I'm going to kind of skip it, but you can feel free to read it when the when the link is posted.
+
+00:37:28:22 - 00:37:47:13
+Unbekannt
+So that was, that was using a bag of words with uni Graham So now we're going to use bag of words with diagrams. So here we're just going to change this and Graham's to be equal to two. And if you recall from class we also did this where we increased the max tokens, right? Because now we're looking at pairs of words.
+
+00:37:47:15 - 00:38:07:19
+Unbekannt
+So there's just going to there's just there's going to be more tokens in our vocabulary space. And so we would just like to take some more of them so we can do the same exact thing. And you can see now the vocabulary space, right? Has tokens that are two words long such as of the or in the and we do the same exact thing.
+
+00:38:07:19 - 00:38:35:10
+Unbekannt
+We train the model again and we run it and we see that this time the testing accuracy is even better than it was before. Right. And so that kind of implies that, you know, by by using bi grams instead of uni grams, right, we're able to get a small performance improvement. It means that there's actually some that that there's actually some information right in pairs of words that singleton words would not have given us.
+
+00:38:35:12 - 00:38:56:21
+Unbekannt
+And so in the end, and so that was bi grams. And so so far these diagrams you to Graham we've been using the multi effort encoding right but we can also try using the count encoding. So for counting coding, all we're going to do is just change output mode to be equal to count. And you can see that now the vectors right are as follows.
+
+00:38:56:21 - 00:39:21:14
+Unbekannt
+Like the first training example, it's saying that there are 274 words that are unknown. There's 20 instances of the 16 instances of two, etc.. Right? So now this is a count of how many times that particular token occurs in that training example. So given that we can train our model again and we can look at the test accuracy and you know, it's about the same, right?
+
+00:39:21:14 - 00:39:44:19
+Unbekannt
+So because this is already this model's already doing really, really well, so it's really hard to improve once you're already at like 98% accuracy, right? Yes. It's not just one question. The pairing of words is only the pairing words that are next to each other. That's correct. Yes. It's only words that are next to each other, right? Yeah, that's a good question.
+
+00:39:44:21 - 00:40:07:05
+Unbekannt
+Seeing from 5000 to 20000, what was that? Sorry. Like that was the rationale for increasing because I wasn't running. Because there's just I mean, there's just more, more possible tokens, right? Like of the for example, was not a token when we were doing unique graphs. Right. That all of the is going to be a token, the cap is going to be a token tap set is going to be a token, Right.
+
+00:40:07:05 - 00:40:37:02
+Unbekannt
+So there's a lot more tokens now. Now that I'm considering pairs of words right. All right. Thanks. Yeah. Even though they're not like of course, if it was not adjacent and then it would be like a like a ton of extra tokens. Right. But even when we're looking at adjacent words, that's still a lot more tokens, right? Because yeah, the possible pairs of two words adjacent to each other is quite large, right.
+
+00:40:37:04 - 00:40:55:11
+Unbekannt
+Okay. So so far so, you know, so far we looked at the bag of words embeddings. We've trained these three different models. One was with uni grams, one with diagrams and the third was with the count embedding the count vector ization. And we saw that basically all the performance was around the same like upper nineties, you know, capping around 98.
+
+00:40:55:11 - 00:41:12:20
+Unbekannt
+Right. And so that's that kind of already shows you that, you know, wow, like this simple like this, this problem of trying to trying to decide whether a piece of news like a news article is real or fake, it can actually be done just by looking at the frequency of words that appear in in that particular article. Right.
+
+00:41:12:24 - 00:41:33:03
+Unbekannt
+It doesn't really require any sophisticated machinery, you know, like the transformers that we're going to talk about next week. And just the simple you're looking at how often the word, you know, like does a word appear or how often the word appear, it's actually already enough to achieve a very high accuracy. So, you know, and so now we're going to look at the glove embeddings.
+
+00:41:33:05 - 00:41:56:08
+Unbekannt
+You know, unfortunately, the government buildings are really not going to do better than the bag of boards, and it would be great if they did. But it's just that this problem was already kind of so easy to solve with the bag of words and betting that the embeddings are not going to do better. But we can see, you know, but we'll look at it, of course, just to get an intuition and, you know, for your projects and stuff, you know, it's definitely worth trying and seeing kind of which model does the best.
+
+00:41:56:10 - 00:42:24:15
+Unbekannt
+So for glove embeddings, kind of we need to load these pre-trained embeddings. And so this is just some boilerplate code that does that. So we have this file glove .6. 100 DD So it's like a file that you can download from like Google's website that has embeddings for, for 40,000 of the most 600,000 of 4000 English words. And these were trained on the English Wikipedia dataset.
+
+00:42:24:17 - 00:42:46:10
+Unbekannt
+Okay. So that's, that's kind of important to keep in mind that these vectors, these these pre-trained vectors, we're trained on to Google Wikipedia articles. So once we load, once we load this, this file, we're going to do so we're going to create we have basically what we're going to what we're gonna have is we're going to be able to look up for any single word in the English language.
+
+00:42:46:14 - 00:43:07:04
+Unbekannt
+We can look up what is the embedding for that particular word. So, you know, here we can look up movie, we can look at film, you can type any word you want and it'll look it up, right? If it's a word that it knows, it's going to pull the vector for that word, if it's a note, if the word that it does not, that is not in the 400,000, then it's just going to pull the anchor token, the embedding for the token.
+
+00:43:07:06 - 00:43:36:03
+Unbekannt
+Okay. So that's kind of just some setup for how do we how do we get these three train vectors? Right? And now we're going to actually start using these embeddings, these pre-trained embeddings for classification. So we're going to start very similarly to what we did in back of words. We're going to create this text vector ization layer. But this time the difference is that we're going to we're going to use the output mode to be equal to it.
+
+00:43:36:05 - 00:44:00:05
+Unbekannt
+So I'm going to explain that in just a moment what what that means. And but you'll see in just a moment that I have an example down here what that means. But but for now. So so previously in the bag of words, we used either count or multiple multiport here, right? But now we're going to use we're going to use the output mode important little experiment.
+
+00:44:00:05 - 00:44:19:04
+Unbekannt
+Second, and the output sequence lengths is going to be some max length. So basically, this is the image that we saw in class, right? We want kind of all of our sentences to have an embedding that is the same, that is the same size, but sentences come in different lengths, right? There's five and five words. Three words, eight words.
+
+00:44:19:04 - 00:44:40:09
+Unbekannt
+Right. And so what we do is we just say let me just say, you know, for each piece of text, let's just consider the first 300 tokens and either truncate it if it's longer than 300 or pat it if it's less than 300. This allows us to pass into our model a consistent shape. It's always going to be 300 by 100 bytes something, right?
+
+00:44:40:10 - 00:44:57:19
+Unbekannt
+300. That's going to be consistent. We don't want to pass. You know, neural networks are not really able to take inputs that have variable length, like every input needs to be the same shape. So that's kind of what we're doing with the max, with the output sequence length parameter.
+
+00:44:57:21 - 00:45:18:13
+Unbekannt
+Okay. So we do the same things before we take our text factorization, we adapt it to our training data, We look at our vocabulary space. That's the exact same as before. And now we can again as before we would apply this this preprocessing this text factorization to our training data right. And but now the output is going to look a little bit different than before.
+
+00:45:18:13 - 00:45:42:01
+Unbekannt
+So here's where the output mode equals end comes in. So when the output mode is equal to int, what's going to happen is you're going to get a resulting tensor that looks like this. And so what's going on is that this tensor has 10,400 rows that corresponds to the chain data and there are 300 columns and each column is just a is the index of a particular token.
+
+00:45:42:01 - 00:46:09:01
+Unbekannt
+So this is saying that the first training example has, you know, starts with words 78, then it's word one, then it's words 3463, etc.. Right? And so this is this is what we mean by output mode is equal to. And so it's going to just take our sentence and return that that sequence of integers. If you remember in the cat sat on the map, we had like seven, six, seven, five, four, etc..
+
+00:46:09:01 - 00:46:31:07
+Unbekannt
+Right. That's what, that's what I meant by output mode is equal to it. We're going to return the indices of this token. What what which index in the in my vocabulary space does it correspond to. Right. So so one here is the onc token zero is padding, one is the anchor token. So that's kind of what's so that's what's going on with this.
+
+00:46:31:09 - 00:46:55:12
+Unbekannt
+So yeah, so this text factorization with output equals int, it takes each sentence and it returns for you a length 300 vector. It's 300. Right. Because we chose, because we chose the output sequence length to be 300 and it gives us a list of kind of indices corresponding to each of these tokens. Okay.
+
+00:46:55:14 - 00:47:30:21
+Unbekannt
+So yep. So that's, so that's kind of this text factorization layer and Yeah, so, so that's a text factorization layer on the training data. And then here what we're doing with this embedding matrix is we're using the free train embeddings, right? We're saying, okay, the word zero, which is the padding corresponds to the all zeros vector word one, which is corresponds to all zeros, vector word, word one, which is probably like a corresponds to this vector over here.
+
+00:47:30:21 - 00:48:00:19
+Unbekannt
+So the embedding matrix here is just for each of those indices, right? So each of tokens zero one all the way through, all the way through 5000. What is the corresponding vector from, you know, what is the corresponding pre-trained vector that it corresponds to. So we set up this embedding matrix and we initialized this cross dot layers that cross embedding layer passing in this matrix as the initialize initialized and setting a trainable to be equal to false.
+
+00:48:00:19 - 00:48:21:06
+Unbekannt
+So this means that we're just purely using the embedding vectors from Google and we're not doing any fine tuning, so we're just taking the vectors as is from Google's like Pre-trained model and, and using them as is. And then we build a and then we just build a neural network kind of in the same way that we've done before.
+
+00:48:21:10 - 00:48:44:06
+Unbekannt
+We take our inputs, we pass it through this embedding layer. We do some pooling. You know, we, we do some we take the average a little bit. We take the average and we pass it through kind of this hidden layer, etc.. So basically, you know, this is pretty you know, I kind of went through it pretty fast and we also went through it pretty fast in class.
+
+00:48:44:06 - 00:49:04:13
+Unbekannt
+But definitely, you know, if you take some time to look at the code, it's I think, fairly straightforward. And then so we train the model and you can see that what happens when you train the model here is that we actually get a pretty poor accuracy of only about 80%, right? Whereas the bag of words models were able to get about 98%.
+
+00:49:04:15 - 00:49:38:00
+Unbekannt
+And so, you know, for this particular task, these pre-trained embeddings are not particularly helpful because first of all, the dataset is just quite wrong because, you know, these pre-trained embeddings, they're trained on this Wikipedia data on this Wikipedia articles, right? And those kind of and the word meanings from Wikipedia might not actually be very, very correlated with the word meetings in these news articles that are you're trying to predict, you know, whether something is us fake news or not.
+
+00:49:38:02 - 00:49:57:16
+Unbekannt
+So here what we can do then, right, is we can do some fine tuning, which is kind of what the rest of this is doing. So the fine tuning part means that I'm going to also not only I'm going to take these embeddings that I got from Google and I'm going to change them in some way in order to get better vectors suited for this particular application.
+
+00:49:57:18 - 00:50:28:06
+Unbekannt
+And so that's just a very small change to the code where we set this embedding layer trainable to be equal to true. We do the same training again, and this time we see that the training accuracy is quite a bit higher, around 96%. But still like this performance is not quite as good as the backwards approach and I'm kind of out of time here, but the last thing that I had on that is in this notebook is we have some visualizations that allows you to play around with these embeddings.
+
+00:50:28:11 - 00:51:01:17
+Unbekannt
+So, you know, it's you know, there's some cool stuff where you can basically use big love embeddings and say, you know, what are the ten most similar words in the vocabulary space to MIT, right? And you get like Caltech, Harvard, ET, etc. And you can also use this these glove vectors to try to find these analogies. So yeah, that's and you know, there's some cool code here that lets you do some visualization, but I am out of time today, so I'm not going to talk about that anymore.
+
+00:51:01:19 - 00:51:23:11
+Unbekannt
+And so, yeah, are there any questions? Okay, there's not any questions. I'll see you guys have a great weekend and I will see some of you in class on Monday. Thank you. Thank you. Thank you guys.
+
