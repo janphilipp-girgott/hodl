@@ -1,0 +1,836 @@
+00:00:00:00 - 00:00:29:06
+Unbekannt
+not I. I just don't. Okay. Good morning, everyone. I hope you all had a nice weekend. Enjoyed the sunshine a bit. responsible. It's for the for you cooks here, if you don't mind being on the front row.
+
+00:00:29:08 - 00:01:06:20
+Unbekannt
+And there's another one over there between Mark and that person over there. Yeah, that's right there. Mark, can you put your hand up? Okay. Right next to the raised hand. Okay. All right, let's get going. And today is going to be packed. I'm going to spend the first roughly half of the lecture on actually building a model across characterized model and call up to solve the heart disease problem before earlier and then switch gears halfway and then talk about how to solve image classification.
+
+00:01:06:23 - 00:01:23:14
+Unbekannt
+Okay. So we're going to do two collapse today. I've been talking about collab collab, right? I've been teasing you. Well, actually do collabs today. All right, so somebody's available. by the way, I've shut off the lights in the tub because when I switched to collab it's going to be much better for you folks, particularly the folks in the back to be able to see it.
+
+00:01:23:17 - 00:01:45:19
+Unbekannt
+Okay, but I hope you can see the slide right now. Yes. Okay, great. So this is just a quick recap of what we did last class. You know, broadly speaking, training and neural network essentially is no different than training other kinds of models. We have a bunch of parameters, i.e. weights and biases, and we need to use the data to find good values of those weights.
+
+00:01:45:25 - 00:02:03:02
+Unbekannt
+And what does good mean? Typically, it means that we define some measure of discrepancy between what the model predicts for a given set of weights and what the right answer is, what the ground truth answer is. And then we try to find weights that minimizes discrepancy. That's it. And this notion of discrepancy, it's called a lost function. Right?
+
+00:02:03:09 - 00:02:25:19
+Unbekannt
+So the broadly speaking, the overall training flow is that you define some network. It has an input, it goes through a bunch of layers. You come up with some predictions, you take the predictions, you take the true values, and then those two are going to the last function, either discrepancy function, and then you come up with the loss score and then you send it to the optimizer, which then proceeds to calculate the gradient of the lost function with respect to all the parameters.
+
+00:02:25:25 - 00:02:52:11
+Unbekannt
+And then it updates all the weights using the gradient, and then this process repeats. That's it. So that is the training flow. Okay, quick recap now. We also talked about the optimization algorithm you're going to use, which is called gradient descent and gradient descent. As you noticed in each iteration, every data point is being used to make predictions and therefore to calculate the loss and then to calculate the gradient.
+
+00:02:52:13 - 00:03:14:21
+Unbekannt
+And then we pointed out that gradient descent is actually not as good as something called stochastic gradient descent. Stochastic gradient descent, where B instead of choosing taking all the points, we just randomly choose a small number of points. Pretend for a moment as if those are the only points we have. Make predictions, calculate loss, calculate gradient and goal.
+
+00:03:14:23 - 00:03:36:11
+Unbekannt
+So that was the basic idea behind stochastic gradient descent. Right? Two different kinds of things. Now what it means is that when we actually start trading the model, as we will in a few minutes, the B because we only take a few points at a time, we have to be a bit careful in what's going on and I want to make sure you clearly understand what the differences are before we actually get to the color.
+
+00:03:36:13 - 00:04:00:09
+Unbekannt
+Okay. And all right. So that is the notion of an epoch. An epoch essentially just means that we make one pass through the training data, all the training data, we make one pass through it. Okay. And so what is one pass is that if you have something like gradient descent, one pass means every data point to center of the network.
+
+00:04:00:16 - 00:04:24:14
+Unbekannt
+We calculator's predictions, calculate the last calculated gradient right? We run every training sample through it. We calculate the gradient, which is just this thing here, right? I mean, I sometimes say D of lost time, the derivative of loss with respect to W, sometimes I might use this Nabila symbol. These are all interchangeable. Okay, so we'll calculate the gradient and then we update using some version of this.
+
+00:04:24:17 - 00:04:52:17
+Unbekannt
+Okay. But we just do it once at the end of the epoch. Because if you have 10 billion data points, every one of them flows through you get 10 billion outputs and then we calculate the epoch. Just like at the end of this thing, we calculate the gradient and update once one update. But epoch, yes. Now in stochastic gradient descent, what we do is that we process the data in batches, small numbers of points at a time.
+
+00:04:52:19 - 00:05:15:11
+Unbekannt
+Right? And these are called, technically speaking, they are called mini batches. I don't know about you, I just get tired of saying mini batches. I'm just gonna say batches from this point on. Okay. And in fact that is widely done in the literature. So we'll so we'll have to process it in batches. So we take the training data and then we divide it up and do batches, batch one, batch two all the way to the final batch.
+
+00:05:15:14 - 00:05:34:19
+Unbekannt
+And so what we do is we for each batch we basically do gradient descent. For each batch we take batch one and then we run just the training samples in that batch through the network to get predictions. We calculate the gradient, we update the parameters, and then we go to batch two, then we go to batch three and so on and so forth.
+
+00:05:34:22 - 00:05:55:12
+Unbekannt
+So pictorially. That's how it's going to look like, right? Let's say the first batch of, say 32 points. We take those 32 points, we run it through the network, get all the stuff out, we collected the gradient, update the weights, so when we don't get the batch to the weights have changed. They have been updated and then we do the same thing.
+
+00:05:55:12 - 00:06:21:01
+Unbekannt
+But batch to about three and all the way to get to the end of the thing. And when we are done with this thing, this whole thing is called a what epoch. This whole thing is an epoch. Okay. All right. Now, so the question, of course, is that if you have a bunch of data points and you're going to run stochastic gradient doesn't on it in a particular epoch, how many batches are going to be there?
+
+00:06:21:03 - 00:06:39:23
+Unbekannt
+Okay. How many batches are going to be there? No cross is going to calculate all this stuff. You don't worry about it, but you just need to understand exactly what happens. Okay. So my philosophy, by the way, is that you have to know the details of what's going on. If you don't know the details and if you haven't figured out at least ones, you will not actually be able to think new and creative thoughts.
+
+00:06:39:23 - 00:07:02:23
+Unbekannt
+But a new problem. Okay. It's because the concepts are not manipulable in your head yet. Okay. Go to one is about regarding when we put a useful microphone. So when we talk about a easy so and we are talking about we are only taking some part of it is it? What we are saying is that we will only take some variables.
+
+00:07:02:25 - 00:07:22:05
+Unbekannt
+Are we only seeking some part of the data? We are taking some rows, okay, we're taking all this out. That data points, that means the batch itself. Exactly. So, for example, let's say you have a thousand data points, right? Thousand rows of observations, thousand patients of the heart disease example or a thousand images that you're trying to classify your pixel.
+
+00:07:22:05 - 00:07:49:18
+Unbekannt
+C 32 of those images, 32 of those patients. And that's a much that you go to the next 32, then the next 32 and so on and so forth, till you run out of patients of the images and each time you are updating with the which new virtual you've got. Right. And it means you keep correcting it or keep moving towards you, updating the weights, updating that which yes, what and what we are calling the epoch is ultimately the equation of loss function that you are trying to know an epoch.
+
+00:07:49:22 - 00:08:12:24
+Unbekannt
+See, the thing to remember is that here this whole thing is called an epoch because we have to do one full pass through the training data. Okay. But within that epoch, the update the weights many times basically we update the weights as many times as we have batches. All right.
+
+00:08:12:26 - 00:08:28:29
+Unbekannt
+So to go here, let's say, for example, basically the idea is that you take the training that you divided by the batch size and you choose the bad size. Okay? You choose the bad size. And we'll talk about how do you choose that? Literally, you choose the bad size. And once you do size just divided and rolled it up.
+
+00:08:29:01 - 00:08:46:27
+Unbekannt
+So, for example, as you will see in the lab, a training set is going to be 194 patients, and then you're going to choose a batch size of 32. And we typically tend to choose batch sizes of 30 to 64 and things like that, because it actually aligns very well with the nature of the parallel hardware we're going to use.
+
+00:08:46:29 - 00:09:08:05
+Unbekannt
+Okay. And so here 32 and so on. So divide 194 by 32, you get six point something, you run it up to seven. Okay? And so what that means is that the first six batches will have 32 samples each and then the final batch has only two samples left and that's okay. It can be a nice little small batch of the end.
+
+00:09:08:07 - 00:09:30:01
+Unbekannt
+There's nothing that says that everybody has to be the same size. Okay, that's it. Epochs, batches? Yep. Yep. I'm sorry. Yeah. Yeah, that's great. And are you like, for each batch you run through the whole network like all the layers or like each layer is one batch? No, for a batch, you run it through the entire network. Okay.
+
+00:09:30:02 - 00:09:49:26
+Unbekannt
+So the way to think about it is if you take a batch rate just momentarily, you assume that all the data you have just run it through the network. Because unless you run it through the every layer of the network, you can't get a prediction. Unless you get a prediction, you can calculate the loss. And unless you calculate the loss of contact, the gradient gradient, you can't do it.
+
+00:09:49:28 - 00:10:16:00
+Unbekannt
+That's the reason. Last thing, but if you're using like all the data, just doing the graded descent, then you just go through the network once, right? Exactly. So in gradient descent, one epoch is one pass and one rate update. In many in stochastic gradient descent, the number of updates you make is equal to the number of batches you have, which ends up being, you know, some training set divided with the batch size of Luna.
+
+00:10:16:03 - 00:10:34:00
+Unbekannt
+So just to confirm. So initially when we introduced the concept of batches, the whole purpose was not to run through all the data and be able to do some prediction from a subset. So now the advantage is that like after batch one, we are using more accurate coefficient to run through batch two and so on. That's really the advantage of it.
+
+00:10:34:00 - 00:10:52:07
+Unbekannt
+Or exactly. No, something else would perfectly say but exactly the advantage. So if we take a small amount of data and we say, Hey, we know this not all the data, it's just a small subset of the data, so therefore that's not going to be super accurate. It's going to be approximate, but it's okay. So we still tend to move on this in the right direction.
+
+00:10:52:09 - 00:11:20:27
+Unbekannt
+So instead of waiting for the whole thing to get done and then updating it, this appears to be going on. All right. Yes. Building out. Our question is start doing this process of testing will render us a better solution or new goal requires less compute partially, but more time. And the reasons for both are in the previous lecture, I just and I'm saying that instead of repeating it just because I'm like very pressed for time today, that's why.
+
+00:11:21:00 - 00:11:46:17
+Unbekannt
+All right, cool. So that's what we have. Are we good? Okay, so now we come to the last step before we actually find out the call up, which is overfitting and localization. So if you remember from your machine learning background, then your model gets more and more complex, right? If you're using a simple model, then use a more complex model and so on and so forth.
+
+00:11:46:19 - 00:12:03:09
+Unbekannt
+What happens to the error on the training data? Typically what happens to the error on the training? So let's say you have a simple regression model, you get some error and then you have a regression model which you use all kinds of interaction terms, you use logarithms and this and that and make it super complicated. What do you think is going to happen to the error on the training data?
+
+00:12:03:11 - 00:12:22:06
+Unbekannt
+It will reduce, right? Basically, it's going to go down as a model gets more complex. Correct. Now of course comes the punch line. But just what what do you think is going to happen to the training data? Okay. Sure. Do The answer. Right. Right. Basically, what's going to happen typically, at least conceptually, is that it's going to get better and better.
+
+00:12:22:06 - 00:12:43:07
+Unbekannt
+At some point, it's going to bottom out and it's going to start climbing again. And so we typically refer to this phenomenon here and it starts to climb again as overfitting because the model is essentially fitting to the idiosyncrasies of the training data as opposed to generalizing patterns. And then in this thing we call it under fitting, because it can still there's a lot of potential should improve.
+
+00:12:43:11 - 00:13:03:17
+Unbekannt
+And we really are hoping to find the sweet spot in the middle, right? That's the basic idea of overfitting under fitting and the way we do to relate it to neural networks, as you see, as you as you've learned. So far, you have to learn smart representations of the input data. And to do that, we have argued that you need to have lots of layers in your network.
+
+00:13:03:22 - 00:13:33:19
+Unbekannt
+The more layers you have, the better things get. GPT three, for example, has 96 layers, if I recall right, More layers the better. But more layers means more parameters, more parameters means more complexity to the model and therefore more chance of overfitting. Okay, So it's really important in neural networks that we think about regularization and regularization, you will recall from your machine learning background is the way we handle the risk of overfitting and try to find models that fit just right.
+
+00:13:33:22 - 00:13:52:23
+Unbekannt
+Okay. And so several regularization methods have been developed over the years and we are going to use only two of them. The first one is called early stopping, and this is this has been famously referred to by Jeff Hinton, who's one of the pioneers, or as he's more colorful, you don't want the godfathers of deep learning who want.
+
+00:13:52:24 - 00:14:09:00
+Unbekannt
+He also wanted that joining a few years ago as the sort of a beautiful free lunch. That's what he calls it. So the idea is very simple. We take a validation set, we take the training data, we split into a training and validation set, and then we just keep doing gradient descent. Boo boo boo boo boo boo, boo, boo, boo.
+
+00:14:09:02 - 00:14:39:14
+Unbekannt
+The training will hopefully keep on getting better and better. Lower and lower error. Yeah, but remember. APPLAUSE Thanks for closing the other door. And then we just keep track of what's going on at the validation set and then at some point, if it starts to flatten out and start to climb, we just say, okay, that's when we stopped training, right?
+
+00:14:39:16 - 00:14:53:19
+Unbekannt
+And what we going to do in the lab? It's actually run it through the whole thing, see that it flattens out. And then we say, okay, that's why you should stop. But of course you don't want to go all the way to the end and then go back and say, Well, I want to stop the 10th epoch, and that is you can use get us to be very efficient about this.
+
+00:14:53:21 - 00:15:13:16
+Unbekannt
+But the fundamental idea is you take the training data, split it into training and validation and just track what's going on in the validation set to see whether this kind of bottoming out happens. Okay, So this is called early stopping. And the other way, if you're going to do this early stopping, but we're looking for the spot. The other thing is called dropout.
+
+00:15:13:19 - 00:15:30:24
+Unbekannt
+And I'm going to come back to dropout when we do on Wednesdays lecture, because that's the first time you're going to use it. And so I'll come back to drop it and tell you exactly how it works. It's a very, very clever strategy, but we will not use it today. We'll use it on Wednesday. Okay. So in summary, what do we do?
+
+00:15:30:26 - 00:15:55:10
+Unbekannt
+We get the data ready. We designed the network number of hidden layers, number of neurons and so on and so forth. We pick the right output layer, we pick the right loss function, we choose an optimizer. As I mentioned earlier, student comes in lots of flavors, lots of variations on the theme, and empirically, much like for hidden layer neurons, we attempted to use really as activation function for optimization.
+
+00:15:55:12 - 00:16:15:05
+Unbekannt
+We tend to use a flavor of initially called atom OC as sort of the default because it's really good. So we'll use Atom as you'll see, we typically use either early stopping or dropout, and then you just fight it up and start training and get us in TensorFlow. All right, So that is the training loop. Now I'm going to switch gears and give you a quick intro to terror.
+
+00:16:15:06 - 00:16:44:01
+Unbekannt
+And are some kids okay, that's intense. No TensorFlow, Icarus. Thank you. And then we'll actually fight up the collar. So, first of all, what's a tensor? Yeah, and just a quick question. And the previous thing, like if you're looking at the validation sets to avoid overfitting, but are are like over actually overfitting because like you're kind of using the validation set as a training set or not.
+
+00:16:44:14 - 00:17:08:24
+Unbekannt
+no, no, no. The validation set is never used to calculate any gradients. It's only used to calculate accuracy and loss. yeah, it's a site and only it's for evaluation, not for training. That's what keeps you honest. All right. And this is become clear when we actually go to the call up. So what's the tensor? All right.
+
+00:17:08:26 - 00:17:34:21
+Unbekannt
+Okay. Go to work. Tensor is the input data which you're giving to the system. It could be in various formats, like for your teammates, it would be like we call it a photo tensor. If it's time series, it's 3D. And typically if we just send numbers in, it becomes a vector, which would coincide with it. It gives the value of the variable as well.
+
+00:17:34:24 - 00:17:57:24
+Unbekannt
+The values of the variables associated to it as well as so as well as the I mean, information you want to give it to input. You're kind of on the right track, but not entirely right. It's actually a simpler concept than that. So Mark like a matrix, but generalizable to higher dimensions, correct? That's also actually correct, but incomplete.
+
+00:17:57:27 - 00:18:18:14
+Unbekannt
+The reason is because it can be simpler than a matrix. It's not matrix or higher. It's actually could be simpler. In fact, you take a number, it's actually a dancer. All right. The simplest scalable tensor is a number. The next simpler case is a vector, which is a list. The next higher case is a table. As Mark identified.
+
+00:18:18:17 - 00:18:43:16
+Unbekannt
+Okay, so these are all tensor. So tells us basically what a generalization of the notion of both a number of vector and a table to higher dimensions. Okay. So you can think of a tensor as having what are called every tensor has something called a rank, right? So a number is just a number. It doesn't have a dimensionality to it.
+
+00:18:43:22 - 00:19:09:14
+Unbekannt
+So it has got rank zero. Okay. While a vector, it's a list of numbers. You can sort of write it down top to bottom. And it's one dimension, right? So that dimension, that one dimension is called rank. So it's called rank one. A table is 2D two dimensional, so it's called rank two, and you can have a rank three, which is just a bunch of tables.
+
+00:19:09:17 - 00:19:41:29
+Unbekannt
+A bunch of tables is a rank three. And so we also think of it as a cube. Okay, So these things are very useful because obviously we are all familiar with vectors, as you will see very shortly later in this class, black and white grayscale images are usually represented using tables of numbers like this. Color images are represented using three tables going to get think of what might be represented, both as, you know, then sort of rank for meaning.
+
+00:19:42:02 - 00:20:08:08
+Unbekannt
+Every element of our tensor of rank four is actually a color picture sorted out. Video. Video. Exactly what is a video? A video is basically a stream of black colored images, a color video. So each element of that stream, right. What the first dimension of the tensor is, which frame it is, and then everything else is the actual frame.
+
+00:20:08:11 - 00:21:16:18
+Unbekannt
+So the way I think about this tensor is always is if your ticket tensor, you can just think of it as a display. It's work. So I think of a tensor as having right, which is all right. Yeah. Back in business. So you can think of a tensor as being this area which has all these axes or dimensions is the first one, The second one is a third one.
+
+00:21:16:22 - 00:21:44:05
+Unbekannt
+This one, right. This is a tensor of rank. Four. Okay. One, two, three, four. And so if you have a vector, right. So you can imagine if you're just a vector, you can imagine the vector actually living like this. Just a list of numbers, right. But if just if it is just a 2D rank two tensor. Right. Which is just like that.
+
+00:21:44:08 - 00:22:09:26
+Unbekannt
+Right. Which is just like that. So this thing becomes, you know, like that and that thing becomes like that. So for example, if there's a seven come on three, that means that there are seven rows and three columns. Okay, So you get the idea. So the way you think about tensor is always as if this open square bracket, a bunch of things are close square bracket, and that's really what a tensor object is.
+
+00:22:09:29 - 00:22:32:14
+Unbekannt
+So what that means is that any time you have a tensor, right, any time you have a tensor, how complicated it is, you can always create a more complicated tensor byte if you want to take a list of those tensor. So let's say that you have a list of videos. Each video is a rank for tensor, so which means a list of videos is what rank exactly.
+
+00:22:32:17 - 00:22:40:19
+Unbekannt
+So a pencil of rank, say ten is just a list of rank maintenance.
+
+00:22:40:22 - 00:23:16:07
+Unbekannt
+Okay, So that is the that is the most important thing to it. Understandable tenses. So at any point in time, if I give you a tensor, you can just iterate through the first dimension of it. The first aspect of it, and as you go through each one of these values. So for example, here, of course, writing on the wrong thing can look into it in the so.
+
+00:23:16:10 - 00:23:44:07
+Unbekannt
+So if you have this tensor here and if you want to create a more complicated tensor, no problem. So you add another dimension here. Okay? Now it just becomes this dimension, let's say, has nine values. You go to nine, so you put zero here and then what do you get? This whole tensor is rank potenza and you put a one here, it's another rank for tensor.
+
+00:23:44:07 - 00:24:10:08
+Unbekannt
+You put it to here, another rank for tensor. So every tensor you take the first element, you're just a list, but it's a list of the next down rank. That's okay. Now this tensor concept is actually something Einstein came up with, and so it's simultaneously kind of easy to understand and also slippery. So I would actually encourage you to read the book, which has a really good discussion of tensor.
+
+00:24:10:08 - 00:24:33:05
+Unbekannt
+And the more you practice with it, the easier to get. Okay, so if you feel you kind of understood, but not quite, you're not alone. It happens to all of us, right? You have to pay the price and go through the crucible. Okay? Okay. All right. So to come back to this, what we have already talked about, Frankfurt.
+
+00:24:33:05 - 00:24:56:15
+Unbekannt
+And so it's a video. So to point to the text has a lot more detail. You should definitely read it. So here TensorFlow is a library. And as you can imagine, neural networks cells come in and go through the network and go to the other end. Right. And so since sensors captured everything, numbers, lists, tables and so on and so forth, you're just tensor is flowing from input output.
+
+00:24:56:15 - 00:25:16:16
+Unbekannt
+Hence it's called TensorFlow. And it gives you a couple of things to really, really important, which is why we use it. The first one is that it'll automatically calculate gradients for you of arbitrarily complicated loss functions. You don't have to calculate the gradient because calculate gain is very painful, right? It'll automatically calculate the gradient for you. That's the best part.
+
+00:25:16:16 - 00:25:34:22
+Unbekannt
+You don't have to use the chain to learn to do anything. The second thing it'll do, it gives you all these optimizers, including as G-d and all its variations, so you don't have to worry about the optimization itself. It's just you can just pick and choose what you want for third, if you have a lot of servers, it'll actually take the computational load and distributed across all the servers people here.
+
+00:25:34:22 - 00:25:56:20
+Unbekannt
+But to see us back, I don't know that part of paddle lasing computation is actually a very difficult problem. But there are things which are quite embarrassingly parallel. Many things are not and it's actually quite tricky to figure it out. You don't have to figured it out. It's a flaw. We'll figure it out. Okay. And then finally, I talked about the fact that there are these things called GPUs graphics processing units, which are parallel hardware.
+
+00:25:56:22 - 00:26:13:14
+Unbekannt
+And so even if you have just one computer but it has GPUs, there is a particular way in which you have to take your computation and organize it to really exploit the fact that you have a GPU and so TensorFlow will actually do it for you out of the box automatically. You don't worry about any of that stuff.
+
+00:26:13:17 - 00:26:31:08
+Unbekannt
+Okay. So those are the advantage of this thing. By the way, TPU is called a tensor processing unit. It's something that it's kind of you can think of it as Google's Gebru, right? They came up with their own variation of the theme. Okay, no kid sits on top of TensorFlow. Great TensorFlow. This is the this is the hardware you have.
+
+00:26:31:10 - 00:26:50:05
+Unbekannt
+TensorFlow sits on top of the hardware carousels on top of TensorFlow, and it basically gives you a whole bunch of convenience features. So, for example, it gives you the notion of a layer, right? We already saw Kara's dark dense is a dense layer, right? It gives you the notion of a layer. It gives you a lot of activation functions and so on and so forth.
+
+00:26:50:08 - 00:27:09:12
+Unbekannt
+It gives you easy ways to process the data, easy to train the model report on metrics, you know, calculate validation, loss, validation, accuracy, training, loss, all the metrics we care about. And then it also gives you a whole library of pre-trained models that you could just use and adapt for your particular problem. So it gives you a whole bunch of conveniences and that's why it's very popular.
+
+00:27:09:16 - 00:27:27:12
+Unbekannt
+And by the way, you know, many of you might also be familiar with PyTorch, which is a fantastic framework as well for deep learning. And the reason we chose to go with TensorFlow for this course rather than PyTorch is because we wanted to make the course sort of accessible to folks who don't have a ton of programing background before coming to the class.
+
+00:27:27:14 - 00:27:48:01
+Unbekannt
+And PyTorch is a bit more demanding from a see us perspective. It requires more knowledge of object oriented programing, which is why we decided to go with TensorFlow and Kuras, because I think it's actually as powerful in many ways and it's a little easier to get going. Okay, so that's what we have here. And one other thing I will mention is that there are three ways in which you can use cameras.
+
+00:27:48:08 - 00:28:07:05
+Unbekannt
+There are three kinds of APIs. Sequential functions are passing and will almost exclusively use the functional API. And in fact, the model we built for heart disease prediction uses the functional API. And so just read 72 of the textbook to understand in detail how the API works. I find in my own work the functional API is basically all I need.
+
+00:28:07:05 - 00:28:26:16
+Unbekannt
+I don't need to do anything more complicated than that. And as you will see, as you work on the homeworks and on your project, that it's because it's sort of a beautifully designed Lego block environment for doing these things and you can create very complicated models very easily. Okay, There's a whole bunch of stuff here on these websites, so check them out.
+
+00:28:26:21 - 00:28:45:12
+Unbekannt
+Lots of collabs are available. So now if you go back to the neural model for heart disease prediction, this is what we came up with the last class, right? We had an input layer one densely over 60 neurons really only ran an output layer of the sigmoid and then boom, that is a model. So let's train this model.
+
+00:28:45:15 - 00:29:09:29
+Unbekannt
+And so the training checklist is that we already run this hidden layer of 60 neurons sigmoid. We need to use an loss function based on the type of output. What loss function should we use? What does the output you see, it's a binary classification problem. So what should the loss function be? I think I kind of heard it somewhere.
+
+00:29:10:02 - 00:29:33:23
+Unbekannt
+You tried it on? No, the output does a sigmoid get the lost function? Correct. Binary cross entropy? Yeah. Okay. Remember if you're predicting a number, an arbitrary number, you can use something like mean square error. If you're predicting a probability which has to be compared to a01 output, which is what binary classification is all about. The use binary cross entropy.
+
+00:29:33:25 - 00:29:55:14
+Unbekannt
+Okay, So that's what we do here. So We do binary cross entropy and then we will go with atom, right? And then we'll use only stopping to make sure we don't overthink. Okay. All right. I know this. Like, okay, I promise. This is literally the last slide before I go to the call up. I feel like one of those used car salesmen.
+
+00:29:55:16 - 00:30:16:23
+Unbekannt
+Wait, there's more. So anyway, so don't worry if you don't understand every detail of what I'm going to go through, I am going to link to the column as soon as the class is over. But once you get your hands on the collar, make sure you actually go through every line in the call up. What I typically do when I'm trying to learn something new is I actually cut and paste, right?
+
+00:30:16:25 - 00:30:47:12
+Unbekannt
+I won't do that. I won't actually cut and paste the code and run it myself. I will retype the code. If you retype the code as opposed to cutting and pasting, trust me, you'll learn a lot more. Thanks. I strongly encourage you to do it that way. And so all the columns you're going to publish in the class, the first thing you should do is you should just make your own copy of the notebook, write copy to drive, and then if you're using anything other than today's Call lab, write anything involving natural language processing automation, you probably should use a GPU.
+
+00:30:47:14 - 00:31:03:23
+Unbekannt
+So just go into it. Go ahead. In here, choose the runtime to be a GPU and then you start your notebook on your done and the second time onwards you can just go directly to the step. You don't have to do all of the stuff for that particular notebook and there are numerous tutorials like five minute videos and so on.
+
+00:31:03:23 - 00:31:49:26
+Unbekannt
+On how to use CoLab. Just just do them. I'm not going to spend time on it here. Okay. All right. Pull up time. Finally, can people see the screen? Okay, It's sort of Yes, yes, yes. Thank you. All right. Okay. So I just ran a few hours ago. I'm not going to run every cell now because it is going to take some time.
+
+00:31:49:26 - 00:32:11:29
+Unbekannt
+It's going to get in the way of the class time. But I'm going to just like, you know, go through it slowly and explain what's going on. So here there's just an introduction to the data set. We already saw this introduction in the last year. Last week we have one of our 303 patients, heart patients. We have a whole bunch of variables here, age demographics and a whole bunch of biomarker information.
+
+00:32:12:01 - 00:32:32:08
+Unbekannt
+And this is our target variable. Okay, zero or one heart disease, yes or no. And so, by the way, just some technical prelim preliminaries here. Basically, every time we load these things, we're actually going to load these packages. So you can see here, these are the two key things we need to do, the importance of liver first and then from within TensorFlow, we import cars.
+
+00:32:32:08 - 00:32:53:28
+Unbekannt
+Okay. That's what these two lines do here. Okay. And then and the folks who have done data science and machine learning a bit before, you'll notice we will sort of we will actually load like the three packages that are just most commonly used, which is numpy pandas and numpy, because it's very easy for manipulating matrices and arrays and benzos.
+
+00:32:54:00 - 00:33:11:28
+Unbekannt
+Pandas, because oftentimes you get some data in from somewhere. You need to massage it and wrangle it to a point, but we can actually feed it into cat. So you need pandas for that and Matlock lab because just want to plot, you know, these loss curves and accuracy goes to see whether an early stuffing is needed. Okay. So that's why we use it.
+
+00:33:12:00 - 00:33:32:05
+Unbekannt
+So we import all these things and then I guess the other thing you have to remember is that when we are training these deep learning models, there is randomness in the process which enters in a few different places. So clearly the starting values these rates are going to be they are going to the weights are going to be randomly initialized and therefore that's obviously a source of randomness.
+
+00:33:32:08 - 00:33:50:24
+Unbekannt
+Now, we talked about how you take if you are doing stochastic gradient descent, you take all the data and then you randomly choose batches right from this data until we finish a whole pass through it. Well, that immediately is the question. What do you mean by randomly choose? So typically what we do in practice is that and can also some take care of all of this for you.
+
+00:33:50:27 - 00:34:10:20
+Unbekannt
+You basically take the data and just shuffle it once randomly and then just go first through to next set of the next set it unexcelled like that. Okay. But it is a source of randomness. And then when we split the data into train validation, testing and so on, particular if you want to look for early stopping and overfitting, we need to split the data randomly and that's another source of randomness.
+
+00:34:10:22 - 00:34:33:09
+Unbekannt
+And then when we do dropout, which we will talk about on Wednesday, again, Dropout has a little bit of a random element to it. And so that's another source of randomness. So all of it, all this means that if you're working with these models and if you want to build a model and you want to hand it off to someone so that they can reproduce your results, well, you better make sure that you sort of, you know, make it easy for them to replicate what you have.
+
+00:34:33:14 - 00:34:53:11
+Unbekannt
+And the way you do it is by sending it sending a random seed for all of these things. Okay. And the way you do it is by having this little handy function here. Set random seed and of course, you use for it all just like everybody should, right? So, okay, so that's that, by the way, just that's just a pop culture reference to this book called The Hitchhiker's Guide to the Galaxy.
+
+00:34:53:13 - 00:35:09:18
+Unbekannt
+So you could just go to the number 42 and you'll know what I mean. Okay. So by the way, the question inevitably comes at this point, okay, If we do exactly this. Would we actually get the exact same numbers that you have in your version of the Notebook on the answer? This hopefully most of the time, but it's not guaranteed.
+
+00:35:09:25 - 00:35:33:02
+Unbekannt
+So this is called bitwise reproducibility. It's not guaranteed due to certain hardware things and device drivers and stuff like that. So we won't get into all that stuff. And which is why, as you see here, I have a bit of a fingers crossed thing. Okay. All right, cool. So that's what we have. So as it turns out, Francois Sharlet, who wrote the book The Textbook, he actually made this data available in a PANDAS data frame.
+
+00:35:33:05 - 00:35:59:21
+Unbekannt
+So we read the CSP file into the data frame right there, and then it's on it's 303 rows, 14 columns. Right? And you can see here, we'll take a look at the first few rows. And these are all rows, age, gender, cholesterol, blah, blah, blah, blah, blah. And then this is the target variable right there. And one of the first things I always do when I'm looking at the binary classification problem is to quickly check whether the positive and negative class are balanced or not.
+
+00:35:59:23 - 00:36:17:26
+Unbekannt
+And so what you can do is you can just quickly check to see what percent of the data points to zero versus one. And you can see here 72.6% of the patients don't have heart disease. That's a good thing, of course. And then 27.4 have heart disease. So it's not it's not 5050 or roughly 5050. It's a little thing.
+
+00:36:17:29 - 00:36:32:00
+Unbekannt
+So, by the way, a quick question. What is a good baseline model for this problem? Suppose you couldn't use anything, any complicated thing. What's a good baseline model? All right, let's go to this first.
+
+00:36:32:03 - 00:36:54:03
+Unbekannt
+Tonner. Yes, it's your RB time. And why would you do that? I would give you a 72.6% accuracy. Exactly, because so 2.6% is the sort of the higher class, higher class of the higher percentage you just predicted. You'll be right on those under 2.6. But of the cases, you'll be wrong on the rest, which means that your accuracy of this model is going to be 72.6%.
+
+00:36:54:05 - 00:37:10:12
+Unbekannt
+Okay. And so any fancy model we build, better do it. But you know, it's got to be better than this way. It's not worth its weight in layers. So. All right. So we'll come back to this later. So the first thing we want to do is we want a preprocessor because this dataset has both categorical variables and numeric variables.
+
+00:37:10:15 - 00:37:32:11
+Unbekannt
+And so it's usually convenient to just to group them into two different groups. So I have listed all the categorical variables here on the numeric scale, and then we have the preprocessing here. We have to take the categorical variables and we have one hot and coded them. And the reason is that unlike, say, decision tree model, a neural network cannot handle categorical inputs directly.
+
+00:37:32:13 - 00:37:53:17
+Unbekannt
+It can only handle numeric inputs, which means that we have a numerical size, every categorical thing that comes in. And there are many ways to do it. But the standard way to do it is one hard encoding and for the numeric variables, we need to normalize them. And I'll come to that in a second. So pandas hamsters get dummies function here and you can just run this thing and it'll just hardcoded the whole thing.
+
+00:37:53:20 - 00:38:14:14
+Unbekannt
+So once you do that, this is what you have. So you can see here previously let's say title was had three values fixed, normal, reversible or something and then you go to the one hot and coded version and now we can see here that all fixed style normal reversible that's three columns, right? That's the one hot encoding in action.
+
+00:38:14:17 - 00:38:35:15
+Unbekannt
+Okay Now the other thing to remember is that neural networks work best when the numeric inputs you send them are all in a relatively small range. They shouldn't have a wide range of variation. And so the standard practice is to standardize the numerical variables. By standardized, I mean typically subtract the mean divide with the standard deviation. We should do that.
+
+00:38:35:17 - 00:38:55:18
+Unbekannt
+But before we do so, we should split the data into a training set and a test set Right. And why do we want to split into a test set? Because at the very end, once you built the model and then all the things we want to do with it, we finally want to take out the test set and evaluate it once so that we get this true measure of how it's going to perform the wild after you're deployed.
+
+00:38:55:20 - 00:39:13:17
+Unbekannt
+Okay, so you want to do 80, 86, 80% training and 20% test set. So the question is, why should we do the splitting now before we do the normalization? Why can't we just do the normalization and then do pretty. Right.
+
+00:39:13:19 - 00:39:38:05
+Unbekannt
+All right. Ironic, because then your validation set is also somewhat dependent on your test set results, as well as the mean of the test, because the test set has no essentially sort of has been influenced by the training set. Right. That is the modeling process, part of the modeling process, the splitting under the splitting, also the the standardization.
+
+00:39:38:08 - 00:39:56:06
+Unbekannt
+If if the standardization, which is part of the process, uses information about the test set, well, that's not really kept away from anything, is it? That's where we want to split it. Lockerby The test set somewhere and then proceed with the modeling. This again, this is like machine learning one on one, which is I am going through it pretty fast.
+
+00:39:56:08 - 00:40:21:20
+Unbekannt
+Okay. So we we do this sampling function, take 20% of the data and make it the test set and the remaining is going to be the training set. And when we do that, you can see the training set is now 242 rows, while the test is 61 rows. And any of these data frames that you'll know the shape attribute gives you the dimensions of the number of rows and the columns, That's what we're doing here.
+
+00:40:21:27 - 00:40:40:02
+Unbekannt
+And now that we have done that, we are done. The split, We can calculate the mean, the standard deviation. So I calculate the mean here can get a standard deviation and these are all the means. And once I do that, I just do, you know, each column minus the mean divide, the standard deviation. And then once I do that, I get I saved them in the train and the test data frames.
+
+00:40:40:09 - 00:41:02:09
+Unbekannt
+And you can see here now all the numbers are all very sort of smallish zero one minus one can around that range. And that's kind of ideal for neural network training. Okay. All right. So at this point, the data is entirely numeric, and then we are really almost ready to feed it to us. And the way you do it is you take an umpire, you take a PANDAS data frame, and then you convert into an array.
+
+00:41:02:14 - 00:41:19:18
+Unbekannt
+And then Kansas is happy to take it, happy to receive it. So so we use this thing called two numpy, which I think is as descriptive as it gets in programing, and then you save it as train and personal train and test or two numpy arrays with exactly the same information. And now you can fit it into class.
+
+00:41:19:21 - 00:41:40:06
+Unbekannt
+All right. Now, I guess there's one other thing we need to do, which is that in this dataframe train and test, are independent variables, all the features as well as the target, the zero one target. They're all in this thing here, right? And we need to not take it and just take the dependent variable, the zero one column, and split it out and keep the X and the Y separately.
+
+00:41:40:08 - 00:41:54:24
+Unbekannt
+Right. That's the whole point of it. Right. Because you need to feed the X, do the prediction and then compare it to the actual Y and calculate the loss and so on and so forth. So, so the target column is a Y variable and it's column number six from the left, if you count it, you can see it.
+
+00:41:54:26 - 00:42:20:01
+Unbekannt
+So we just, you know, we, we deleted from the train and test and now we have 242 rows and 29 columns, 29 features. You will recall from the network that we made way back, it had 29 inputs, the 29 nodes in the input layer, and that's where the 29 is coming from. And so now we just select the sixth column, which is the target and make it the way variable rate, train, way and test way.
+
+00:42:20:03 - 00:42:46:08
+Unbekannt
+And that is of course a vector which is two for too along in the training set and 60 and long in the thing. So at this point all we have done just to be honest, voting preprocessing okay we have actually gotten to the action yet. Finally, let's do something so and we started the single hidden layer since the binary classification problem values segments as we saw earlier, and this is the model we created in class last last class, this is the model we created.
+
+00:42:46:11 - 00:43:11:02
+Unbekannt
+Okay? The only difference between that model and this model is that I've actually given names to these layers and this name thing is totally optional. If you want to give a name given to me, just a little easier to interpret later on. Okay. You're just cosmetic. Okay, So but I've just put it here and once you build the model, you should immediately run the model, that summary command, because it gives you a nice overview of the model.
+
+00:43:11:02 - 00:43:33:29
+Unbekannt
+Right. What for each layer tells you what the latest. It tells you what's coming into the layer, meaning the shape of the tensor that's coming in and what's going out, and how many parameters the layer has. And it turns out this layer has studied this network of 497 parameters. Okay? And I've told you repeatedly the first few times, just hadn't calculate the number of parameters to make sure it verifies.
+
+00:43:33:29 - 00:43:56:06
+Unbekannt
+So we should just make sure that it is, in fact 497 So let's hand calculate it and you do. Basically it's basically what's going on here. 29 inputs times 16, right? All the arrows, 49 times 16 arrows. Right. And then you have a bias of another 16. That's why you have this expression. And then the next one is 16 times one plus one bias for the output sigmoid and you get two 497.
+
+00:43:56:08 - 00:44:20:18
+Unbekannt
+Okay. Just make sure you follow this later on when you work with the quarter. We did this in class last week and you can visualize the network graphically as well by using the plot model function. So we do that here and let's say gives you the same information, but in a slightly easier form to consume. And when we work with larger networks starting on Wednesday, you will see that being able to visualize the topology of the network is actually quite handy.
+
+00:44:20:21 - 00:44:47:17
+Unbekannt
+Okay, We finally come to actually trying to train this thing. And so what last function should we use? We need to we need to use binary cross entropy right there. What optimizer to use? Well, as I mentioned earlier, we will use Adam. Adam. All right. Adam. And then, and then the final thing is you can ask us to report out what are the metrics you care about.
+
+00:44:47:19 - 00:45:09:08
+Unbekannt
+These metrics are not going to be used in any optimization. You're just reporting it to you. And the most common thing people report out for binary classification is accuracy. So we'll just go with that metric. And so so what we do is we tell Carrera's, take the model we just built and compile it with this choice of optimizer, this choice of loss function on these metrics and this compilation step.
+
+00:45:09:08 - 00:45:30:21
+Unbekannt
+What it does is it essentially let us will take this information and take the model label and reorganize the model in such a way that the parallel computing, distribution of computing across many servers and so on that that's what's happening in the compile stop organizing it so that reorganizing the model. So that it becomes amenable to brutalization and distribution.
+
+00:45:30:26 - 00:45:47:11
+Unbekannt
+That's what's going on. That's what you actually have to do, something called the compile step. Okay. And once we do that, we are finally, finally ready to train the model. And to do that, we have to decide what the batch size is that we're going to use. Remember, of using some flavor of MGD, which means we have to choose what is a batch size.
+
+00:45:47:13 - 00:46:03:00
+Unbekannt
+And typically what people do is that 32 is a good default for the batch size. Like if you don't if you're just getting started with something, just use 32 and there's a whole bunch of literature on what the right batch say should be for the number of data points you have, the size of the network and so on and so forth.
+
+00:46:03:02 - 00:46:21:11
+Unbekannt
+My philosophy is start with 32 and you can always try 3264 128 It's kind of like, you know, oftentimes what people tell me, this'll just tell me is I just use the biggest batch size that doesn't make your machine die, right? It's considered a memory. It's probably good to destroy the bigger sizes we just started today. It's a tiny problem.
+
+00:46:21:11 - 00:46:40:16
+Unbekannt
+It's not a big deal. And then we also have to decide how many epochs through the data do. We would want to go through, Right? How many epochs. And, you know, usually 20 to 30 epochs is a good starting point. And then because this is a tiny problem just for kicks, I just have to run it for 300 epochs just to see if anything, any overfitting is going to happen.
+
+00:46:40:18 - 00:47:00:03
+Unbekannt
+And then whether we want to use a validation set, of course we want to use a validation set, right. So We will use 20% of the data points as a validation set so that we can look for overfitting under fitting. All right. So with these decisions made, we finally we use the model dot fit command. Model dot fit is what actually trains the neural network.
+
+00:47:00:06 - 00:47:18:04
+Unbekannt
+Okay. And you have to tell it what the X densities. You have to tell it what the dependent variable white tensor is. We need to tell it how many epochs to do this, what the best case to use will both equals one just means like just do not put a lot of descriptive output as you do this thing.
+
+00:47:18:07 - 00:47:37:13
+Unbekannt
+And then validation split means, you know, take 20% of the training data and set it aside as your validation data set. Don't use it for training because I want to measure overfitting using that. So that's it. So you do that thing, it'll run for three epochs. And this is the reason why I decided to just not actually run it in class.
+
+00:47:37:15 - 00:48:08:02
+Unbekannt
+And so you keep on doing it gives you a lot of output. And finally we reach the end. Okay, Now let's take a moment to understand what's being reported. So I'll just take this one line here. So this there is a there is these two there is a pair of lengths with each epoch, and then here it's telling you it actually uses in the in this 300 epoch it used seven batches seven out of seven batches.
+
+00:48:08:02 - 00:48:28:00
+Unbekannt
+Right. So you do seven batches. And if you will recall from the math we did in the class, that's actually seven batches where the first six batches are 32 and the last batch is just a couple of examples, but we have seven batches, right? This is the 193 by 32 rounded up. Okay, so that's why you have seven here and then it tells you how long it took it for that.
+
+00:48:28:02 - 00:48:54:29
+Unbekannt
+And then this is the loss of value. This is a binary cross entropy loss value on the training set, right on that particular batch, right. That it calculated this the accuracy that we asked you to report, what, 98.4%, 98.5% accuracy on that batch. And and then at the end of this epoch, using what are the abatement available in that network, you'd actually calculate the loss on the validation set, which is the 20% that you have set aside.
+
+00:48:55:02 - 00:49:14:17
+Unbekannt
+And then this is the accuracy on the validation set. Okay. So that's what each of these numbers mean. Now looking at this wall of numbers, kind of painful. So usually you just plot it so and the way you do that is if you if you notice here, okay, I'm not going to go back here. So I said history equals model outfit, blah, blah, blah, blah, blah.
+
+00:49:14:23 - 00:49:38:04
+Unbekannt
+And that history object has a lot of information that we can use for plotting and diagnostics and so on. And that history thing, History object has another object called history. History dot History, which is a dictionary with all these values. And that's what we're going to plot. Was it a question here? Yeah. So you wanted it to keep 20% aside for validation, but didn't we already keep a test set?
+
+00:49:38:10 - 00:49:56:16
+Unbekannt
+So that's going to be a secondary validation. So basically we have a training and then a validation and a test. The role of the validation set is to figure out things like early stopping, Should we stop here or should we go back? And as you will see later on, if we use hyper parameters, you know, we will try different values of the hyper parameters and figure it out.
+
+00:49:56:16 - 00:50:14:05
+Unbekannt
+Use the validation set to figure out which one is the best one. But once we are done with all that, we will finally have a model. At that point, we open the safe take of the test set and use it just once with your final, final model. Not because you want to improve the model, but because you want to have a realistic idea how it'll do when you actually deploy it out.
+
+00:50:14:05 - 00:50:36:23
+Unbekannt
+In the real world, you should. Yeah. Can we use can you have community instead of accuracy? Can we use other metrics to evaluate whether to. Absolutely. It's like if I got something from a fusion matrix, let's say like a fox, you can do whatever you want, you can use a like I said, it's not useful training, so there is no mathematical implication of what you choose, right?
+
+00:50:36:23 - 00:50:56:09
+Unbekannt
+You can choose error rates, accuracy, F1 data, you can do whatever you want. And CARAS, as you will see, has this dizzying list of possible metrics you can use. But reporting the key thing to remember is if you're just reporting these metrics, you're not actually using them for any training. Yeah. My question is, is this back to validation?
+
+00:50:56:09 - 00:51:16:28
+Unbekannt
+Like we've got a training dataset, So when we take out 20% of validation data for validation, are we picking out from the training set or from data that level? Or we go to each batch and take out 20% from you, take it out from the training set? So it means the batch size, the number of that number of data would be available for calculating the bite size would reduce.
+
+00:51:16:29 - 00:51:40:26
+Unbekannt
+Correct. And in fact, once we've taken the validation set, what are the remaining is 193. Okay. And then we divide that into batches and then every four that the validation and the data gets different. I mean, once you take all the validation set at the very beginning, you keep it a and then you only evaluate at the end of each epoch what your loss and accuracy is on the back.
+
+00:51:40:28 - 00:52:09:07
+Unbekannt
+So you don't have cross-validation. No, you're not doing any of that stuff. We'll just do it once. I'm just evaluating that answer. Okay, So yeah, so I know the podcast has asked similar questions, but so I know both of us similar questions. But just to reconfirm so here, my training model is giving me a loss of .0860. My validation model is giving me .60.
+
+00:52:09:14 - 00:52:28:12
+Unbekannt
+That means I've already crossed the you. So when I have to actually test the model that is the midpoint which I take in that model which will get deployed in production eventually. Right. And as to look, okay, what do we do to get that model? Do we actually have to go back to the beginning and run it for a few epochs?
+
+00:52:28:15 - 00:52:50:01
+Unbekannt
+Or do can we do something smarter than that? We'll get to that, Yeah. Is that validation set different for each epoch or is it the same? It's the same. So what you do is you have a training set. Before you do any training, you take out 20% of it, a site. You take whatever is leftover, that you divide that into mini batches and then start running it through each box, put it into each epoch.
+
+00:52:50:03 - 00:53:20:08
+Unbekannt
+You just evaluate the quality of the resulting model using the validations. What's different between each epoch? Is it just the way things have changed? It's the it's the division into the different batches, No. So the difference in each epoch is the rate of change. Okay, so after every batch, the weights have changed at the end of one month to all the data points you ever had in the painting set, and then you come back at the beginning and you do it again, you different of sorry, follow up.
+
+00:53:20:08 - 00:53:40:07
+Unbekannt
+Victoria, how do you identify the sweet spot? It's going okay. Yeah. All right. So I'm going to keep going. So we have this year and so you just I mean, there's a little bit of Matt plot loop code. So what we do is we just plot the training loss and the validation loss as a function of the number of epochs.
+
+00:53:40:14 - 00:54:02:06
+Unbekannt
+Okay. And as you can see here, the training loss is these things here, and it's steadily going down. As you would expect. The validation loss goes down here and then at some point it kind of flattens out and then maybe gently starts to rise. Okay. So do you think there's overfitting? This is there seems to be some level of overfitting here.
+
+00:54:02:08 - 00:54:25:00
+Unbekannt
+But the thing you have to always remember is that the binary cross entropy loss is a loss function that is convenient for you because it sort of captures the thing you want to capture the discrepancy, but also because it's mathematically convenient. But what you may actually care about in practice is something like accuracy, right? So I always that's what you're reporting or the accuracy, even if you do these things.
+
+00:54:25:04 - 00:54:44:23
+Unbekannt
+So you should also plot the accuracy to see what's going up. And really you should look at the accuracy and figure out overfitting and interpreting and all that stuff. So let's just do that. So I have your overfitting. Okay, So this how it looks like for accuracy? I can see, of course, as the model gets, you know, as you do more and more epochs, hopefully to get better and better for training.
+
+00:54:44:26 - 00:55:13:02
+Unbekannt
+So you can see here accuracy actually claims all the way up to the mid-nineties. Right. It's not the low nineties here. The validation gets to this point after, like, I don't know, 50 epochs maybe, and then it kind of flattens out and then strangely, it climbs up again a bit later. Right? So now the fact that the accuracy actually got better at the very end suggests that maybe we can live with this overfitting.
+
+00:55:13:04 - 00:55:33:00
+Unbekannt
+Maybe it's okay. It's not the end of the world. Right. So you can so you can certainly what you can do is you can go back and say, you know what, I'm going to be a purist about this around 50 epochs or so. I think that's when it actually flattened out for lots. So you can just go back and just restart the model and run it only for 50 epochs, not 300, and then stop it.
+
+00:55:33:00 - 00:55:50:23
+Unbekannt
+Just use that model for everything from that point on. Or you can say, you know what, it's I can live with this thing. And so that's what we're going to do here. Let me just stop for a second pose a question. Really quick question for originally, when we were starting out, you were saying 20, 30 epochs, but we were going to do 350 is over 20 to 30.
+
+00:55:50:23 - 00:56:06:05
+Unbekannt
+So when it comes to validation of if you've run enough epochs, are you doing like a derivative calculation? That's a great question, Olivia. So the question is, I said start with 20 and 30 epochs. As a rule of thumb here, I'm just going for 300. And because I'm going with 300, I can actually see some potential evidence of overfitting.
+
+00:56:06:10 - 00:56:22:16
+Unbekannt
+But if I had done only 20 to 30, maybe I would have even seen that. What happens next, Right? Is that the question? Great question. So what you should do is when you look at these curves, if at the end of 30 epochs you find that the validation loss continues to drop, then, you know, maybe there is more room for it to drop.
+
+00:56:22:18 - 00:56:42:11
+Unbekannt
+So you continue from that point on the thing about carrots is that you can actually run the the the fit command at that point and continue where it left off. It won't go to the beginning again, Right. So you can run then. Okay. The validation is still getting better and better. We'll get on for another ten. It's getting better and better run for another than getting better and better.
+
+00:56:42:12 - 00:57:09:10
+Unbekannt
+And if another ten starts to climb up again. Okay, now I'm going to back off. That's what you. All right, now all the manual stuff. I'm going through it just because to build intuition, there are these things called callbacks in class, which we'll get to later on, in which can actually tell it, Hey, when the validation loss, you know, stops improving, stop everything, or when it stops improving, save that model for me somewhere so they don't have to go back and read and everything.
+
+00:57:09:12 - 00:57:33:04
+Unbekannt
+You just saved it for you and you can just pick it up and use it. Yeah. Alexa, what's the intuition behind the accuracy continuing to improve when the loss is getting higher because accuracy and loss are related, but they're not the same thing in particular. So it's a really good question. Also kind of a profound question because I could see that with a discrete measure, right?
+
+00:57:33:04 - 00:57:52:18
+Unbekannt
+So if a particular point we predict its probability to be is 8.49, you're going to say, okay, that's a zero, no heart disease. But if it goes 2.5, one is going to be that's heart disease. So when you go from .49, 2.51, the binary cross entropy loss will change very, very slightly, but the accuracy will go from 0 to 1 dramatic jump.
+
+00:57:52:26 - 00:58:14:03
+Unbekannt
+So it's really jumpy and discrete and that's why it tends to be a proxy, but it's sort of a crude proxy for loss. So that's part of the reason I can talk more offline. Okay. So yeah, you mentioned that if you are purist, you could stop up epochs, but in this case I was one and run it and stop it.
+
+00:58:14:04 - 00:58:31:14
+Unbekannt
+There was one way, if you could see the history of them all and take their weight at Epoch 50 and put it in your mind if it would be roughly the same, or it would be certain differences, you could try it just right. Because what happens is that ultimately what we care about is how it performs on the validation set.
+
+00:58:31:17 - 00:58:50:23
+Unbekannt
+But here it appears to perform better on the validation set, right? If you stop at 50, but only for the loss, but accuracy actually, if you wait till the very end, it gets better. So my trust tends to be what is the measure that is closest to the real world deployment? It's accuracy. So I tend to go with accuracy.
+
+00:58:50:25 - 00:59:15:23
+Unbekannt
+Binary cross entropy is a beautiful proxy, but an imperfect proxy for the thing we actually care about in the real world, which is error rate and accuracy. And that's why I don't like both. And if because he's telling me one thing, I tend to believe that. All right, so here is what we have. So once we do all this, we have a model and we know we will evaluate to see, okay, if we actually deploy, how good is going to be.
+
+00:59:15:26 - 00:59:34:17
+Unbekannt
+So use this thing called the model to evaluate function. So you take the model or evaluate function. Now you use the test under the text X on the test white dataset, which we split at the very, very beginning. A never used. From that point on, we run it and I ran it last night. It came up with the 83.6% accuracy for the model.
+
+00:59:34:19 - 00:59:56:17
+Unbekannt
+And remember our baseline model, which just predicts everybody is a zero, is going to have a 72.6% accuracy. And this little neural network gives you 83. 83.6 was pretty good, right? So it's actually few it's beating the model and the baseline model, which is nice. And I guess there's something here about the fact that we did a bunch of preprocessing outside graphs and then we send stuff in to get us.
+
+00:59:56:22 - 01:00:11:19
+Unbekannt
+You can actually do all this pre processing inside us automatically and there are layers for that. And I have linked to a bunch of stuff here. So that's it. As far as this model is concerned, I know we've been through really fast, but please go through it afterwards and make sure you understand every single line changed each of these lines.
+
+01:00:11:23 - 01:00:45:11
+Unbekannt
+Read on to see how the output changes that. So you put some intuition. Okay. 936 All right. Let's shift to section. All right. Computer vision. We can all take a deep breath. I do. It's just one question. And four, Is there a way to build a model just to have less false positive or less false negative, or we don't know that.
+
+01:00:45:12 - 01:01:08:03
+Unbekannt
+Well, you can do that. But there are so you can report all those things very easily, but there are more complex loss functions which will take the the asymmetry between the false positive or into account, you know. Yeah. So the short it's possible. All right. So first, let's just talk about how do you represent an image digitally. Okay.
+
+01:01:08:06 - 01:01:29:12
+Unbekannt
+And so these are all just grayscale images that are represent black and white images. So the basic idea is very simple. Every picture you have, it's got every location in that picture is a pixel. And the pixel pixel basically has a light intensity. The amount of light at that location and that light level is measured from zero, no light to blinding white light.
+
+01:01:29:12 - 01:01:51:17
+Unbekannt
+We just do 55. And so all the numbers here about if you take this file, for example, you can see a lot of no light like all the black regions, those are all zeros. Okay. And then wherever there is white light, there is a number and more. The amount of light, the closer you are to 55. Okay. In fact, if you just step back and squinted this, you can actually see the five.
+
+01:01:51:20 - 01:02:14:02
+Unbekannt
+So that's it. That's how that's how black and white images. Very simple. Okay. Now, yeah. Same light microphone. Just when you say amount of light, what what's the unit that's being measured like what do you mean? So here basically what we have is the the computer takes whatever. So when you send an analog, you take an analog picture.
+
+01:02:14:04 - 01:02:32:16
+Unbekannt
+There is a there's a process by which you take that analog picture and read it in, and it gets mapped to a scale between to 55. That's it. That's all. So you can think of it as like a relative scale, a normalized scale between 0 to 45. And so it just roughly maps with amount of light in that location, the exact lumens to the number mapping.
+
+01:02:32:21 - 01:03:05:19
+Unbekannt
+I don't know how they do it. My guess is like a dizzying number of variations on that. But for us, for our purposes, just think of it as it's a normal scale which runs from 0 to 45. All right. So if you look at so that's what's happening. Every is a number. But in order 45 movable. Okay. So if you have a colored image, each pixel of a colored image is represented by three numbers and these numbers measure the intensity of red light, blue light and green light because red, blue and green, if you mix them in the right proportion, you can get whatever you want.
+
+01:03:05:21 - 01:03:24:24
+Unbekannt
+Okay, so and so each light in three is still a number between zero and 55. And that's what you have, which means that now you have three tables of numbers. And so one table of numbers and by the way, just some here in the deep learning world, these colors are red, blue, green are sometimes referred to as channels.
+
+01:03:24:26 - 01:03:56:08
+Unbekannt
+Okay. All right. So this is what we have here. There's a picture of it. And then if you take that little thing here, red, the red table, the green table and the blue table. So for this picture, these three tables is a tensor of rank. What you've got. All right. Any questions on this? Okay. So the key to us in computer vision, obviously the the important thing is image classification, right?
+
+01:03:56:11 - 01:04:12:15
+Unbekannt
+The most basic task, if you will, when you're working with images is you you have an image and you want to take whatever. You take the image and figure it out. Okay. You have a list of possible objects that the image could contain and you're figuring out, okay, which of these possible objects exist in that image? Right? The dark cat classification is like the canonical example, right?
+
+01:04:12:17 - 01:04:30:16
+Unbekannt
+That we all know and love. And that's what we will solve later today on on Wednesday. But there are many other tasks that you need to be aware of. So when you actually not just classify an image, but you also localize bit in the image, it right? It's not just enough to say sheep you want to figure out bit is the sheep, right?
+
+01:04:30:16 - 01:04:52:29
+Unbekannt
+And that's called localization. And the way you do localization is you put this little box around it and then you output not just whether it's sheep, yes or no, but the coordinates of this box, the top left and the bottom right, for example, you put the coordinates, you can actually draw a box around it. So you output the numbers, the coordinates of where this boxes in the picture.
+
+01:04:53:01 - 01:05:14:24
+Unbekannt
+Okay. That's called localization. Now, this is an object detection where you may have lots of objects going on and you want to pick up every one of them and you want to localize it, this object detection. So here we have gone in there and said, okay, sheep one, sheep, two, sheep three. And each of these sheep has a little box around it.
+
+01:05:14:27 - 01:05:39:19
+Unbekannt
+Okay. By the way, you know, self-driving cars, the camera vision system is constantly scanning what's coming in through the cameras and doing object detection constantly, many times a second. But that Austrian box in a zebra crossing box, doggie box, stroller box and so on and so forth. Okay. And then we had this thing called semantic segmentation, where we take every pixel in the picture and classify every pixel.
+
+01:05:39:26 - 01:06:17:16
+Unbekannt
+We're not classifying the whole picture. We're classifying every pixel. So we are saying, okay, all these great pixels road all these pixels or sheep and all these pixels are graphs. Every pixel is being classified. So you're taking an image and so giving one classification. But every pixel we are solving a multiclass classification problem, every pixels square. And just when you think it can't get more complicated than this, we have something called instance segmentation where not only are we classifying every pixel, we are distinguishing between the different sheep.
+
+01:06:17:18 - 01:06:48:15
+Unbekannt
+So every pixel is classified and different instances of the same category need to be identified. Okay, so these are all some of the most sort of, I would say popular, most prevalently and useful, most prevalent and useful categories of image processing, problems that are amenable to a deep learning system. Okay. All right. So let's go to image classification, and we're going to work with this application called Fashion Amnesty.
+
+01:06:48:18 - 01:07:12:12
+Unbekannt
+So the idea here is that you have 70 to 70000 images of clothing items across ten categories, you know, like boots and sweaters and T-shirts. And you get the idea, ten categories of clothing. We have 70,000 images like this. And then we'll build a network from scratch to classify all these things, you know, with pretty high accuracy. So these classes, by the way, you know, this a very balanced dataset.
+
+01:07:12:14 - 01:07:34:00
+Unbekannt
+So 10% of the data is, you know, 10% is boots and so on and so forth. So a naive baseline model would give you what accuracy is, 10%. Exactly. So we need to build something that's better than 10%. And I'm glad to report that a simple can actually get you close to 90% of the problem. Okay. All right.
+
+01:07:34:03 - 01:08:00:09
+Unbekannt
+So so this is the simple network that we have. The input in this case is a 28 by 28 picture. Okay. 28 by 28 picture. And so far, we have been feeding vectors into our neural network. Now we have a picture which is 2828. It's a tensor of rank, right? It's a table of numbers. What do you do?
+
+01:08:00:09 - 01:08:24:02
+Unbekannt
+How do we feed bottom? Is it typically 12 images? It's not. Each image is a table of numbers. Let's just take a single image like what do you do or what have you do with this table? Look, I can put into a vector. Exactly. And that's called flattening. So we take this table numbers and B, flatten it into a vector.
+
+01:08:24:04 - 01:09:06:19
+Unbekannt
+And so so what we do is let me just show you, you look. So we have 28. So what we can do is we can take each row, right? You can take this row and then write it like that. And then we take the second row. Oops, write it like that. Just rows here like that, you get the idea.
+
+01:09:06:21 - 01:09:30:21
+Unbekannt
+So each row just read it and stack it all up. Right. And string them up. It's becomes one long vector. So this called flattening. Okay, so that's how you take this thing and make it into one long vector. So when you do that, 28 by 28 is what is it, seven, 784. So we get seven, so we get a vector.
+
+01:09:30:23 - 01:09:54:20
+Unbekannt
+This is the flattened input and you get 784, it's a vector that's 784 long after the flattening. We have not done anything complicated yet. We have literally taken the numbers and just reorganized them in a different way. Okay. And once we do that, now we are back in our familiar neural network territory. We know how to work with vectors, so we just need to pass it through a hidden layer.
+
+01:09:54:22 - 01:10:20:20
+Unbekannt
+Right? And this hidden layer, we're going to use real neurons. And I tried a few different values, and it turns out that two of these neurons does a really good job. Okay? And so I'm going to use two of the students here. And then we need to now think about what the output layer should be. No, no. We run into a problem because the output layer before we saw for the heart disease example is just zero or one right here.
+
+01:10:20:20 - 01:10:42:24
+Unbekannt
+There are ten possible outputs. It could be a, you know, a boot, a sweater, a shirt and so on. So what? Ten possible categories. So we need some way to handle something with many more than one binary output, many possible outputs. So the way we do that this is by the way, pay attention to this because this is actually how Chip 84 works.
+
+01:10:42:27 - 01:11:04:11
+Unbekannt
+Okay. So what we do is here's we have we know how to output ten numbers, right? If you want to output ten numbers, no problem. We just have you have you can easily output ten numbers, but just using a linear activation. We also how to output ten probabilities right each. Each one just needs to be a sigmoid. But here we can't use ten sigmoid as the output.
+
+01:11:04:11 - 01:11:32:03
+Unbekannt
+Why is that? Why can't we use ten segments? Because the probabilities wouldn't sum to one. Correct. So here, when the output comes, we need to figure out, okay, is it a boot, a sweater, a shirt, and so on and so forth. There's only one right answer. Okay. Which means that we need to actually figure out which of these ten is the right answer, which means that we need to produce probabilities, but they have to add up to one because only one of them can be true.
+
+01:11:32:05 - 01:11:58:18
+Unbekannt
+So that's the key thing to have two out of the one. That's the wrinkle. If not for that, we could just use ten segments, right. And the way we do that is something using something called the soft max function or the soft max layer. And the idea is actually very simple. We had these ten outputs in the very final layer, which is linear activations, and then we take each one of these numbers and then run it through the exponential function and then divide by the total.
+
+01:11:58:20 - 01:12:18:02
+Unbekannt
+So when you do that, two things happen. The first one is when you take these numbers and run it to say you take A1 to do e raise to A1, you don't get a positive number, right? And now you have a positive number divided by the sum of a bunch of positive numbers. And there all you can see here, you can confirm visually that they will add up to one because you're literally taking each number, dividing with the total.
+
+01:12:18:04 - 01:12:38:22
+Unbekannt
+So they will add up to one. There's no other option. Right? So this is called the soft max function, which means that you can take any set of ten numbers that's coming out of the network and convert them into probabilities that add up to one. And so, by the way, the jeopardy for reference, when you actually put a prompter in Djibouti four and it starts giving you the output every word emitting.
+
+01:12:38:24 - 01:13:01:20
+Unbekannt
+Right, it's actually a token, but we'll get to that later. Imagine it's a word, every word it's emitting, because actually it's doing a 50 to 52000 way soft max. Think of it as every word. The language is a possible output. So it's a vector, which is 52,000 long, but it's actually a soft max and it just picks the most probable word, an image that.
+
+01:13:01:23 - 01:13:22:21
+Unbekannt
+So this notion of a soft max is actually very powerful. Okay. But we'll come back to that later. So so to summarize, if you have a single number, you can use a simple output layer, a single probability, a sigmoid. You have lots of numbers, just have a stack of these things. And when you have a lot of numbers that have to add up to one, that would be probabilities you solve.
+
+01:13:22:21 - 01:13:47:29
+Unbekannt
+Max Okay. All right. So yeah, but we chose probabilities instead of just number. We know it's going to be only one. So then we know it's only going to be one because you can't force the network to give you a one zeros. It's going to produce what it's going to produce, but you can't force it to be exactly 1.0.
+
+01:13:48:01 - 01:14:14:15
+Unbekannt
+It'll give you some number, the best you can do is to tame that number so that it comes into a range that you like, like between zero. All right. So this what we have. So here very quickly, we have a real binary classification example like yes or no there's the one hot and coded version one or zero. That's what we saw in the heart of the example.
+
+01:14:14:18 - 01:14:31:10
+Unbekannt
+And when you have something like this example fashion M list where you have all these different possibilities, then you can include it in one of two ways. You can in coded just using integers like 0 to 9, right? This is called the pass encoded version, or you can do a one hard and quarter version of the output, right?
+
+01:14:31:12 - 01:14:53:03
+Unbekannt
+You can have a one cut encoded version of the output and depending on how your data comes in to you comes into your lab. All right. Just pay attention to this. And depending on what it is, you have to pick the right cross laws function. So if your data comes like a110 thing, which is exactly what we had in the hard disk example, we use binary cross entropy.
+
+01:14:53:05 - 01:15:11:13
+Unbekannt
+If your data comes in this form where it's passed encoded, you use pass categorical cross entropy. And then if it comes in this form, you use categorical cross entropy. These are all equal and things. It just depends on the data that you get, how it happens to be encoded by the people who sent it to you. Send it this way.
+
+01:15:11:13 - 01:15:33:06
+Unbekannt
+Use this last function. If you send that, we use that last function. Now, as it turns out in the example here, the data is actually coming this form. So we'll use this thing called the sparse categorical cross entropy. And categorical cross entropy is a generalization of binary cross entropy, which I'm not going to get into the mathematical details, but the intuition is basically roughly the same.
+
+01:15:33:08 - 01:15:53:07
+Unbekannt
+Okay, so this is what we have. If this is the output layer use mean squared error. If this is your output layer, use the binary cross entropy. And if you still have a stack of these numbers, you can still use mean square data. And if your output is soft max, use categorical cross entropy or sparse categorical cross entropy.
+
+01:15:53:09 - 01:16:31:13
+Unbekannt
+Okay, so let's actually run this and call up. All right. So this is what we have, can foresee this. Okay. All right. So this is the dataset we saw earlier. I'm going here as usual. Right? We have we load TensorFlow and cross. We load our usual three packages and then we set the random seed for reproducibility and turns out that the fashion in this data is actually available in case you want to go find it somewhere and bring it in.
+
+01:16:31:14 - 01:16:53:19
+Unbekannt
+It's actually available in Cat. It's one of the standard datasets we look out, so we just actually load data using this low data command. And then if you do that and conveniently for us, give us not only made the data available, it is already split into a training intercept so we don't have to do the splitting. Okay? And the reason they do that, why would they do that?
+
+01:16:53:21 - 01:17:19:18
+Unbekannt
+They do that so that different people who are building algorithms for that particular dataset can all be evaluated using the same. Otherwise, if I sprinted one way and say, Hey, look how well I did that, like, I don't know how to do these, okay, So here and you can see here that we have the input data is a tensor of rank three.
+
+01:17:19:20 - 01:17:44:12
+Unbekannt
+The first and basically another way to think about it instead of rank three is just a list of rank, two tenses, right. So here you have 60,000 images, 60,000 images and each image is a 28 by 28 square numbers. Each image is a 2228 table. And then, of course, the output is just what category it is, a number between zero and nine.
+
+01:17:44:19 - 01:18:04:26
+Unbekannt
+So you just have 60,000 numbers, just a vector of 60,000 numbers. Okay. So there are 60,000 the training set. Oops. And then there are 10,000 in the test set, same structure, 28, bit 28. That's what we have. So if you look at the first ten rows of the dependent y, you get these numbers 9033 like that did a numbers from 0 to 9.
+
+01:18:04:29 - 01:18:26:07
+Unbekannt
+So if you look at the fashion in this GitHub site, this what it reports to zero is a T-shirt, one is a trouser and so on and so forth, and nine is an ankle boot. All right. So when I'm working with multiclass lib classification problems, I always do a little thing here to help me figure out that nine corresponds to an ankle boot and so on and so forth.
+
+01:18:26:07 - 01:18:27:14
+Unbekannt
+It just makes it a little easier to.
+
