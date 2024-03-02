@@ -1,0 +1,788 @@
+00:00:00:00 - 00:00:03:15
+Unbekannt
+of every class up until 835, the call run.
+
+00:00:03:18 - 00:00:40:29
+Unbekannt
+So you have to get here before that so that you can punch the golden for today because folks are obviously sort of arriving late. It's the first day. Don't worry about attendance, okay, But do what do you about participation? Okay. All right. So let's get going. We it's like a super bright in I for some reason. Okay. All right.
+
+00:00:41:02 - 00:01:23:15
+Unbekannt
+Welcome. Welcome to Hands-On Deep Learning. It's really wonderful to see the classroom so full. So I have to do what I have to do. I have to do a panel shot. So. All right, Start from my trusty DMD alums. All right, Here I but the folks are looking very smart indeed. And of course, we have to get to the title here.
+
+00:01:23:16 - 00:01:55:08
+Unbekannt
+Hopefully it'll fit. You got it. Took looks. It's great. I think. Okay, now that you've gotten the most important thing out of the way, see? So welcome. Welcome to Hands on Deep Learning. First of all, as you may have seen from the sign on the door, this class is being recorded for MIT or CW. So it's going to go on OpenCourseWare later this year.
+
+00:01:55:11 - 00:02:11:02
+Unbekannt
+So which means that we have, you know, our colleagues here in the back who are going to be videotaping the class and which is also why I'm sort of packing a lot of iron here. So there's a microphone here and there's another one in my pocket. So if you sort of leaning see me into one. So that's what's going on.
+
+00:02:11:05 - 00:02:31:05
+Unbekannt
+Don't get worried about it. Call 911. So, so so if you don't want to be on camera or if you don't want to be taped, but if you don't want to be audiotaped, it's going to be hard because I'm going to be asking questions. You're going to be responding to me. But if you don't want to be in the camera feed, just sort of, you know, be maybe a right under the camera or close to the back of the classroom.
+
+00:02:31:05 - 00:02:52:10
+Unbekannt
+Thank you. Of course, in the back of the classroom. Okay. If that's what. But on the other hand, if you want to be immortal, maybe kind of be right here, be close to me because the camera's going to be tracking me. Okay. All right. Good. So that's as far as body is concerned. All right. So today's lecture introduction to neural networks and deep learning.
+
+00:02:52:12 - 00:03:16:23
+Unbekannt
+First of all, let's let's very quickly go through a bunch of administrative details. Prerequisite, because this this thing comes up a lot. A lot of people in the class don't have a ton of prior background in programing. Okay. So I just want to be very clear what the class needs. So you do need familiarity with Python. There we go at this level, right.
+
+00:03:16:23 - 00:03:32:28
+Unbekannt
+And if you see the syllabus, I have link to a course on Kaggle which takes about 5 hours to complete. Okay. So if you can if you can complete that course, you're all set in particular, you don't need to no object oriented programing. Okay. That's the way we drew the line. Okay. You don't have to know object oriented programing.
+
+00:03:33:01 - 00:03:50:19
+Unbekannt
+So but if you can do this, you're in good shape. You don't worry about it anymore. Now, you do need to have some familiarity with fundamental machine learning concepts such as, you know, overfitting under fitting, regularization, validation, things like that. You don't have to know the details of things like decision trees and random forests and things like that.
+
+00:03:50:25 - 00:04:12:12
+Unbekannt
+You don't have to know that. Okay, because we're going to focus on neural networks and we really don't care about anything else. No, If you have taken the analytics edge or if you're taking it right now as a in parallel with this course, you'll be fine. You don't need to have any of the background. So after seeing this, if you still have some residual doubts as to whether you can do this class, just reach out to me.
+
+00:04:12:12 - 00:04:57:17
+Unbekannt
+Reach out to ask any questions on the Pyrex. Okay. All right. Grading. So, you know, two assignments each 25% final project, 40% class participation, terms of 10%. Self explanatory, next waitlist. So, you know, we have a really sizable waitlist as if, as you folks know, we expanded the class capacity significantly by another 40 students. I literally came to this classroom a few weeks ago and physically counted the number of seats, make sure we had 147, and then I opened up everything else.
+
+00:04:57:19 - 00:05:17:08
+Unbekannt
+Okay, So we are literally filled to the brim with students, which is wonderful. But I do feel bad for the folks on the waitlist who were unable to get in. So those of you registered students, if for whatever reason you decide to drop the class, please let us know as soon as you decide so that we can offer the spots to the waitlist students, number one.
+
+00:05:17:10 - 00:05:44:11
+Unbekannt
+Number two, if you're on the waitlist right now, hang in there. We will send you an update by end of day Friday with any drops that may have happened. And and I mentioned this before, if you're graduating this year, you are welcome to add the course as a listener. Okay. And I have already added you to the canvas site as a courtesy just so that you have access to the livestream today and the lecture materials and so on.
+
+00:05:44:13 - 00:06:12:25
+Unbekannt
+But that access automatically disappears in a few in a week or so. Okay. So if you don't get off the list either, as a registered student because I've invited you due to somebody dropping or because you've changed your status to listener, you will lose access. All right? Just so you keep that in mind. And if you're a listener or on the waitlist, please plan on watching the livestream as opposed to coming to class in person because we are literally really full and for today it's okay.
+
+00:06:12:25 - 00:06:35:03
+Unbekannt
+But I really don't want folks sitting on the steps. I've done it as a student and I was called by the prof and now I understand why, but it's actually a fire code problem. So that's why, you know, we take a dim view of folks sitting on the students steps. Hopefully today there wouldn't be any fire problems. So I think we're okay, but let's not do it in the future.
+
+00:06:35:05 - 00:06:55:19
+Unbekannt
+But if you're going to sit there anyway, may as well said. But you can see this great looks. You can see look. All right, good. Okay. So by the way, if you're going to use Google CoLab for all our work from Wednesdays class onwards, I'm going to be doing some live programing with Collab in the class. You're going to be doing a lot of collab work with Collab.
+
+00:06:55:22 - 00:07:15:10
+Unbekannt
+And so I'm glad to let you know as of this year you can actually choose sign up for Collab Pro and then you can get reimbursed by Sloan for it. Okay, so the instructions are right there on canvas. Just figured it out. You don't need to do anything right now. Just by Wednesday if you can sort of figured it out.
+
+00:07:15:13 - 00:07:38:04
+Unbekannt
+That's great. Okay. All right. We'll start as usual. 5 minutes faster and finish at 955. I will be posting the slides only after class. I will not do it before class. No mobile phones in class, please. You know, but I teach data models and positions and my DMD alums here know I'm very, very particular about no phones, no laptops, no nothing.
+
+00:07:38:06 - 00:07:56:22
+Unbekannt
+Right. I want your undivided attention. This is a class where there'll be hands on work, right? And also it's an elective, so I'm going to loosen it a bit. So you are welcome to use your laptop or tablet to take notes. But do not pull out your phones. Do not follow your friends If you pull out your phones.
+
+00:07:56:22 - 00:08:21:12
+Unbekannt
+All market as an unexcused absence and attendance is 10% of the grid. Okay. But more importantly, it really distracts the folks around you. It distracts me also. It motivates me. Okay, Now I understand we are all human beings. We have friends and family and pressures and so on and so forth, not to mention job interview calls. So if you do expect a phone call, just sit near the periphery of the classroom and if you get a call, just leave, take it and come back.
+
+00:08:21:12 - 00:08:46:28
+Unbekannt
+No big deal. All right? Just don't do it in the middle of the class, smack in the center because you want to check? I don't know. Ticktock. Okay. So please take this seriously for my sake and for your sake. All right? Okay. This is really important. I'm glad to see the name tags it all out. If I pronounce your name wrong correctly immediately.
+
+00:08:47:00 - 00:09:17:19
+Unbekannt
+Okay. If I later discover that you've been suffering in silence, I will penalize you. Correct me immediately. No exceptions. And of course, you know, if you have a medical reason or religious reason to be absent, just let us know and we will sort of market as an excuse absence. Otherwise, it's going to be considered unexcused. Any questions, Evan?
+
+00:09:17:22 - 00:09:49:11
+Unbekannt
+So let's welcome our awesome to Evan, y'all, and tell us a bit about yourself. Hi, everyone. I'm Evan. I'm a student at the Operations Research Center, Prater MIT. I did my undergrad at Harvard and CSS and math. I've since I spent some time working in tech and finance. My research interests are in. I got to look at the slide in machine learning, data science and design of algorithms.
+
+00:09:49:13 - 00:10:12:28
+Unbekannt
+And outside of, you know, doing research, I also sitting in the chamber choir, I ski and I'm a public transit enthusiast. So poking fun at the system. Yeah, it means I can name every stop on the T like from memory. wow. What's what is two stops before boarding? Sorry. Two stops before State Street. I present to you.
+
+00:10:13:01 - 00:10:34:14
+Unbekannt
+That was not a setup. Okay. I literally cold Call them. So. All right. Wonderful. Welcome, Evan. All right, so my background. I'm a professor of the practice. I. I got my pursuit of my team many, many years ago. I grew up in India, and I came to America for grad school. I got my master's and Ph.D. here. I spent a few years in McKinsey, and then I got bit by the entrepreneurial bug.
+
+00:10:34:21 - 00:10:54:03
+Unbekannt
+So I've been involved in a bunch of different startups over the years, most recently I had a startup called Quotient, which is now called Salesforce Einstein for eCommerce, and it's one of the largest personalization interests of the world to give you an idea of the scale, it sees about 3 to 5 billion people on just Black Friday alone, right?
+
+00:10:54:03 - 00:11:22:03
+Unbekannt
+Which is the day after Thanksgiving. So it runs at scale. And my and, you know, after acquisitions and exits, I've served as the head of analytics at Oracle and the head of Data Science of Salesforce. So I've been at Sloan for about five ish for ish for two years, and my interests are applying I email to a whole bunch of business problems, and I'm particularly fascinated by problems where I see sort of a shortest path to human benefit, which tends to be education, health care and climate change.
+
+00:11:22:06 - 00:11:44:26
+Unbekannt
+And then I'm pretty active in the the sort of the startup ecosystem as an angel advisor and so on and so forth. And so that's my background. If you need to reach me, you could just email me, email my assistant and maybe tomorrow I'll post a currently link with a whole bunch of slots every week. Just feel free to reach out to me if past history is any indication.
+
+00:11:44:26 - 00:12:03:25
+Unbekannt
+Most of the conversations that people come to have with me or about the startup, it's nothing too deep learning nothing. No data and no data science. It's okay. I love it. All right. So but you can come and talk about anything you feel you want to talk about. All right. So that's my background. OC y hands on deep learning.
+
+00:12:03:28 - 00:12:37:04
+Unbekannt
+So, you know, deep learning, in my opinion, is one of the most exciting and possibly the most profound technological development I've ever seen in my working life. And I'm not young, okay? It's incredible. I've never seen anything like it. And I think it's really important for people at Sloan to understand understand like the fundamental building blocks of deep learning, because I think if you understand the fundamentals, you can actually use those fundamentals to transform businesses, create amazing products and services, and we'll see examples of it as we go along.
+
+00:12:37:07 - 00:12:55:13
+Unbekannt
+And you probably have already seen lots of examples of it in your life, but I think you have to have this very fundamental, visceral understanding of what's going on for you to be able to create new things, not just consume what other people create. Okay, So the focus of this class is that and now it might be has lots of great courses on B planning the easiest department.
+
+00:12:55:19 - 00:13:19:11
+Unbekannt
+My colleagues that have amazing courses but we wanted some wanted a course that is actually a better fit for Sloan. And what I mean by that is people who are sort of business savvy and tech savvy, who can sort of walk and chew gum at the same time. Right? And so this course is meant for them. It's not meant to train you to become a Ph.D. level researcher and deep learning, it's meant for you so that you can actually look at it and say, I get it.
+
+00:13:19:11 - 00:13:40:11
+Unbekannt
+I can actually create something, though, right? That's the goal. So. So therefore, our philosophy for the class is that you're going to be very focused on concepts, right, that underlie deep learning, but you're going to skip the math. The math is going to be very, very light. So if it means that if you're if you're sort of hoping for a mathy, deep learning class, you're going to be disappointed.
+
+00:13:40:13 - 00:13:57:21
+Unbekannt
+Okay. No, Evan and I would be happy to geek out with you an officer. So but all of the math that you want. But we will not do it in the classroom. And if you want a math treatment of deep learning, you may want to drop the class. All right. And there are plenty of great math heavy courses in E see us, which you should consider.
+
+00:13:57:23 - 00:14:30:25
+Unbekannt
+Okay, that's it. So what do we focus on? We focus on coding. We focus on coding deep learning models because in my experience, so all the startups that was involved in AI typically was either solely or as part of a team involved in creating the point or one version of the okay. As an entrepreneur, it's really important to roll up your sleeves and actually do it yourself, not because that's the thing that's actually going to go into production if it's successful, but because the act of working on something, testing it with customers and iterating on it happens really fast.
+
+00:14:30:27 - 00:14:52:15
+Unbekannt
+If it's in a single brain. I know the team is more than all of us, all that stuff. Yeah, I get it. Okay. But the point is, at the very beginning of an ideation stage, the the most rapid cycles happen inside a single brain. And to do that, you need to be a tinkerer. You need to tinker with the code, to tinker with the system, and you cannot do it by emailing your techie friend for help.
+
+00:14:52:17 - 00:15:12:09
+Unbekannt
+Okay, so the goal of the class is by the time you're done, if you have an idea for a product, you should be able to roll up a point or one version of that deep learning model to test that idea, to show people that idea by yourself without anybody else's help. That's the goal. Now, once that idea has submitted, then, yeah, bring in the professionals, right?
+
+00:15:12:09 - 00:15:38:15
+Unbekannt
+Bring in the software engineers, the machine learning engineers, database engineer, blah, blah, blah. They'll make it reliable, scalable, available, all the you know, they'll do all those things right. Bring the grown ups then. Not before, because your idea is a fragile little thing and it needs your undivided and undistracted attention. Okay, So that's that's my position. And so and just to be clear, we are not trying to teach you how to be machine learning or deep learning Engineers.
+
+00:15:38:17 - 00:15:56:03
+Unbekannt
+We want you to be amazing tinkerers who can create something out of nothing. Okay, cool. Any questions on the philosophy? Feel free to disagree. Okay. Okay.
+
+00:15:56:05 - 00:16:14:25
+Unbekannt
+All right. Syllabus. So, you know, half semester class, it's going to be very, very fast paced. Obviously, today. By the time we are done today, you're basically understand, you know, what neural networks are and you know what's going on, a deep learning and how deep learning fits into the overall scheme of AI and machine learning and so on and so forth.
+
+00:16:14:28 - 00:16:41:09
+Unbekannt
+And then on Wednesday, we will actually train our first neural network using Kara's TensorFlow, and we'll talk about answers and will apply to functional data, I'm sorry, a structured dataset. And then next week is all going to be computer vision. We learn how to build deep learning models from scratch on Monday to solve a computer vision problem. And then on Wednesday, we will show you how to take a model already trained by somebody else and then just adapted for what you need to do.
+
+00:16:41:11 - 00:17:00:18
+Unbekannt
+Okay. And as you will see, this notion of taking somebody else's model and adapting it for your thing is the norm in the industry. So you have to learn how to do it. And by next Wednesday you will actually know how to do it. All right. And then we after President's Day, we actually start our natural language processing NLP sequence.
+
+00:17:00:21 - 00:17:20:22
+Unbekannt
+And so we'll go through the basics. We'll go through these things called embeddings. You know, embeddings are sort of like the single thing that defines modern deep planning, right? And so people sort of learn about embeddings and then we will actually really dive deep into this thing called the transformer, which is a neural network architecture that is basically taking over everything.
+
+00:17:20:24 - 00:17:50:14
+Unbekannt
+Right? At this point, there are no non transformer architectures, right? It's that bad. It's that extreme. So we're going to learn how they work, how to use them, and then that will segway into generative AI. But we'll talk about obviously large language models and will apply large language models using a technique called retrieval augmented generation, which is a very powerful way to make large language models sort of use knowledge that they didn't have when they were trained and do so while making as few errors as possible.
+
+00:17:50:17 - 00:18:12:17
+Unbekannt
+And then we will figure out how to take a generative, a large model and then make it work to fine tune it for your particular problem using something called parameter efficient fine tuning. And then we'll spend a lecture on text to image models like stable diffusion and majani. And then we will have project presentations. Now, given the number of people in the room and therefore the number of project teams.
+
+00:18:12:21 - 00:18:32:18
+Unbekannt
+So basically divide the number by four. So 25 roughly, so 25 teams, we will not have time for all of them to present. So we will actually have people post like a quick synopsis of their project work and you folks can all vote on it and we'll pick the top weighted. I don't know, eight teams or something and they will present on the last day of class.
+
+00:18:32:21 - 00:19:02:23
+Unbekannt
+Any questions on the syllabus? You can it's going to break the ice. All right. That's just an additional session on Tuesday, Is that right? This one is on it. Yeah, because Monday is a holiday and so Tuesday will follow. Monday skidoo, of course, if it clashes with any other class of MIT will run on Monday. So could you get something.
+
+00:19:02:26 - 00:19:25:22
+Unbekannt
+Okay. I don't have you know. Yeah. Just bring it up next time. All right. Great. So okay, now this the the backgrounds of the people in this class, I've actually quite varied. I have a feeling that some of you actually already done deep learning and you are doing it now so that it's on your transcript. Others have no idea about the you don't know anything about neural networks.
+
+00:19:25:24 - 00:19:43:15
+Unbekannt
+And so we have a vast range of people. So what I'm going to do is I'm going to assume, you know nothing and I'm going to go from scratch, start from scratch. But because I only have basically lemon to a lectures, you're going to cover a lot of ground really, really fast. So if you have prior background and B planning, I want you to do two things for me.
+
+00:19:43:17 - 00:20:08:02
+Unbekannt
+One, I want you to help your peers who may not have your background, number one. And number two, because you know this stuff and because what you're seeing here may be familiar, don't be bored. Try to look interested because I think it's going to be motivate me. Okay. See what I mean? If you have a deal. Thank you.
+
+00:20:08:04 - 00:20:27:09
+Unbekannt
+All right. So we'll start with the very quick intro to these things and then we'll switch and dive deep into neural networks. All right. So the feel of Ayodeji at night six, sadly, the new unit at MIT Dartmouth, because all these people got together at Dartmouth, I guess it's it's got a nice quarter. Whatever they got together, they defined the field.
+
+00:20:27:11 - 00:20:55:15
+Unbekannt
+But fortunately for us, it was very well represented. So we have Marvin Minsky, who founded my lab, John McCarthy, who invented Lisp and then later defected to the West Coast. And then Claude Shannon, who invented information theory, was a professor at MIT. So M.I.T. was well-represented. These folks founded the field and they were so bright, they thought that air was going to be substantially solved, quote unquote, by that fall.
+
+00:20:55:17 - 00:21:14:23
+Unbekannt
+Well, obviously, it turned out a bit differently than what they expected. So it's been, what, about 67, 68 years since its founding. So it's gone through essentially, in my opinion, three seminal breakthroughs, starting with the traditional approach, then machine learning, deep learning and generative II. So let's take a very quick look at each of these breakthroughs and what motivated them.
+
+00:21:14:25 - 00:21:43:02
+Unbekannt
+So let's start with the traditional approach to A.I.. And so what is the AI informally is the ability to imbue computers with the they will do things that only humans can typically do, cognitive tasks, thinking tasks and things like that. And so the most sort of commonsensical way to do that is to say, well, if I want the computer to do something complicated, like play chess, I'm just going to sit down with a few chess grandmasters, show them a whole bunch of board moves, and ask them how they figured out how to respond, how to play the next move.
+
+00:21:43:05 - 00:21:55:26
+Unbekannt
+I'm going to sort of sit down, talk to all these people, and then I'm going to write down a whole bunch of rules. If this is the board position, move this, this is the board position, move this, and so on and so forth. Or am I sit down with the cardiologist and tell them, okay, how do you actually interpret an EKG?
+
+00:21:56:03 - 00:22:15:24
+Unbekannt
+They will give me all similarly a bunch of different rules. I would take all these rules, I'll put them into the computer and boom, I have a system that can do what a human can do. Right now, this approach, even though it's commonsensical and kind of makes sense, it had success in only a few areas. And so the interesting question is why was it not pervasively successful?
+
+00:22:15:26 - 00:22:38:19
+Unbekannt
+Why was it not for business? It certainly seems like a pretty good idea to me. Right. And the people who came up with these things are smart people. They're not dumb people. You know what they're doing. So why did it not work? You know, because. Because it's time intensive. So in a case like you have to run through all the scenarios that can ever exist, and still some scenarios can come up that you didn't cater for initially.
+
+00:22:38:21 - 00:23:02:11
+Unbekannt
+Right. So there are two aspects of what you said, which is the first aspect is as time intensive. That as it turns out, it's not a big deal because computers are getting faster and faster. Right? The second thing is actually the key thing, which is that it doesn't generalize to New situations variable, right? The problem is that an infinite number of things that you're going to see when you deploy these systems in the real world, by definition, what you're training it on is a small sample of rules.
+
+00:23:02:13 - 00:23:22:02
+Unbekannt
+So these rules are very brittle, but there's actually an even more interesting reason. And that reason is that we know more than we can tell. This is called Polanyi's Paradox. So the idea is that if I come to you and say, Hey, here's a picture, is it a dog or a cat, you will tell me within. I believe that my should ID like 20 milliseconds or something.
+
+00:23:22:02 - 00:23:38:02
+Unbekannt
+You know, it's a duck if it's a dog or a cat. And then if I ask you to explain to me exactly how you figured that out, you'll come up with a bunch of sort of reasons, alleged reasons, or, you know, if it has whiskers, I think it's a cat or whatever. But the problem is that you actually, first of all, can't really articulate what's going on in your head how you do these things.
+
+00:23:38:07 - 00:24:01:18
+Unbekannt
+And number two, even if you articulate it, oftentimes your articulation has no correspondence with how your brain actually does it, so you're incomplete underlie it. So this is Polanyi's paradox. So if you can't even tell me how you do something, how the heck am I supposed to take it and put it into a computer doesn't work. And second is the fact that we can't write down these rules for all possible situations.
+
+00:24:01:20 - 00:24:24:20
+Unbekannt
+Each case has consequences, etc. and the world is full of excuses. So for these reasons, this approach and work and so a different approach was developed and this approach was, well, basically said so explicitly, telling the computer what to do. Why don't we simply give it lots of examples of inputs and outputs? Chess positions Next move, right? EG diagnosis, right inputs and outputs.
+
+00:24:24:22 - 00:24:48:04
+Unbekannt
+And then why don't we just use some statistical techniques to learn a mapping, a function that can go from the input of output? Okay, that is idea. And this idea is machine learning. Okay, so machine learning is basically just a fancy way of saying learn from input output examples using statistical techniques. Good. All right. So now there are numerous ways to create machine learning models.
+
+00:24:48:04 - 00:25:10:02
+Unbekannt
+And if you've ever done linear regression, congratulations, you've been doing machine learning. Okay. And only one of those methods happens to be something called neural networks. There are many of them at this. And in fact, you probably have done these other methods. If you have done a course analytics edge or something similar. Okay, So machine learning has got tremendous impact around the world, right?
+
+00:25:10:02 - 00:25:38:09
+Unbekannt
+It's like at this point, it's widely accepted. It's a very, very successful technology. And in fact, whenever people are actually talking about A.I., chances are they're actually talking about machine learning. It just sounds cooler. The only problem is for machine learning to work really well. The input data has to be structured. Okay? And what I mean by that is data that can essentially be sort of numerical based on stuff into the columns and rows of a spreadsheet.
+
+00:25:38:12 - 00:25:56:21
+Unbekannt
+Right. So for example, here, let's say I want to put together a data set of, you know, patients, their symptoms and their characteristics. And then in the following year, after they showed up at the doctor's office, whether they had a cardiac event or not, I might create a dataset like this with age smoking status. Yes, no exercise, blah, blah, blah, blah, blah.
+
+00:25:56:28 - 00:26:17:04
+Unbekannt
+Right. And so either these numbers are numbers, they're numerical, or if they are not numerical, they're categorical. Right? Yes. No smoking. Yes. No, things like that. Which means that if you have categorical variables, you can just numerical them pretty easily. You folks have done some machine learning before, so you know, things like one heart and coding and stuff like that can be done to make them all numerical.
+
+00:26:17:04 - 00:26:34:25
+Unbekannt
+So the point is you can just render the data into the columns and rows of a spreadsheet pretty easily, right? That's what I mean by structured data. So when you but the situation's very different if you have unstructured data. So if you have an image of, you know, a cute puppy, there's my puppy, by the way, from many years ago.
+
+00:26:34:25 - 00:27:01:06
+Unbekannt
+Sadly, he's no more, but his name was Google. So yeah. Anyway, my DMV alums know Google well. So this is Google, right? If you want to take Google this picture and figure out how to sort of numerical, is it the first thing you want to need to understand is that if you actually look at how this picture is represented inside digitally in the computer, basically every picture like this is up to using three tables of numbers.
+
+00:27:01:09 - 00:27:23:02
+Unbekannt
+Okay. And these will get to what these numbers mean later on. But the point I'm making is that each number basically represents the amount of light, right. On a scale of 0 to 55, the amount of light in that location, in that pixel, that's the amount of light. So basically the this table is the amount of this table is the amount of red light.
+
+00:27:23:09 - 00:27:41:08
+Unbekannt
+Amount of green light. Amount of blue light. Okay. Now, you would agree with me that if you, for example, look at something like this and say, okay, 251 at this location, there is a lot of blue light because it's 251 out of a possible. 255 right. Maybe a lot of blue light. Somebody here, there's a lot of blue here.
+
+00:27:41:10 - 00:28:04:16
+Unbekannt
+Whether that area is blue because of a piece of sky, some water or a bunch of blue paint, could be anything it's going to say. 251 So the underlying reality, the underlying object that's being described, has nothing to do with the 251 Right. So that's the whole problem. The raw form of the data has no intrinsic meaning with the underlying thing.
+
+00:28:04:19 - 00:28:27:19
+Unbekannt
+So given that there's no connection between the number and what is describing, how the heck can any algorithm do anything with it? It can't, Right. So what do you have to do is something called feature engineering or feature extraction right there. You have to manually take all these things and create essentially a spreadsheet from them. So basically, let's say that you have a bunch of birds, right?
+
+00:28:27:19 - 00:28:57:11
+Unbekannt
+And you're trying to build a bird classifier to figure out what kind of bird species it is. You might actually have to take this picture and then you have to make sure the beak length, the wingspan, the primary color and so on and so forth. So you're basically structuring the unstructured data manually. Right. And this process of structuring unstructured data is basically called the we use the word representation, we take the raw data and we represent the data in a different form.
+
+00:28:57:13 - 00:29:22:20
+Unbekannt
+And the reason why I'm sort of focusing on the use of the word representation is because it becomes really, really important to bitrate learn when we get to deep learning. Okay, so we have to represent the data in a different way for it to work. That's the basic idea. All right. So what that means, Rick, Logistics check. Is everything okay for folks back there?
+
+00:29:22:23 - 00:29:48:05
+Unbekannt
+Okay, great. Can everyone here clearly to see the slides? Clearly. Okay. Nobody's suffering in silence, right? Okay. But all right. So what that means is that historically, researchers would manually develop these representations. And once you develop them, once you're representations, you can just use traditional linear regression or logistic regression, get the job done. So the whole name of the game is the representations.
+
+00:29:48:07 - 00:30:12:00
+Unbekannt
+So in fact, people doing PhDs, for example, in computer vision would spend like four years developing amazing representations for solving one particular little problem, right? We have a bunch of CAT scans and we need to take the CAT scan and figure out whether a particular kind of stroke there is evidence for it in the CAT scan, right? They might actually sit and develop all kinds of representations and tested and so on, and then they're finally declared victory and say, Yeah, I'm done.
+
+00:30:12:02 - 00:30:40:22
+Unbekannt
+Here is this amazing representation and you can build a classifier with it to predict a particular kind of stroke with high accuracy. Okay, So that is that that's where the world was. Now, as you can imagine, developing representations because it's so manual, it's a massive human bottleneck and this sharply limited, limited reach and applicability of machine learning, as you would expect to address this problem, a different approach came about, and that's deep learning.
+
+00:30:40:22 - 00:31:08:12
+Unbekannt
+So deep learning sits inside machine learning, okay? And deep learning can handle unstructured input data without upfront manual processing, meaning it will automatically learn the right representations from the raw input automatically is the keyword automatically is under presentations, which means that you could give it structured data, you can give it pictures, you can give a textbook or anything you want and just learn it, okay?
+
+00:31:08:14 - 00:31:35:17
+Unbekannt
+It can automatically extract this representations and since it's being automatically extracted, you can imagine sort of a pipeline where the raw data comes in. You have a bunch of stuff in the middle that's learning these representations automatically without your help, and then boom, you just attach a little linear regression. But let's regression and problem solving. That in a nutshell is deep learning input, a whole bunch of representations being learned and then piped into a linear regression model.
+
+00:31:35:19 - 00:32:03:24
+Unbekannt
+Okay, you would. So the amazing thing is this simple idea. This simple idea is just incredibly powerful, right? That idea has led to tragedy, has led to AlphaGo Alpha Fault and so on and so forth. And I kid you not I'm sort of I've been doing deep learning for about ten years now. And every time I look at it, I literally got goosebumps every so often that something so simple could be so powerful.
+
+00:32:03:27 - 00:32:28:14
+Unbekannt
+It really boggles the mind. I'm like, I'm just so lucky to be alive and working during this period. Okay? And in the coming from people who have been in the industry a long time, this sort of breathless exclamation is not very rare, pretty, because I'm not in marketing or didn't actually mean it. All your politics to various might just be like, okay.
+
+00:32:28:17 - 00:32:52:03
+Unbekannt
+So, so this demolished the human bottleneck for using machine learning with unstructured data. And so it comes from the confluence of three forces, new algorithmic ideas, a lot of data, and that very importantly, the fact that we have access to parallel computing hardware in the form of these things called GPUs graphics processing units. And these three forces came together and they were applied to an old idea called neural networks.
+
+00:32:52:03 - 00:33:23:07
+Unbekannt
+And that's basically deep learning. And I'll go through it very quickly because obviously you can spend half the semester looking into this thing in detail. So what's the immediate, immediate application of the ability to automatically handle unstructured data? What is like the no brainer application? It's okay if it's obvious to me. sorry, Elinor. An image classification. So you miss classification?
+
+00:33:23:07 - 00:33:47:02
+Unbekannt
+Yes. So you can take an image, a good example of unstructured data. You can do some classification on it, but more generally, more generally, what I'm getting at is that every sensor in the world can be given the ability to detect, recognize and classify. It's sensing every sensor because remember, what does it what does a sensor do? A sensor is just a receptacle for unstructured data.
+
+00:33:47:04 - 00:34:08:07
+Unbekannt
+A camera is a receptacle for unstructured video, you know, still images, microphone, unstructured audio. Right. So every sensor you can you can imagine taking a sensor and sticking a little deep learning system behind it. And now suddenly the what comes out of the center of the reporting system, you can code, you can classify, you can detect, you do all kinds of stuff.
+
+00:34:08:09 - 00:34:33:25
+Unbekannt
+In short, you can analyze and you can predict. Right. And this is the way I'm describing it right now, you'll be like, yeah, duh. Obviously But you know what? This obviously thing is actually not at all obvious in terms of whether it'll help you find interesting applications or not. Okay. So here's something I literally saw last week. Okay.
+
+00:34:33:27 - 00:34:52:10
+Unbekannt
+Actually, I have another slide before that, but we're coming to that. So, for instance, every time you use face, unlock your phone. This is the basic principle at work, right? The camera and the iPhone is a sensor and they stuck a deep lens system behind it to do image classification. Right. Drama, non drama classifying. And so here, right.
+
+00:34:52:11 - 00:35:16:19
+Unbekannt
+You have a breast cancer the breast cancer detection system from a mammogram. by the way, this picture. So an interesting picture. So there's a professor in the US, Regina Barzilai was a very well known expert in this field, and she actually has built a breast cancer detection system which has just been deployed at Mass General Hospital. And it turns out she's actually a breast cancer survivor.
+
+00:35:16:21 - 00:35:40:18
+Unbekannt
+And she was no, she's she's she's good now. All good. But when after she built her system, I heard that she actually ran that system against the mammograms from many years prior when she went for a mammogram and was told that everything is fine. She ran the system on that mammogram and it came back, said, here's the problem.
+
+00:35:40:20 - 00:36:04:00
+Unbekannt
+So very interesting example. Better deploy system picked up something the radiologist could not right. So these things can be quite powerful. Obviously, any self-driving system has numerous deep learning algorithms running under the hood. You know, pedestrian detection, you know, stoplight detection, zebra crossing detection, so on and so forth. You know, it's being very heavily used in visual inspection manufacturing.
+
+00:36:04:02 - 00:36:26:14
+Unbekannt
+You have various cameras and I'm sure people are looking at saying, okay, there is a dent or there's a scratch. They have a little system which is a dent detector, scratch detector and so on that's going on right now. And now I come to the example I saw last week. But just so there's an example, if you could create dramatically better products, if you really internalize this idea of, okay, it's almost like you're looking at the world and saying, there's a sensor, can I?
+
+00:36:26:15 - 00:36:50:04
+Unbekannt
+That's a deal thing behind it. That's the way you should be looking at the world. Look for startup ideas. So here's an example. Okay? This apparently of the world's first smart binoculars. Okay, This is about two weeks ago, but you're not going to. But you look at the bird and now it tells you what kind of budget is right there.
+
+00:36:50:06 - 00:37:09:11
+Unbekannt
+It's a simple idea. But imagine. Right. Imagine you are the first out of the gate with this feature. You will have a little bit of an edge deliverable. It catches up like three months later. Let's be very clear. There are no long term monopoly windows in the world that only short term. And so the hunt is always on for the little monopoly window.
+
+00:37:09:13 - 00:37:36:26
+Unbekannt
+So here's an example of that. So I encourage you to always think about the world as, you know, where are the sensors here and can attach something behind the sensor to do something useful with it. Okay. All right. So let's go to attention to the output. You've been talking about structured data, unstructured data, and how deep learning has sort of unlocked the ability to work with unstructured data.
+
+00:37:37:01 - 00:37:58:12
+Unbekannt
+But you've sort of been neglecting the output side of the equation. So traditionally, we could predict single numbers or a few numbers pretty easily, right? So you've all done the canonical, you know, should this supposed to be given a loan application in machine learning? Right. So you just predict the probability that a borrower will repay a loan of a based on a whole bunch of data or supply chain?
+
+00:37:58:15 - 00:38:14:05
+Unbekannt
+You predict the demand for the product next week or you can predict a bunch of number. So given a given a picture, you can say, okay, does it which which one of the ten kinds of furniture is it right? You can predict ten numbers and probabilities that add up to one. You can predict a whole bunch of numbers that don't have to add up to one such the coordinates of a of an Uber.
+
+00:38:14:05 - 00:38:41:26
+Unbekannt
+Right. So these are all simple, unstructured, simple, structured, not just a few numbers. Right. What we could not do very was to actually generate pictures like this. We could not generate unstructured data. We could only consume unstructured data. Right. You couldn't generate text, You can generate pictures and so on, audio and so on and so forth. So but generally that problem has gone so generative is the ability to actually create unstructured data.
+
+00:38:41:28 - 00:39:06:07
+Unbekannt
+Right? And therefore it sits within deep learning. It still runs on deep learning, but it's just one kind of deep learning. Okay, There's plenty of stuff going on. A deep learning has got nothing to do with generative nowadays. Of course, you know, if you had a self-respecting entrepreneur once, right, Chris, you'll probably declare whatever you're doing is going to be like and some books may actually be relevant to you, who knows?
+
+00:39:06:09 - 00:39:24:23
+Unbekannt
+But the point is, there's plenty of stuff going on in deep planning that's got nothing to do with generative A.I., but this is the overall picture. Now, here we can produce unstructured outputs like pictures. You can take this thing and then you can actually come up with a nice picture description of it. This actually is a very famous picture, by the way, in the world of computer vision.
+
+00:39:24:23 - 00:39:48:07
+Unbekannt
+So we're actually going to be analyzing this picture a little later on in the semester. You can obviously go from a very complicated caption to an image. You can go from text to music to people. Yeah, yeah, yeah. So and of course we can go from text or text Egypt. And then as of a few months ago, things have gotten even more interesting.
+
+00:39:48:07 - 00:40:10:09
+Unbekannt
+But you can actually Google, you can send text and an imagine and you can get text out. Right. And in fact, as a few weeks ago, you can send text image, text, image, text. Imagine an arbitrary sequence into into the system and it'll actually come back to you with text and image. Right. So things are becoming multimodal and I just want to try to do a like a really fun example I saw recently.
+
+00:40:10:12 - 00:40:38:04
+Unbekannt
+So this person sends this picture. You can see this is very complicated parking site found in San Francisco and they're like, it's Wednesday at 4 p.m. Can I Baqir help me in one lane because you really didn't want Djibouti for it to be giving you a big essay about this, but you don't really want to park. So Djibouti four comes back and says, Yes, you can park here for up to one hour starting at 4 p.m. And folks, I double check this thing.
+
+00:40:38:04 - 00:40:59:28
+Unbekannt
+It's got to be all of these things are listening, right? Can you imagine getting a parking ticket and telling the judge, I'm sorry. I didn't realize I was hallucinating. So. So you had to double check it. So, yeah. So things are getting multi-modal very quickly. And so the picture here is that within Jenny, I used to have these separate circles, text or text text or image text to music text with this text or that, so on and so forth.
+
+00:41:00:01 - 00:41:25:12
+Unbekannt
+Those are all beginning to merge now. And suddenly, because multimodal models are going to become the norm this year. Right? We already have really good closed models. We really have we actually already have very good open source multimodal models. And so my feeling is that by the end of the year, the idea of using a text only model is going to be really you do that still, but it's going to become like a quaint, old fashioned thing, I think multimodal modality is going to become the norm.
+
+00:41:25:14 - 00:42:04:01
+Unbekannt
+So that's where the world is and this is the landscape. So any questions on the landscape before we actually start doing some math? Okay, yeah, it's not related to the landscape, but it's more related to the breast cancer question. So how did how did she know that it was evaluating correctly? Like there is a training that you can do when you go to the testing, which is based on the existing breast cancer samples, But he or she was taking the mammograms from past experience, but that is also which is probably a smaller version which was not there.
+
+00:42:04:03 - 00:42:27:03
+Unbekannt
+yeah, right. Like, I mean, there was evidence of that being a problem would have been smaller. Yeah. Yeah. So how do you know your model is trained enough that it can do correct interview correct answers. Right. Yeah. So I think the question is that in general, how do you train your model so that it gives you right answers given that over the passage of time, the amount of evidence in this data could be very highly variable?
+
+00:42:27:06 - 00:42:48:26
+Unbekannt
+So in this particular case of, you know, the professor I talked about everything at that point was going through an expert radiologist. So five years ago, this mammogram was seen by a radiologist and that person concluded there is no problem. So that was the training level, right? The wrong training level. So typically what happens is that training labels could be wrong some small fraction of the time.
+
+00:42:48:29 - 00:43:06:22
+Unbekannt
+So you need to have systems that are robust. So your data needs to be complete, it needs to be comprehensive, it needs to be correct. Labels, if these ideas are not met, your systems are not going to be that good. But as it turns out, with neural networks, even with some amount of noise in the labels, they still do a pretty good job, right?
+
+00:43:06:22 - 00:43:26:09
+Unbekannt
+So that's sort of the general ideas. So but there has to be some verification technique at the end. The verification comes from the human. So every remember, when we look at radiology data, the data we're looking with is the input of, let's say, an image like a radio mammogram or something, and then a human radiologist or a set of radiologists.
+
+00:43:26:09 - 00:43:55:03
+Unbekannt
+I've said this has a problem or does not have a problem. So that is called the ground truth. So it is this ground truth, image and label this combination that is being used to train these models. Yeah, well we'd be covering like embodiment and embodiment. So, so we're going to cover embodiment. So the, the embodiment here refers to the fact that if you have robot robots, right, they need to actually operate in the real world.
+
+00:43:55:03 - 00:44:17:03
+Unbekannt
+And so robots are an example of what's called embodied intelligence. So unfortunately, due to the constraints of time, you're not going to get into robotics at all. But I will say that a lot of the deep learning stuff you're going to talk about, those are all fundamental building blocks in modern robotic systems. All right. So so in summary, X and Y can be anything and it can be multimodal.
+
+00:44:17:05 - 00:44:40:12
+Unbekannt
+Okay. I literally could not have put up the slide maybe two years ago. Right. So it's very simple in how it looks, but it's very profound. You can learn a mapping anything to anything at this point, but easily as long as given up data. Okay, So now note that all this excitement that we see around us is everything stems from stems from deep learning, okay?
+
+00:44:40:15 - 00:45:03:13
+Unbekannt
+Everything. Everything depends on deep learning. And so if you understand deep learning, a lot of interesting things become possible. So let's get going. All right. So we'll start with the very basics. What's the neural network now? Recall logistic regression from back in the day. So what is logistic regression? You send in a bunch of numbers, a vector of numbers, and you can usually get a probability out right between zero and one.
+
+00:45:03:20 - 00:45:24:13
+Unbekannt
+What is the probability of something other? Okay. And so this logistic regression model is also represented in this form, you will recall. So basically what we do is we take all these numbers, we run it through a linear function, right? We run it through a linear function. You get a number and then we take the thing and run it through one divided by one, plus it is two minus that.
+
+00:45:24:16 - 00:45:54:10
+Unbekannt
+And that's guaranteed to give you a number between zero and one, which can be interpreted as a probability, and that's logistic regression. Okay. And the canonical, you know, low approvals, things like that all fall into this sort of convenient bucket. Okay, so this should be super familiar. All right. Now we're going to actually look at this, you know, simple, modest, humble little operation using the lens of a network of mathematical operations.
+
+00:45:54:10 - 00:46:19:01
+Unbekannt
+And the reason why we do it will become clear a bit later. So we'll take this very simple example where we have, let's say, two variables, GPA and experience, right? This is the GPA of some graduates, number of years of work experience. And then this is the dependent variable, which is either zero or one and zero. If they don't get called for an interview, one if they get called for an interview, okay, it's a two input variable.
+
+00:46:19:01 - 00:46:45:05
+Unbekannt
+One output variable problem. Okay. And it's a classification problem because we are classifying people into we they get called for interview, yes or no. Okay. And so that's the setup for this problem. And let's say that we actually run it through any you know, we actually try to fit a logistic regression model to it. So if you're familiar with or for example, you would use something like GLM to fit this model.
+
+00:46:45:08 - 00:47:04:27
+Unbekannt
+If you use something like stacks models in Python, there's a similar function for that cyclone. There's another function for it. You get the idea right? You can use whatever favorite methods you have for logistic regression modeling to get this job done and if you do that with this little dataset, you're going to get these coefficients right. The point forward is the intercept.
+
+00:47:05:03 - 00:47:26:06
+Unbekannt
+Point two is a coefficient of a 8.5 for experience, and that is a resulting sigmoid function. Okay. All right, cool. So now let's actually rewrite this formula as a network in the following way. So first what we'll do is we'll GP an experience and stick it here on the left side and we'll put the circles next to them and we'll call them the input nodes, Okay?
+
+00:47:26:08 - 00:47:48:29
+Unbekannt
+And so imagine that somebody puts the rights of GPA into the circle 3.5 or years, experience 2.0, and then it flows through the zero. And as it flows through, it gets multiplied by its coefficient point to the point it's coming from here. Similarly, experience gets multiplied by point five, it comes in here, and this node, as the plus indicates, is adding everything that's coming into it.
+
+00:47:49:02 - 00:48:15:03
+Unbekannt
+So it's adding point two times up 8.5 times experience, plus the intercept, which is the Green Arrow coming from on its own. It comes through here and what comes out of this is just a single number. And that number goes into this little circle and then out pops a probability. Okay, so I've sort of done this ridiculously long, long winded way of writing a simple function.
+
+00:48:15:05 - 00:48:39:03
+Unbekannt
+And the reason why I'm doing it is to become clear on the second. Okay, so this is a little network of operations for the simple function. And so, for instance, how you would use it is to make a prediction. Let's say someone has a 3.2 GPA and 1.2 is experience. You just plug it in here, do the math, you get .76, same thing here, comes in here, atom all up you get 1.76, you run 1.76.
+
+00:48:39:03 - 00:48:57:13
+Unbekannt
+Through the sigmoid, you get point at five. And that is the probability that that particular individual may get called for an interview. Okay. At this point, we're just doing let's take the question. Nothing more complicated. Okay. So now if you have many variables, not two variables like x one through x k, you can the same sort of logic applies.
+
+00:48:57:13 - 00:49:22:02
+Unbekannt
+Each one has some coefficient and then there's an intercept. They all get at it. A pure run through a sigmoid, not pops this number. Okay. Notice how the data flows from left to right. Okay. All right. Any questions on this? All right, good. So now the terminology. So you will actually you will discover that the world of neural networks and deep learning has its own terminology.
+
+00:49:22:04 - 00:49:40:01
+Unbekannt
+They have their own ways of referring to things that the rest of the world has been offering, using something else for the longest time. It's kind of annoying sometimes, but that's the way it is. So number regression, you used to call those numbers next to each radial as coefficients, and the constant thing is an intercept. Well, guess what?
+
+00:49:40:01 - 00:50:04:23
+Unbekannt
+In this world, these multiple those coefficients are actually called beats, and the interests are called biases. So in the neural network, well, these are called weights and biases. And sometimes if you're a little lazy, you can just call the whole thing as weights. Okay. So when you see in the newspaper that you know, my God, this amazing model's weeks have been leaked on the Internet or on BitTorrent or something, that's what's going on, right?
+
+00:50:04:23 - 00:50:38:03
+Unbekannt
+All of these coefficients are being leaked because once you know what the coefficients are and what the architecture is, you can just reconstruct the model. All right. So that's what's going on here. Now, why did we do this network business? Why did we write it as a network? What does it advantage? Any guesses? So when you have multiple functions going through the lookup, so it's just easier to see it that way, right?
+
+00:50:38:04 - 00:51:10:08
+Unbekannt
+If you have lots of things going on, it's easier to see it if you actually write it in graphical form. Yes, correct. But so is it only like a usability advantage? The the other thing is you want different functions for different layers of the network. Okay, so maybe we want to use different functions in different layers, but I think there's actually even a larger sort of a more basic point, which is that when the moment you write it down, you suddenly realize that I could have lots of things in the middle.
+
+00:51:10:11 - 00:51:28:23
+Unbekannt
+I don't have to go from the input output directly. I could do lots of things in the middle, right? That's sort of the key idea. So what you do is remember notion of learning representations of unstructured data, right? But you take a picture and say a big length and things like that, right? And remember I said deep learning actually automatically learns these.
+
+00:51:28:25 - 00:51:53:25
+Unbekannt
+There is that automatic learning coming from, well, this is where it's coming from. So what we do is we take this thing, there's just a logical regression model inputs get multiple are added up as a linear function, run through a sigmoid. And then we are like, if you want to learn representations of the raw input, we better be doing something in the middle here because the output is the output.
+
+00:51:53:27 - 00:52:12:02
+Unbekannt
+But that's not going to change. You know, it's either a dog or a cat. You don't have any choice as to what it is. Okay? The only agency you have at this point is you can take the raw input and do things in the middle with it. You can do a lot of stuff in the middle and then run it through something to get the output.
+
+00:52:12:05 - 00:52:36:25
+Unbekannt
+Okay. So in any in any mathematical discipline, if someone comes to you and says, here's a bunch of data, I want you to do something with it, what should the what is the the most basic first thing you should do? Run it through a linear function. The most basic thing in math is a linear function. So given everything, just run internally, see what happens.
+
+00:52:36:28 - 00:52:56:03
+Unbekannt
+So that's exactly what we can do. So the simplest thing we can do here, we can insert a bunch of linear functions. So we do this, we take all this input and we just run it. We do a linear function on it. So think of it this as x one times to plot x three times forward and all the way to scale times nine plus some intercept and boom, it goes out the other end.
+
+00:52:56:03 - 00:53:15:13
+Unbekannt
+So this little circle here with a plus in it is just like that. This is just a linear, it's a shorthand for a linear function. So whenever you see a circle to the plus, you're just a shorthand for it in the a function. Okay, So you can take this whole thing run through linear function, and when you do it, you'll get some number right?
+
+00:53:15:13 - 00:53:33:18
+Unbekannt
+Then you get some number. So you have taken these K numbers and you've sort of compressed them in some way into one number. Okay? But you don't have to stop at one number. You can do more. So we can have a stack of linear functions in the middle, right. There's a function here, another one here, another one here.
+
+00:53:33:20 - 00:53:57:15
+Unbekannt
+At this point, the K numbers you have K could be, for example, a thousand, right? It's just a slice of your input data. You're taking these key things and you have compressed them into three numbers at this point. Okay. So, okay, maybe three is the right number, maybe ten is right. We don't know and we'll get to well, how do you know what the right number is later so we can stack as many linear functions as we want.
+
+00:53:57:17 - 00:54:26:12
+Unbekannt
+So we have transformed the scary thing into a three dimensional vector that can almost become three numbers and know we can flow this three these three numbers through some other little function. And as you will see in a few minutes, that function is called an activation function. And it's chosen to be a nonlinear function because if you don't use it to be an orderly or function, all the effort you're doing is going to be a total waste of time.
+
+00:54:26:15 - 00:54:49:13
+Unbekannt
+Okay, for now, just take it on faith that you need to have nonlinear functions here. But note that the three numbers here are still three numbers. They are three different numbers, but they're still three numbers. And once we do this, we'll be like, you know what? This was fun. Let's do it again. Okay, So you can do it again and you can keep on doing it.
+
+00:54:49:13 - 00:55:07:17
+Unbekannt
+You can keep it a hundred times if you want. And the key thing is that every time you do it, you're giving this network some ability, some capacity to learn something interesting from the data, to learn and interesting representation. Now, of course, you're thinking, well, how do we know? It's interesting. How do you know it's a useful thing?
+
+00:55:07:23 - 00:55:24:23
+Unbekannt
+And we'll come to all that later on. We're just giving it the capacity, the potential to learn interesting things with the data within. It actually lives up to its potential. We don't know yet. Okay. We'll give it the potential because the more transformations of the input data you make, the more opportunity you have to do interesting things with it.
+
+00:55:24:25 - 00:55:46:03
+Unbekannt
+If we don't even give you the option to transform it once you don't have any opportunity. Right? If I give you ten chances to transform things, you have ten shots of doing something useful. So you can you can do that repeatedly. And once we are done doing these transformations, we just pipe it through our old logistic regression sigmoid here and we are done.
+
+00:55:46:05 - 00:56:08:05
+Unbekannt
+Okay, So this is the basic idea. And so just to contrast, this was good on logistic regression where we take the input, we run it through a linear function and pop out a number, a probability number. But after we do all the stuff, the input stays the same, the output stays the same. But in the middle you just run through a whole bunch of these functions, you know, these layers, boop, boop, boop, boop.
+
+00:56:08:05 - 00:56:45:18
+Unbekannt
+And then we get the output. Okay? That's all we have done. And this is a neural network. Neural network is nothing more than repeatedly transformed inputs which are finally fed to a linear or logistic regression model. Three questions A rhythm set of questions put to use so that everyone can hear. Yes, there are two questions. Firstly, so when we say that there is a challenge of explainability, is it that we don't know which arrow it went through?
+
+00:56:45:18 - 00:57:10:29
+Unbekannt
+That's one second. Who's controlling the number of iterations of the number of functions that's up to us, or how does that work? So yeah, so the first question Explainability, we actually know exactly for any given input input data at a point we know exactly how it flows with the network. So there is no problem that the problem isn't a scribe okay, this.
+
+00:57:11:01 - 00:57:34:24
+Unbekannt
+We think this person is going to be repay the loan because of this particular attribute. We don't know that because those attributes all get enmeshed together and go through this complicated thing. So we know exactly what happens. We just can't give credit to anyone. Thank you very easily. Again, I'm just standing on the brink of this vast ocean of something called explainability and interpretability, which I'll get to a bit later on in the semester.
+
+00:57:34:24 - 00:57:56:06
+Unbekannt
+But that's sort of the quick kind of right ish kind of wrong answer. Okay. Number two. So we decide the number of layers, we decide a whole bunch of things, and as we'll see in a few minutes, that is something that's given to us and something we get to design. And I'll make it very clear which is which Yeah, yeah, yeah.
+
+00:57:56:09 - 00:58:18:05
+Unbekannt
+So I wanted to know your name, right? Yeah. Okay. So which functions have to be linear and also like, why does it have to be linear? Yeah. So these functions, the F of X here, they have to be non-linear as to why they have to be non-linear. We'll get to that in a few minutes. Okay. So these are called neurons, okay?
+
+00:58:18:08 - 00:58:47:03
+Unbekannt
+These things value. Basically there's a linear function followed by a little nonlinear function, right? This is an each one of these things is called a neuron, by the way. You know, this is loosely inspired by the way how neurons work in a human in mammalian brains. But the connections between neuroscience and deep learning are very heavily argued. So I'm going to like, stay away from it.
+
+00:58:47:05 - 00:59:15:05
+Unbekannt
+Okay? Suffice it to say, it's I just think for for building practical, deep learning systems and industry, you're not hearing about this. Okay. All right. That's more terminology, this vertical stack of linear functions or neurons, right? This vertical stack is called a layer. This a layer. That's a layer. And these little nonlinear functions, which we haven't gotten to yet, are called activation functions.
+
+00:59:15:07 - 00:59:38:05
+Unbekannt
+And we'll get to why they are called that in just a second. And the input is called an input layer. And I have the word layer and double codes because like it's not really doing anything right, just the input. So what we call the input layer and what the very final thing that produce that output is called the output layer, right?
+
+00:59:38:05 - 00:59:59:22
+Unbekannt
+Obviously. And everything in the middle is called a hidden layer. Okay. So the final piece of terminology is that when you have a layer like this in which the three numbers are coming out and there's another another layer, right? If every neuron in this layer is connected to every neuron in this layer, it's called a fully connected or dense layer.
+
+00:59:59:25 - 01:00:18:27
+Unbekannt
+So for instance, here, this arrow, that's what one of a number is coming out. Let's say the number three is coming out of this thing here. That number three goes flows on this arrow to this thing, flows on this arrow to this neuron and flows on this third arrow to this noodle. That's what I mean. So every neuron, its output is being sent to every neuron in the following layer.
+
+01:00:19:04 - 01:00:44:02
+Unbekannt
+Okay, that's called fully connected or dense. And then if you look at logistic regression, there's just listing regression. You can see basically logistic regression is a neural network with no hidden layers. So in some sense, vertical action is like almost as simple as possible network you can think of with barely a neural network, right? It's got no hidden layers.
+
+01:00:44:04 - 01:01:09:19
+Unbekannt
+That's what makes it logistic regression. And so, as you would have guessed by now, deep learning is just neural networks with lots and lots of what? Yes, layers. So here are a few. And by the way, these are not even considered all that impressive. These. Okay. But I put them up because this this thing here, it's called risk net.
+
+01:01:09:21 - 01:01:35:11
+Unbekannt
+And it's famous because the risk net neural network was, I think, the first network to surpass human level performance and image classification. So it's sort of like the Skynet of image classification. Okay. It's surpassed human level performance. And I'm putting it up here because we will actually work with Resnick on Wednesday, next Wednesday. And we'll actually take Resnick will find doing it and solve a real problem in class.
+
+01:01:35:13 - 01:01:57:21
+Unbekannt
+All right. So it's got lots of lots of layers. Now let's turn to these activation functions. We've been ignoring these little guys, right, so far. So the activation function at a node is a first of all, it's a function that receives a single number and outputs a single number. Right? It's not very complicated, right? It receives basically this this is a linear function which receives all these inputs.
+
+01:01:57:26 - 01:02:22:28
+Unbekannt
+It could be done in 4000 inputs, runs it through a linear function, outputs a number, and that single number, a scalar goes in here and it comes out as another single number. Just, just remember that. And so these are some of the most common activation functions. In fact, the sigmoid we saw, which is actually be used for the output, is actually a kind of activation function where a single number comes in and it gets mapped into the code because of this thing.
+
+01:02:23:01 - 01:02:43:07
+Unbekannt
+So the single number that comes in is a and, and it gets transformed as one divided by one positive two minus AA. And you get a shape like this and this is called the sigmoid activation function. And as it can see here, for very small values, for very negative values, it's going to be pretty close to zero, meaning it won't get activated.
+
+01:02:43:10 - 01:03:07:16
+Unbekannt
+And for very, very large values, it's going to be pretty close to one. All the action happens in the middle when your values are similar to this range. There's a dramatic increases in what comes out. Okay. So little thing in the middle is a sweet spot for these functions. And this, you know, I'm also almost embarrassed to call it an activation function because it's really not doing anything.
+
+01:03:07:19 - 01:03:32:10
+Unbekannt
+It's sort of getting a nice label for free, right? You basically it says you just get a number, just pass it straight along. It's a linear activation function, but just sort of completeness. I want put it here and then we come to the Hedo of deep learning, which is the rectified linear unit, right? Rectified unit. It's called Réélu and really is going to become part of your vocabulary very, very quickly.
+
+01:03:32:13 - 01:03:51:25
+Unbekannt
+And so really it was actually a very interesting function. So you write it as a maximum of whatever number and zero, which is another way of saying if the number is positive, just send it along unchanged. If the number is negative, send a zero instead, squash it to zero. So which means if the number is negative, nothing happens.
+
+01:03:52:01 - 01:04:28:04
+Unbekannt
+If the number is positive, it picks up. So what happens is that you could have a very complicated linear function with millions of variables and then it puts a single number. And that number unfortunately happens to be negative. There really lose, not impressed. It's going to translate out. It's a very simple function and many, many folks who have been in planning for a long, long time believe that the use of the reloads is one of the key factors that led to the amazing success of play, because it's got some very interesting properties which we'll get to hopefully on Wednesday.
+
+01:04:28:06 - 01:04:48:01
+Unbekannt
+Okay. So the shorthand here is that whenever you see the thing, it's just a linear activation, linear function followed by just sending it straight out. If I, if you do this, if I put a value in here, I'm going to denote it like that, which mimics the graph, how it looks. And if I'm, if I put a sigmoid, I'm just going to use this thing here.
+
+01:04:48:04 - 01:05:10:23
+Unbekannt
+Okay? It's a visual shorthand. There are many other functions, activation functions, by the way, there's something called the tannic function, the leaky reload, the blue, the swish. I mean, it's like a menagerie of activation functions because very often researchers will be like, Well, I don't like this activation function. Here's a little modified version of the function which is going to be better for certain things.
+
+01:05:10:25 - 01:05:34:19
+Unbekannt
+So You know, people's research, creativity is sort of at this point has gone unhinged. So there's lots of options. But if you just stick to the realm for your hidden layers, you can basically get anything done practically, but you don't worry about anything else. So we'll only focus on release for all the intermediate stuff. Yeah, yeah. How do you gauge which activation function is more suited for the use case?
+
+01:05:34:22 - 01:05:56:17
+Unbekannt
+Yeah. So the rule of thumb here is that for your hidden layers, use values, right? Because empirically we have seen that they do an amazing job for your output layer. You're very final thing. You actually don't have a choice because what do you have to use depends on kind of output you have to work with. If it's an output, which is a probability number between zero and one, you have to use a sigmoid.
+
+01:05:56:19 - 01:06:20:18
+Unbekannt
+If it is say ten numbers, all of which have to be probabilities and they have to add up to one. You've got to use something called the soft max, which we'll get to on Wednesday. So it really depends on the output and the nature of the output dictates what to use normally. Okay. So coming back to this. So if you want to design a deep neural network, the input is the input, the output is the output.
+
+01:06:20:21 - 01:06:35:24
+Unbekannt
+And so you get to choose everything else. You get to choose the number of hidden layers, the number of neurons in each layer, the activation functions you're going to use and for the hidden layers. And then you have to make sure that the what you choose for the output layer matches the kind of output you want to generate.
+
+01:06:35:27 - 01:07:03:29
+Unbekannt
+Okay, So this is sort of this all in your hands. You decide what happens, but you will this a lot of guidance for how do these things which we should cover as we go along to the other question kind of but I guess I'll do it is is there also exploration and kind of dynamic setting of layers so that our user is predetermined, the amount of layers that the system itself is finding its own layers.
+
+01:07:04:01 - 01:07:27:21
+Unbekannt
+Yeah. So there's a whole field called neural architecture search and is where we can actually try a whole bunch of different architectures and then use some optimization and in fact reinforcement learning, which we won't get to in this class as a way to figure out really good architectures for any particular problem. But the, the question of, okay, but I'm training a model with a particular kind of data.
+
+01:07:27:23 - 01:07:55:21
+Unbekannt
+The first pass through the training gate, I'm going to use two layers. The second part, I'm going to do seven layers. That is not done. And the reason it's not done is because of certain other constraints we have and how we can do the the optimization, the gradient descent and stuff like that. But what you can do and we will look at this thing called dropout for certain layers, you can actually for each time you run it through the network, you can decide this layer, I'm not going to use all the nodes, I'm going to drop out a few of the nodes randomly.
+
+01:07:55:24 - 01:08:14:13
+Unbekannt
+And it's a very effective technique to prevent overfitting, and we'll come to that a little later on. Yeah. Got a one question regarding link. Like the neural networks, it's about the coefficients. Is the system going to decide its define its own or we have to use a define the coefficient sort of makes sense as to know the whole trick.
+
+01:08:14:16 - 01:08:34:06
+Unbekannt
+Yeah. The whole name of the game is we use the data, the training data and something called the loss function, which I'll get to on Wednesday, along with an optimization algorithm so that the network figures out by itself what the beats need to be, what the coefficients need to be, so as to minimize the prediction error. And that's the whole thing.
+
+01:08:34:08 - 01:08:55:27
+Unbekannt
+The magic here is that you don't have to do anything. You only have to set it up, sit back often for many hours and watch it, do its thing. Just one last question. You mentioned nodes just now when you were answering Berland question. Can you just confirm exactly what a node is? I have an idea that it's any circle, but you've just added a lot more detail.
+
+01:08:55:27 - 01:09:23:06
+Unbekannt
+I want to say you're not referring to a node. I'm literally referring to something like this, which think of it as a linear function followed by a nonlinear activation. So it is a bunch of inputs, runs it through a linear function and passes through like a relative or a sigmoid or something, and out pops a number. So in general, a node will have many numbers potentially coming in, but only one number going on know that one number may get copied to every node in the next layer.
+
+01:09:23:08 - 01:09:41:22
+Unbekannt
+But what comes out of that particular order is just a single number. All right. So so let's use a DNN for our interview example. So in this problem, we had two inputs, right? GPA and experience. The output variable has to be between zero and one because we try to predict the probability that someone gets called for an interview.
+
+01:09:41:24 - 01:10:07:21
+Unbekannt
+So the output size is fixed, the input size is fixed, output is fixed. And so since it's really only the very first network that actually playing with let's just talk simple, right? We just have one hidden layer and we'll have three neurons, right? And and as I mentioned to Tomaso this question from before, if you are choosing activation functions in the hidden layers, just go with it as a default.
+
+01:10:07:23 - 01:10:23:10
+Unbekannt
+It usually works really well out of the box. So we just use a relative. And since the output has to be between zero and one, we don't have a choice. We have to use a sigmoid for the output layer. Okay, that's it. So we have those was sort of design choices. And when we do that, this how it's looked like, right.
+
+01:10:23:11 - 01:11:01:02
+Unbekannt
+We have two inputs X one of next to an experience and then it goes through these three rails and then outcomes these three numbers and they pass through a segment and we get a probability y of that. All right, quick question. Concept check How many weights, how many parameters, what weights and biases does this network have? Let's take a moment to count.
+
+01:11:01:04 - 01:11:40:08
+Unbekannt
+All right. Any guesses? Yep, that's true. I think you're almost there. folks. Going to be doing a little research on this? No, Chris, is it nine? No, just 13? Yes. Very good. So that's 13. And my guess is that the reason you came up with 12 and I made the same mistake, that's. I know it is. So you probably forgot this green thing here, but so so what folks often forget is the bias that we all count the things.
+
+01:11:40:08 - 01:12:02:05
+Unbekannt
+Right. Okay. And the easy way to do this. Okay. Two things here. Three things They are two times x three, six, three times one is three, another nine. And then you have to add up all the intercepts, right? So you get 30. And so when we get to very complicated networks, the first two or three times, we work with very complex networks and we'll do it starting very soon.
+
+01:12:02:08 - 01:12:20:25
+Unbekannt
+Just get into the habit of hand, calculating the number of parameters just to make sure you understand what's going on. Once you get it right a couple of times, you don't do it anymore. Okay? The first couple of times can calculate to make sure you get it. Okay. So yeah, so let's say that we have trained this network using, you know, using techniques which we've covered on Wednesday.
+
+01:12:20:28 - 01:12:37:26
+Unbekannt
+And it, it, it comes back to you after training and say, okay, these are the optimal, the best values for the weights and the biases that I have found. So know your network is ready for action, is ready to be used. And so so what you can do is let's say that you want to predict for this network.
+
+01:12:37:28 - 01:13:07:09
+Unbekannt
+You know, if you have excellent next to what comes out of what. So what comes out of the stop neuron, let's call it A1. It's basically this. Okay that's what's coming out of this thing for any x one, an x to this is what's coming out similarly for A2 and A3. Okay. And then what comes out at the very end is basically A1 times that plus A2 times that, plus A3 times that plus point or FI, and the whole thing is run through the sigmoid and that's what you get.
+
+01:13:07:11 - 01:13:27:06
+Unbekannt
+Okay. So this slide and the one before, just make sure you look at it afterwards and to make sure you totally understand the mechanics of it because this is really important. If you don't if you don't fully understand, like internalize the mechanics, when we get to things like transformers, it's going to get hard. Okay? So just make sure it's like automatic at this point should be reflexive.
+
+01:13:27:08 - 01:13:48:25
+Unbekannt
+Okay? So yeah. And so when we want to predict anything, just run some numbers through it to get all these things and boom, you calculate it turns out to be 22.6. That's the answer. All right. So I just want to say that let's say that you built this network and now you're like, Hey, given any x one and x2, I can come up with a way, but I'm feeling a little mathy.
+
+01:13:48:28 - 01:14:15:26
+Unbekannt
+Can you actually write down the function? Yeah, you can write down the function. This is what it looks like. Super interpretable, right? So this goes to the comment that you made earlier on when the act of depicting something using this sort of graphical layout makes it so much easier to reason with and to think about compared to trying to figure out what this function is doing right.
+
+01:14:15:28 - 01:14:37:26
+Unbekannt
+The other point I want to make is that this contrast, what we just saw with the logistic regression thing we saw earlier, which is a little function. And so here even this simple network, we're just three hidden layers, three nodes in that single hidden layer, right? It's so much more complicated than the logistic regression model, so much more complicated.
+
+01:14:37:29 - 01:14:58:06
+Unbekannt
+Right. And you just from this complexity, springs the ability of these networks to basically magical things. But that's where the complexity comes from, that's where the magic comes from. So and here in this case, the number of variables has to do even changes slowly too. But we can go from the two inputs to the one output very complicated ways.
+
+01:14:58:14 - 01:15:15:15
+Unbekannt
+As long as we know how to train these networks the right way. That's sort of the magic, the secret sauce, which we'll spend a lot of time on. So, yeah, to summarize, this is what we have is a deep neural network, by the way, this kind of network where things just flow from left to right. It's called a feedforward neural network.
+
+01:15:15:18 - 01:15:37:20
+Unbekannt
+In contrast to some other kinds of networks called recurrent networks, which we won't get to in this class, because Transformers have actually proven to be much more capable than recurrent networks, and those have become the norm. So if you just focus on those instead. And so this arrangement of neurons into layers and activation functions and all that stuff that's called architecture of the neural network.
+
+01:15:37:22 - 01:16:02:21
+Unbekannt
+And as you will see later on the transformer, the famous transformer network is just an example of a particular neural network architecture, much like convolutional neural networks, which we'll get to next week with computer vision for another example of a particular network. Are you on what's it called, PowerPoint right now? Yeah. And it still wouldn't allow you to not look right.
+
+01:16:02:24 - 01:16:10:01
+Unbekannt
+So yeah, I have to look at it. So called when I'm after classical. Sure.
+
+01:16:10:03 - 01:16:33:05
+Unbekannt
+So. So yeah. So we will focus on Transformers, the other particular kind of architecture. All right. So in summary, that's what we have. You know, you get to choose the layers of the neurons, activation functions, stuff like that. Then the inputs and outputs are what you have to work with. And so we will actually take this idea and then use it to, to actually solve a problem from start to finish on Wednesday.
+
+01:16:33:08 - 01:18:43:12
+Unbekannt
+So I think I'm done. I'll give you 3 minutes back of your day. Thank you. Yeah, Yeah, I know. Drop the Yeah, yeah. Like, you know, my job. I'm really, really developing of people working, so it's like saying what's the corollary of not having.
+

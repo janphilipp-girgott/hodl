@@ -1,0 +1,776 @@
+00:00:00:00 - 00:00:20:23
+Unbekannt
+I read the code on for a few more seconds. yeah. That a really packed class today in terms of content. So I don't want to spend much more time with the code. Please put that in so that you don't have to go and hassle Evan later.
+
+00:00:20:26 - 00:01:11:12
+Unbekannt
+You know? yeah. All right. Going once. Twice. Yeah. Three. Okay. Do they hit you more or break this nicely? Okay. Welcome back. I hope you got a good couple of days. Just spring time is off to a nice start, but I'm really impressed that you're all showing up here. I'm actually for an 830 class, so I feel really great about that.
+
+00:01:11:12 - 00:01:34:05
+Unbekannt
+So it's wonderful because it gives me the motivation to show up here by 830. So thank you. Okay, so let's get going. Today we're going to talk about how do you actually train a neural network, Right? Because that is sort of the heart of the game here. So just to recap, we looked last class at what it takes to design a neural network.
+
+00:01:34:05 - 00:01:52:05
+Unbekannt
+And we made this very important distinction between the things that you are handed by your problem and the things that you have agency over that you have control over. And we noticed that, you know, the input layer for your problem, the input that they input, the output is the output. You got to do something with the output, something that's expected.
+
+00:01:52:11 - 00:02:17:05
+Unbekannt
+But everything that happens in the middle is actually in your hands. And in particular, we noticed that we have to decide how many hidden layers we want. We have to decide in each layer how many neurons to have, and then we had to decide what activation to use. Even though I'm kind of cheating when I say that, because I told you very clearly on Monday that for the hidden layer activation, let's just go with the real activation function.
+
+00:02:17:07 - 00:02:38:00
+Unbekannt
+You don't have to think deep thoughts about this. Okay, But the other things are choices you have to make. And we will talk a bit later about how do you actually make those choices. Okay. Now, the rule of thumb, right? The rule of thumb always is to start with the simplest network you can think of. And if it's if it gets the job done, stop working on it.
+
+00:02:38:03 - 00:02:59:19
+Unbekannt
+If it's not good enough, make it slightly more complicated. Okay. So that's sort of the, you know, like the meta thing you have to remember always when you're designing these things. Okay, So that's sort of, you know, what it takes to design a deep neural network. So what we will do in this class is I'll actually take a real example with real data, and then we will think through how we will design a network to solve this problem.
+
+00:02:59:21 - 00:03:28:06
+Unbekannt
+And while doing so, we will cover a whole bunch of conceptual foundations such as optimization, loss functions, beauty and dissent and all that good stuff. Okay. All right. So the the case study or the scenario here is we have a data set of patients made available by the Cleveland Clinic and essentially we have a bunch of patients. And for all these patients, the setting is that they have come into the Cleveland Clinic and they have not come in with a heart problem.
+
+00:03:28:06 - 00:03:46:16
+Unbekannt
+They have come in with something else. Maybe they just came in for a physical and we measured a whole bunch of things about them. Okay. And the kinds of things we measured or, you know, demographic information, like what's their age, gender, whether they have any chest pain at all when they came in, blood pressure, cholesterol, sugar, so on and so forth.
+
+00:03:46:19 - 00:04:13:25
+Unbekannt
+Right. You get the idea, demographic information and a bunch of biomarker information. And then what the Cleveland Clinic did was they actually tracked these people and figured out in the next year, did they get diagnosed with heart disease or not? Okay. In the next year, which means that maybe you can build a model when someone comes and even though they didn't come in for a chest problem, maybe you can predict that something is going to happen to them in the next year.
+
+00:04:13:27 - 00:04:32:21
+Unbekannt
+Right. It's a nice sort of classic machine learning setup. All right. So this is the thing. So what we want to do is we can totally solve this problem using decision trees. I mean, sorry, random photos and gradient boosting and all that good stuff you folks have already learned from machine learning, but we will try to solve it using neural networks.
+
+00:04:32:28 - 00:04:51:13
+Unbekannt
+Okay. This is an example, of course, of what's called structured data, because it's all data sitting in the columns of a spreadsheet, right? So working with structured data is the way we warm up our knowledge of neural networks, and then we will do things like working with unstructured data starting next week with images and then later on with text and so on and so forth.
+
+00:04:51:15 - 00:05:18:05
+Unbekannt
+Okay, Any questions on this? Just in. Okay. Yes, I'm just connected even to last time class. I we took the same example and first it was a logistic and then we did a neural network. So the probability in case a one was 1 to 5 then was going to do it here as well. How do you know when to use what Usually in textbooks, you know when to use logistic or when to use something else.
+
+00:05:18:05 - 00:05:41:17
+Unbekannt
+But in this case, when do I complicated it to neural networks of I have in this case, maybe just doing it. And it's a great question. When do you use what? So I think there are two broad dimensions that you ought to think about. One broad dimension is how important is it that you need to explain or interpret what's going on inside the model to perhaps a non-technical consumer?
+
+00:05:41:19 - 00:06:07:15
+Unbekannt
+The other dimension is how important is sheer predictive accuracy. In some situations, predictive accuracy trumps everything else, in which case just go with it. In other cases, Explainability becomes a big deal because if they can't understand, they won't use it. And in those cases it's probably better to go with simpler models such as decision trees. And I mean not your decision trees, maybe even random forests, certainly logistic regression, those are all a little more amenable.
+
+00:06:07:18 - 00:06:43:02
+Unbekannt
+But that said, even complex black box methods like neural networks, there is a whole field called mechanistic interpretability, which seeks to try to get insight into what's going on inside these big black boxes. So the story isn't over, Right? But that's just the first cut where you sort of analyze the problem. Okay, so let's get going. So if you want to design a network, just to notice, for example, the last class that I was always kind of on that site, so which meant that my back was to this group.
+
+00:06:43:05 - 00:07:01:04
+Unbekannt
+So I'm going to be biased myself. I tried to be on this side and the reason I was stuck on that side is because this light is blinding and it wasn't the case in default. So I don't know what's going on to be an upgrade. So anyway, so if I, if you find was I like being skewering too much once I just pointed out, okay, don't be bashful.
+
+00:07:01:07 - 00:07:18:01
+Unbekannt
+All right. So we designed the network. So we have to choose the number of hidden layers and the number of neurons in each layer. Then we had to pick the right output layer. So here what I did is the simplest thing I can do is, of course, is have no hidden layer. So if you have no hidden layers, what does that model call?
+
+00:07:18:04 - 00:07:39:08
+Unbekannt
+Just like Yes, logistic regression. Okay. So of course we wanted a neural network. So I'm going to have one hidden layer because that's so the simpler thing I can do. And then I'll confess, I tried a few different numbers of neurons in this thing, and then I had 16 neurons. It actually did pretty well. Okay, So there was some trial and error that went on before I learned of the number 16.
+
+00:07:39:10 - 00:07:56:03
+Unbekannt
+Right. And for some reason people always use powers of two. So we have to do that. So I tried like four, eight, 16 and six was really good. And it's turns out when I went above 16, it sort of started to do badly. And it started doing badly because something called overfitting, which we're going to talk about later.
+
+00:07:56:06 - 00:08:17:22
+Unbekannt
+Okay, So yeah, 16 And then by default, I used to lose. Okay, so €16 trillion. And then here the output is a categorical output, right? Heart disease, yes or no one or zero classification problems, which means that we want to omit a probability at the very end. Therefore, we will use a sigmoid. Okay, So so far, so good.
+
+00:08:17:22 - 00:08:42:20
+Unbekannt
+Right. Any questions? All right. So we're going to lay out this network visually. Okay. So we have an input. And so I just have an input. And as you will see here, x one through x 29, that's an input layer and you may be wondering 29 better to get that from because there doesn't seem to be like 29 ROSEA of independent variables.
+
+00:08:42:23 - 00:09:05:24
+Unbekannt
+So turns out there are only 13 input variables here, but some of them are categorical. So what I ended up doing is to take each categorical variable and one heart encode it. Okay? And when you do that, you get to 39 and 40, 29. All right? And when we actually do the cold later on, I'll show you exactly how I want got in and encoded it.
+
+00:09:06:00 - 00:09:28:10
+Unbekannt
+But that's what I'm doing here. That's why you have 29, not 13. Okay. Now, obviously, we have decided on this here on unit 16 units with nice reloads here. Okay. And then we have an output layer with a little sigmoid. And I got bored of trying to draw all these arrows. I just gave up. And so assume that our arrows look between all these things.
+
+00:09:28:12 - 00:10:08:15
+Unbekannt
+Good. Yeah. Yeah. Sorry. I think you already mentioned this, but why 16 units went up. I tried a bunch of different numbers of units and it's 16. The resulting model did well, so I just went with that. And the logic of why it's a real. why? Really? Yeah. So there's. There's just a mountain of empirical evidence that suggests that Realme is a really good default option for using us activations and hit unless there is also a really great set of theoretical results and a look to some of them When we actually talk about gradient descent, the yeah, sorry.
+
+00:10:08:15 - 00:10:36:15
+Unbekannt
+Key question you mentioned in the input layer, how, how did you get to 29 again when you got like 13 variables? So some of those 30 variables so categorical variables like cholesterol, low, medium high, right. And so I took them on one heart and quoted them. So if it had like five levels, I would get five columns. So yeah, and by the way, folks just like, like I yeah, just like, please use a microphone.
+
+00:10:36:18 - 00:10:59:00
+Unbekannt
+So the people on the like you can hear your question. Yeah, go ahead. Sorry, just one question. So the vectors, since we didn't represent them, are we assuming like every X is connected to all the units. Right. And this is also a parameter that we have to decide or that ends up being the default? Okay. And we would see deviations from that assumption when we go to image processing and language processing and so on.
+
+00:10:59:02 - 00:11:21:01
+Unbekannt
+But when you're working with structured data like we're doing now, that's okay, that's okay. So let's keep going. So that's what we have. So what? Remember when I told you that last class, whenever you're working with these networks, right, get into the habit of very quickly calculating the number of parameters right. Just do it a few times, the first few times so that you really know exactly what's going on.
+
+00:11:21:03 - 00:11:41:10
+Unbekannt
+Okay. So yeah, how many parameters do we have here? How many weights and biases you can work through it. Okay. You can. You can. You don't have to tell me the final number. You can say X times Y plus Z, stuff like that. Yeah, 65. You have 48 weights and 17 biases. Okay. And how did you come up with that?
+
+00:11:41:13 - 00:12:08:22
+Unbekannt
+So for two weights, you have like for the first layer, it's two times 16 and for the second dimension it's one times 16. And then the bases, the 16 hitting plus the outputs. Okay. Any other views on this? Go to 29 and to 16, 29, 29 into 16, and then succeeding to plus I mean 16 then. Yeah. And then biases 16 biases and one.
+
+00:12:08:24 - 00:12:36:00
+Unbekannt
+Correct. So the way it's going to work is we have 29 things here, 16 number two, so 29 and the 16 arrows. And then for each of these fellows, there is a bias coming in. So that's another 16 plus you have 16 times one which is here. Plus there is one bias for this one. So the total is 40, 97.
+
+00:12:36:02 - 00:12:57:06
+Unbekannt
+So you can see here there is something very interesting going on, which is that when you go from one layer to another layer, the number of weights is roughly on the order of eight times B the number of units. And so that's a dramatic explosion, the number of parameters. Right. And that's something we have to watch for later on to prevent overfitting.
+
+00:12:57:08 - 00:13:17:24
+Unbekannt
+Okay. That's where the explosion of parameters comes from, the fact that each layer is fully connected to the next layer. Okay. But we'll revisit this later on. Okay. So what I'm going to do now is I'm going to actually translate this network right now, one that we are laid out graphically into Cara's code to demonstrate how easy it is.
+
+00:13:17:26 - 00:13:34:28
+Unbekannt
+Okay. So I would give a fuller intro to Carrots and TensorFlow later on. But for now, just suspend your disbelief. Just try to do in Cara's eyes if you look at us. Okay, So let's try that later on. We'll get into all the gory details and train it and collab. And so on and so forth. Okay? All right.
+
+00:13:35:04 - 00:13:53:16
+Unbekannt
+So, so the, so the way we typically do it is that once we have a network like this, we typically start from the left and start defining each layer and cut us one after the other. So we flow left, right. Okay, so let's take the input layer. The way you define an input layer and cross is really easy.
+
+00:13:53:19 - 00:14:12:28
+Unbekannt
+You literally say, Get us that input, okay? And then you tell us how many nodes you have in the input coming in this case, it happens to be 29. So you tell it the shape shape equals 29. And the reason why we say a shape as opposed to length is because as you will see later on, we don't have to just send vectors in.
+
+00:14:13:00 - 00:14:31:03
+Unbekannt
+We can send complicated things and look at us. And those complicated objects could be matrices. It could be three D cubes, it could be four distances and so on and so forth. So you're expecting a shape, right? What does it's the shape of this thing you're going to send me. In this particular case, it happens to be a nice list or a vector, so it certainly might.
+
+00:14:31:06 - 00:14:56:04
+Unbekannt
+Okay, that's it. So we write this down. This creates the input layer, right? And we give it a name. Right. And the name here means this layer, whatever comes out of this layer has a name input. Okay, good. Next we the shape of the input, as I mentioned, render. Let me go to the next one. And here and we will unpack this.
+
+00:14:56:04 - 00:15:15:15
+Unbekannt
+The way you define here is typically a hidden layer character, layers, dot dense and all this stuff. Okay, so what this is, is it first of all, it says I want a dense layer. By layer I mean a layer that's going to fully connect to the prior and the later layers Fully connect. That's what the word dense means.
+
+00:15:15:17 - 00:15:48:13
+Unbekannt
+Okay. Number two, I want 16 nodes here in this layer. So finally, I want the user to see how compact and parsimonious it is. Right? And that is the appeal of carrots. It's very easy to get going. So the moment you do that, you actually define this layer. But what you have not done is you have not told this layer what input it's going to get, because as far as this layer is concerned, it doesn't know that this other layer exists.
+
+00:15:48:16 - 00:16:19:23
+Unbekannt
+So you need to connect them. Yes. Do we need to define for the reality where the bends are like where you take the max? The bend is always at zero. Okay. Thank you so. Okay. All right. So that's what we have here. And then what we do is we have to tell it. You want to feed this layer the output of the previous layer, so you feed it by taking whatever is coming out of this thing, which is called input.
+
+00:16:20:00 - 00:16:38:10
+Unbekannt
+And you basically stick it in here. So the moment you do that boom, it's going to receive the input from the previous layer. And because this once output needs to go to the final layer, you need to give a name to that output. So you give it a name. I'm just calling it H-4 because it's going to go to the hidden layer.
+
+00:16:38:13 - 00:16:59:16
+Unbekannt
+You're just a variable. You got anything you want. Now what we do is we go to the final output layer and this is what we use. The output layer is just another dense layer. That's why I use the word dense. But we say, Hey, give me just one thing because I just literally just need one unit here because I need to omit just one probability.
+
+00:16:59:19 - 00:17:23:04
+Unbekannt
+And the activation I want to use is a sigmoid done. Okay? And once you do that, you have to feed it the input from the second layer. So you stick on it, you know, are connected the third and the second layers. And after you do that, you give a name to the output coming out of that, we'll just call it output.
+
+00:17:23:10 - 00:17:50:27
+Unbekannt
+You can call it why, you can cut it out pretty quickly. What do you want? Okay. So at this point, what we have done is we have mapped that picture into those three lines. That's it. Okay. You know, but we are not quite done yet. There's one little thing we have to do. So what we have to do is we have to formally define a model so that CARAS can just work with this model object, it can train it, it can evaluate it, can use it for prediction and so on and so forth.
+
+00:17:51:02 - 00:18:11:22
+Unbekannt
+So we tell CARAS, Hey, create a model for me, character model and basically where the input is this thing here and the output of that thing there and then the whole thing will just call it model. Okay, so that's it, we are done. That is the whole model. That is it sounds really fancy. You write a neural model for heart disease prediction.
+
+00:18:11:25 - 00:18:39:10
+Unbekannt
+That's pretty cool lines. And we will show how to train this model with real data and so on and so forth and use it for prediction after we switch gears and really get into some conceptual building blocks, all your questions Can you define a custom activation function that is not in the list of Kirk's library? Yes. Yeah, you can define the question.
+
+00:18:39:10 - 00:19:07:11
+Unbekannt
+What's going to define a custom activation function? You totally can. In fact, I mean, the kind of flexibility you have here is incredible and this these innocent four lines, unfortunately, sort of hide the potential that's possible here. But I guarantee you in 2 to 3 weeks, you folks will be thinking and building blocks like Legos. So, you know, I'm so happy when it happens, sort of come to my offices and say, you know, I want to create a network, but I have a little network going up on top of one, going at the bottom.
+
+00:19:07:11 - 00:19:27:09
+Unbekannt
+Then they meet in the middle. Then they fought again. They split up like, unbelievable. It's fantastic. And you're going to be doing this into a guarantee you. TOMASO Yeah, in the case of a class classification problem or the output nodes equal to the number of classes, correct? So we will come to that. So this is binary classification, and the question is for multiclass classification.
+
+00:19:27:14 - 00:19:50:08
+Unbekannt
+Let's say you're trying to classify some input into one of ten possibilities. We will have ten outputs, but the way we define it is going to be using something called a soft max function, which we're going to cover on Monday. So for now, we just live with binary classification. Yes, a computer. Is there a default activation method in class or you have to put something?
+
+00:19:50:15 - 00:20:12:12
+Unbekannt
+that's a good question. I believe the default might be rules for hidden layers, but I'm not hundred percent sure it's double check that. Yeah, I'm still just to get a clear understanding when you said that beyond 16 when you tried working on those neurons that performance worsened. That is where you were playing around with initially two and then maybe four and six and eight.
+
+00:20:12:18 - 00:20:33:25
+Unbekannt
+Exact. Right. I mean, you could use them. Yeah. Do we need to define each of the hidden layer one? The model gets more complex when we have more than one layer is zero. Feel like 25 consolidated. Yeah, yeah, yeah. So what we took typically good question. If you had let's say 100 layers, right, do you actually write 100 type in each by hand and cut and paste.
+
+00:20:33:28 - 00:20:53:20
+Unbekannt
+No. You can actually write a little loop, you just automatically create them for you. And so basically what's going on is that this little output thing you see here, this variable, this output could be the result of a thousand layered network with all sorts of complicated transformations going on, and that finally it pops up as a little thing called the output.
+
+00:20:53:22 - 00:21:11:08
+Unbekannt
+And what cross will do is it'll be like, okay, this model has this input and has this output. But boy, this output came from incredible transformations applied to the input and can also process all that very easily for you. Don't worry about it. Right. It's really a beautiful example of the power of abstraction. You will see that as we go along.
+
+00:21:11:10 - 00:21:35:15
+Unbekannt
+Okay, so now let's switch gears and say once you've written a model like that and cross, how do you actually train it? Okay, now training is something you've been doing a lot, right? So for example, when you have something like linear regression, right, where you have all these coefficients, you need to estimate you had this model, then you have a bunch of data, then you run it through something like Elm if you use are and what it gives you is actual values for those coefficients, right?
+
+00:21:35:15 - 00:21:55:08
+Unbekannt
+2.8.9 and so on and so forth. So the, the role of the data is to give you the coefficients, or you can think of the coefficients as really a compressed version of the data. Okay. Similarly, if you do logistic regression, you have a model like that, you add some data, you run it through some estimation routine like genome or secret learn or stats.
+
+00:21:55:08 - 00:22:22:15
+Unbekannt
+Models pick your favorite tool, then you'll come up with something like that. So basically what's going on here is training simply means find the values of the coefficients that sort of the model's predictions or as close to the actual values as possible. That's it. Okay. And so and to find the one that is as close to the actual value as possible, a whole bunch of optimization as well, you don't have to worry about optimization when you do regression, linear or logistic, because it's all done under the hood for you.
+
+00:22:22:22 - 00:22:43:21
+Unbekannt
+But for neural networks, we'll actually get to know how it's done. Okay, Because it's important. Okay, so training a neural network, a deep neural network you in jeopardy for? It's basically the same process as what you do for regression, right? You basically you're just a very complicated function with lots of parameters, but ultimately, you have a network with all these question marks.
+
+00:22:43:21 - 00:23:13:15
+Unbekannt
+You add some data, you do some training, and boom, you get some numbers. Jackson Okay, you may get into this, but are we determining the architecture of the network before we train it? Okay. Yes, because if you don't define the architecture, CARAS doesn't know how to actually calculate the output given an input. And unless it knows input output pairs, it can't do anything more with.
+
+00:23:13:17 - 00:23:38:12
+Unbekannt
+Okay. So, so the essence of training is to find the best values for the weights and biases. Can the baby think of the best values? Is that we basically set up a little function and this function measures the discrepancy between the actual and the predicted values. Okay. And it used the word discrepancy because if you define the discrepancy, there's incredible amounts of creativity in the field.
+
+00:23:38:15 - 00:23:55:01
+Unbekannt
+In fact, a lot of breakthroughs in deep learning come because people define a very clever measure of discrepancy. And then it turns out it actually gives you all sorts of interesting behavior. Okay. That's why use the word discrepancy as opposed to the word error. Because when I say error, you might be just thinking of something like predicted minus actual.
+
+00:23:55:04 - 00:24:20:01
+Unbekannt
+That's too limiting. Okay. Prediction one is actually it's too limiting. That's why we use the word discrepancy. So so we basically define a function that captures the discrepancy between the actual empirical values. And these functions are called loss functions in the deep learning world. And every paper that you read you will find interesting lost functions that are hundreds of lost functions, enormous research, creativity goes into defining these lost functions.
+
+00:24:20:03 - 00:24:44:01
+Unbekannt
+Okay. All right. So these are lost functions. And so a lost function is a function that quantifies this discrepancy. So let's say the predictions are really close to the actual values. The loss would be what terms to zero? Close to zero, right? Very small. And if you have a perfect model, perfect crystal ball, what would the loss be, exactly?
+
+00:24:44:01 - 00:25:05:24
+Unbekannt
+Zero. Right. Exactly zero. So linear regression with the loss function we use is called sum of squared arrows. We didn't call it loss function because we were not doing deep learning, just linear regression. But that's basically the lost function, right? So the loss function we use must be very matched very properly with the kind of output we have.
+
+00:25:05:26 - 00:25:30:18
+Unbekannt
+Right? So if your output is a number like 23, right, you're trying to predict demand like a product demand for next week for a particular product and the predicted value is 23, the actual value is 21. It's okay to do 23 -21 two as the discrepancy. Right. The error. Okay. But for other kinds of outputs, it's not so obvious what the correct loss function is, what the correct measure of discrepancy is.
+
+00:25:30:20 - 00:25:59:01
+Unbekannt
+And so here for the simple cases regression, right? The way I the I here, by the way, is a superscript which stands for the EIT data point, the eighth data point. So what I'm saying is that okay, for the eighth data point, this is the actual value y and this is what the model predicted. Okay, I take the difference squared and once they squared for each point, I just average all these numbers to get an average squared error.
+
+00:25:59:01 - 00:26:23:00
+Unbekannt
+I mean squared error MSE So this is sort of like the easiest lost function. Now let's crank it up a notch to heart disease. Example the heart disease, the neural prediction model. The prediction is a number between zero and one, right? It's because it's coming out of the sigmoid, it's a fraction. The actual output is a zero or one.
+
+00:26:23:03 - 00:26:45:07
+Unbekannt
+One of the two, right, is binary. So how would we compare the discrepancy? How would you measure the discrepancy between a fraction and the number? Zero and one? Right. What is a good loss function in the situation? Right, is the key question. So let's put some intuition around this and let's see if my little daisy chain iPad thing works.
+
+00:26:45:09 - 00:27:09:16
+Unbekannt
+I'm doing an iPad, so the people on the livestream can see it. Otherwise the blackboard is a little tough for them. Okay, So let's have a situation here. Brilliant. All right. Okay. So let's say let's say that you have a patient who comes in and let's say they have heart disease. Okay? So for that patient Y equals one, right?
+
+00:27:09:16 - 00:27:36:21
+Unbekannt
+The true value is one for that patient. And now you have this model. Okay. And this is the predicted probability from this model. And people see my handwriting. Okay. But I've never been a doctor. Right? So zero. Okay. One, it's going to be between zero and one because of probability. And then this is the loss we want instead of half.
+
+00:27:36:23 - 00:28:01:00
+Unbekannt
+Right? Does the loss. So for this, this patient actually had heart disease. Y equals one. So let's say that the predicted probability is pretty close to one. Okay. What do you think the loss should be? Small. So small. Sorry. Plus close to zero. Exactly. So here, if the prediction comes here, you want the loss to be you want the loss to be somewhere here.
+
+00:28:01:02 - 00:28:22:27
+Unbekannt
+But if the predicted probability is pretty close to zero, even though the patient actually has heart disease, what do you want the loss to be Really high because it's screwing a badly, right? So you want the loss to be somewhere here. So basically you want a function that's kind of like that, right? You want the lost function shape to be like that.
+
+00:28:22:29 - 00:28:42:12
+Unbekannt
+High values of probability should have low losses. Low values probably should have high losses. Yeah, I understand. Like for us to be increasing precision within a three. Yeah. So it can be linear, it can certainly be linear, but basically what you want to do is the more it makes a mistake, the more harshly you want to penalize it.
+
+00:28:42:15 - 00:29:00:24
+Unbekannt
+Right. So basically what your what you really wanted something where if it basically says this person's probability is say the probability, the predicted probability, say one over a million, basically zero, you want the loss to be like super high so that the model is like it's like a huge rap on the knuckles for the model. Don't do that.
+
+00:29:00:27 - 00:29:23:08
+Unbekannt
+That's basically what we're doing. And I'm sort of demonstrating that dynamic by using a very curb and steep loss function. But you can absolutely use a linear function. It's totally fine. It won't be as effective for gradient descent later on before a bunch of technical details of you go with this. All right. So now let's look at the case where a patient does not have heart disease.
+
+00:29:23:10 - 00:29:54:04
+Unbekannt
+Y equals zero. Seems set up. Okay. Predicted probability zero one loss. So for this patient, they don't have whatever they're not they don't have heart disease. If the probability is close to zero, what should the loss be? Well, so zero should be somewhere here, Right. And the more and more the probability gets closer and closer to one. You want to penalize it very heavily, which means you want the loss to be somewhere here.
+
+00:29:54:07 - 00:30:24:25
+Unbekannt
+So you basically want a loss. Ideally that's kind of going up like that and climbing higher and higher. Just be good. Okay, perfect. Because we have a perfect loss function for that. So let's recap right this what we want people with four points with y equals one lower prediction predictions have higher loss. You want something like that and then turns out is a very little simple lost function which just literally just uses the logarithm.
+
+00:30:24:28 - 00:30:43:02
+Unbekannt
+We should get the job done. So what you do is you literally do minus log of that predicted probability. That's it. And that thing has exactly that shape. Okay. And in fact, you can see it numerically. So if the loss is one, it's zero. If it's half, it's 1.0. And if it's like one over 2000, it's almost ten.
+
+00:30:43:04 - 00:31:08:09
+Unbekannt
+If it's one over ten, those is going to be much higher, very high losses. Okay. So minus log probability book done. Similarly, this is what we want for patients for whom Y equals zero. And it turns out if you do minus log one minus predicted probability, it does the same thing. Okay.
+
+00:31:08:11 - 00:31:27:10
+Unbekannt
+Mathematicians once again saved by the logarithm. So so in summary, this is what we have, right for data points with y equals one. We have this data points of zero. We have this, but it feels a little inelegant to say, well, if it's y equals one, I want to use this. If I concede, I want to use that right.
+
+00:31:27:12 - 00:31:47:15
+Unbekannt
+This this like an if then thing going on here and I don't know about you folks, but if that really irks me mathematically because you can't do derivatives and so on very easily. Okay. But nowhere is this it might, you know, we have a bag of metrics. So what we do is we can actually combine them both into a single expression.
+
+00:31:47:17 - 00:32:09:15
+Unbekannt
+Okay, Like this. Okay. And here the Y again is the eighth data point. Remember, Y is either one or zero always. And this model of X is the predicted probability. Okay, so and I've just taken the minus log. The minus, and I've just moved it here. Okay. And I've taken the, the minus the plus here and just moved it here.
+
+00:32:09:17 - 00:32:27:16
+Unbekannt
+Okay. That's why you see it like this. So this one is basically you can convince yourself what happens. The single expression will get the job done. So let's say there is a patient for whom Y equals one. What's going to happen is that when you plug in Y equals one, this becomes zero. The whole thing will collapse to zero.
+
+00:32:27:18 - 00:32:56:10
+Unbekannt
+While here y equals one just means it becomes minus log probability, which is what we want. Conversely, if y equals zero, this whole thing is going to disappear and this thing becomes one -0, which is just one. And so it becomes minus log one minus probability, which is again what you want, simple and neat, right? So in one expression, we have defined the perfect loss more then none of that crap.
+
+00:32:56:12 - 00:33:23:07
+Unbekannt
+Good. So now what we do is that what's true for every data point. But we obviously have lots of data points, so we just add them all up and take the average. That's the average across all the data points we have so that we get an average loss. Okay. And lo and behold, this is the binary constant to be lost function.
+
+00:33:23:10 - 00:33:48:01
+Unbekannt
+Is there a way you can edit the lost function so that you penalize like false negatives more strongly than false positive? You can do all of that. Great question. I'm just looking at the basic case where it's symmetric. You can actually penalize overestimates of much more than underestimates and things like that. And if you're curious, you can just Google something called the pinball loss.
+
+00:33:48:03 - 00:34:09:16
+Unbekannt
+Okay. Any of other questions on this? So when you see this massive deep neural network built by Google for doing something or other, if it's a binary classification problem, chances are they're using this thing. Okay. All right. So now let's figure out how to minimize these loss functions because the name of the game is to find a way to minimize these lost functions.
+
+00:34:09:18 - 00:34:39:12
+Unbekannt
+So now lost functions are just a particular kind of function. So we'll first consider the general problem of minimizing some arbitrary function. Okay. And once we develop a little bit of intuition about that, we'll return to the specific task of minimizing lost functions. Okay. What was everyone doing? Just no good. But so what do you have a bit of a look into head.
+
+00:34:39:14 - 00:34:57:12
+Unbekannt
+It's more like I kind of lost you where you said that the lost function and the predicted probability. how were they? Inversely, Because the understanding was that the lost function is supposed to be the sum of errors that averaging the errors. And when you said I'm sorry, sorry, let me let stop there for a second for each pointer to find the loss.
+
+00:34:57:14 - 00:35:18:21
+Unbekannt
+That's the whole point of the game. And once you define it, you copied for every point and average, right? So just focus on a single data point. And so not going to do so now when the heart patient has there is more probability that they know. So when there is a person who has the heart disease, you said that you want the lost function to be high.
+
+00:35:18:23 - 00:35:37:25
+Unbekannt
+I think I'm going back to the graph. You want the lost function to be high. If I'm predicting that they basically don't have heart disease, if the prediction is close to zero, the predictor probably is close to zero, then I'm badly wrong because in reality they do have heart disease and that's why I want the loss to be really high.
+
+00:35:37:27 - 00:36:00:29
+Unbekannt
+Okay. So effectively losses my way of finding out how good my model is instead of saying okay, but rather how bad your models. Yeah, right. How bad is it? That's really what the lost function is. Correct. You want to minimize badness. What point to optimization? Okay, I guess I don't have a fully similar to the point raised before.
+
+00:36:00:29 - 00:36:22:19
+Unbekannt
+I didn't have a fully clear intuition of why exactly a log function rather than something that say a lot of small and then really state later. Those are all fantastic things. You can totally do it. The reason we pick the loss though, this function because A is easy to work with, it has good gradients, it's well behaved mathematically, but there are many alternatives to it.
+
+00:36:22:21 - 00:36:45:24
+Unbekannt
+I don't want you to think that this is the only game in town or it's the only choice for us. So we have many choices. This is really this happens to be a very easy choice, which also happens to be empirically very effective. And I'm happy to give you pointers to other crazy lost functions. Right. Which can actually do all these things to okay.
+
+00:36:45:26 - 00:37:11:06
+Unbekannt
+All right. So minimizing a single variable function, we will warm up by looking at this little function here. Okay. Which is a what do you call a fourth bubble quantity, right? Yeah. Thank you. 40. So, yeah, it's aquatic functions, right? And this is what it looks like. But you can see there is like a minimum summit here, right between like one minus one and minus two, maybe maybe -1.5.
+
+00:37:11:08 - 00:37:34:25
+Unbekannt
+Okay. So we want to minimize this function. It's obviously a type function, a little function with one variable. But the intuition we use here is going to be exactly what we use what you for. So. So how can we go about minimizing this function? What would we do? Yeah, take the derivative instead of equal to zero. You take the derivative.
+
+00:37:34:28 - 00:37:55:03
+Unbekannt
+Exactly. So you take the derivative. Right. So. So look at what the derivative does for us. But then the second part of what Anton said. Anton, Right. Yeah. Second part of what Anton said was set it to zero. Setting it to zero becomes problematic when you have very complicated functions. It's not clear at all what's going to make them zero, right?
+
+00:37:55:03 - 00:38:14:20
+Unbekannt
+Unfortunately. But the idea of dignity is fact, the right idea. So we can go about this, we can come to a derivative, and that actually happens to be the derivative you can convince yourself. And if you plot a derivative, it looks like that. And as you would hope, but the minimum is in fact that is crossing that kind of a zero here.
+
+00:38:14:20 - 00:38:33:00
+Unbekannt
+It's crossing the x axis right in this case, you can actually do that. So let's say you have the derivative. How can you use it? Like what is the value of a derivative? What does it tell you? Yeah. Do you use a gradient descent algorithm? You are ten steps ahead of me and my friend. I just wanted a basic answer.
+
+00:38:33:03 - 00:38:50:20
+Unbekannt
+So what? What? What good does it do? What? What does it tell you when you captivate or something? Or the particular it tells you the rate of change of the function at the place. You are exactly right. So here what the derivative tells us is that the slope does is a change in the function for a very small increase in W.
+
+00:38:50:22 - 00:39:14:20
+Unbekannt
+Right. And this is high school calculus. I'm just doing a quick refresher. So what that means is that if the derivative is positive, what that means is that increasing w slightly will increase the function. So if you're here you calculate the the slope is positive, which means that if you go slightly in this direction, the function is going to get higher right?
+
+00:39:14:22 - 00:39:41:06
+Unbekannt
+Similarly, if it's negative, let's say here you calculate the slope is like this. It's negative, which means that if you increase w if you go in this direction, you're going to decrease the function. Okay. All right. And if it's kind of close to zero, it means a changing w slightly. It won't change anything. So if you're here changing it slightly, one everything all right?
+
+00:39:41:08 - 00:40:08:04
+Unbekannt
+That's it. So, so what we do is this immediately suggests an algorithm for minimizing GW, which is let's start with some random point W and then let's cut that a little bit at that point and once we do that, there are three possibilities. You could be positive or negative or kind of close to zero. And if it's positive, we know that increasing W will increase the function, but we want to decrease the function.
+
+00:40:08:05 - 00:40:31:27
+Unbekannt
+We want to minimize it, which means that we should not be increasing w we should be doing what here? Yes. And similarly, if it's negative, what should we do here is exactly. So in the first case you reduce w slightly, the second gives you increase w slightly. And if the thing is close to zero, you just stop because anything else you can do.
+
+00:40:31:29 - 00:40:56:00
+Unbekannt
+Okay, So this is the basic intuition behind how Betty Ford was booked, which is kind of shocking if you think about it right? Which means that all the the heavy duty optimization stuff that people have figured out over the decades is kind of not used, Right. This algorithm is, what's being used with some, you know, flavors on top of it.
+
+00:40:56:02 - 00:41:23:21
+Unbekannt
+So yeah, so back to this and you do that and then if you sort of run out of time or compute or right, if you run out of time and so on, just stop. Otherwise just go back to stuff, Don't try again. Of course, if it's closest, then you got to stop anyway. Yeah. Rolanda, Is there the concern of a potentially local minimum there coming.
+
+00:41:23:23 - 00:41:59:03
+Unbekannt
+Okay, so that's the functions it's going to be. It's got to find you some point. But if it was kind of close to zero. Okay, so this is called gradient descent, right? This is really in descent, this little algorithm and this this very power point. The NBA table can be collapsed into this little expression, basically says the derivative multiplied by a small number, which we'll get to in a second and then change the all W to the new W is the all W minus a little number times a gradient.
+
+00:41:59:05 - 00:42:36:02
+Unbekannt
+So this little one line formula is basically gradient descent. Okay And what you should do just to build your intuition is to make sure that these three possibilities here mapped nicely to this. Like this thing that actually these three possibilities in a gradient descent was invented. You it has some historical foundry, but here in 19th century, 19th century York.
+
+00:42:36:05 - 00:43:10:08
+Unbekannt
+Good. Very good. Excellent guess. 1847 it was invented in 1847 by Koshy, the great mathematician. And in fact, if you're curious, you can check out the paper I have I gave you. Give you the paper here for handy reference. Okay. So 1847 So Geometry four is built using an algorithm in Merton, 1847, which I find like astonishing. Frankly, this little thing is so capable.
+
+00:43:10:10 - 00:43:38:15
+Unbekannt
+Okay, so that's gradient descent. And this little number alpha is called the learning rate. And it's our way of sort of essentially quantifying the idea of let's not increase or decrease w massively, let's do it slightly because gradient is only valid for small moments around your point. If you take a big step, all bets are off. So this alpha tells you how small a step should you take.
+
+00:43:38:17 - 00:44:02:07
+Unbekannt
+Okay. And typically you'd set the very small values like, you know, point one, .01 and so on and so forth. And in fact, if you read any deep learning academic papers where they've trained like a big model to do something right, a lot of researchers will very quickly go to the appendix where they have described exactly what learning rates were used, because sort of the learning rate is like part of the AP for how it's built.
+
+00:44:02:09 - 00:44:23:19
+Unbekannt
+Okay. There's a lot of trial and error that goes into these learning rates. Okay. So that is gradient descent. So if we apply this algorithm to GW or original function, right, we just keep on doing this thing a few times. But what you will find is that if let's say you start with two point, the, the point we randomly pick is 2.5.
+
+00:44:23:21 - 00:44:42:20
+Unbekannt
+We set the alpha, the one we had on this algorithm. It starts here, then it goes there, it goes above, and then finally ends up here in like four or five vibrations to find some minimum. Okay. This obviously a very simple, well-behaved, nice little function. So you can easily optimize it. Okay. If you want, you can just go to this thing.
+
+00:44:42:20 - 00:45:02:23
+Unbekannt
+There's a length animation of this thing as well. Okay. So now, all right, before we actually go to the multivariable function, I want to go to the question that we learned a couple. So what local minimum? Actually, you know what? I think, I may have some slides on it, so I'll come back to this. So let's actually see what what we looked at it for example, there was only one variable.
+
+00:45:02:26 - 00:45:28:22
+Unbekannt
+What if you have what if it was 83, GBP three has 175 billion parameters? What if a billion and GBP four, they haven't published it, So we don't know. It's supposed to be eight times as much. Okay. So I mean the number of parameters is massive. So basically our loss function has billions of variables, billions of WS that we need to optimize over, minimize over.
+
+00:45:28:25 - 00:45:54:03
+Unbekannt
+So we need to use this notion of a partial derivative. So let's take baby steps and say, okay, what if you have a two variable function, right? Something like this, Very simple. So what we can do is we can calculate the partial derivative of G with respect to each of these W's and the partial derivative. Just to quickly refresh your memories is you take a function, you pretend that everything other than W is a constant.
+
+00:45:54:05 - 00:46:15:15
+Unbekannt
+Then the function becomes a function of just one variable ww1, and then you just differentiate it like you do everything else you get. You get something and that is this thing here. And then you do the same thing for W2. You get this thing here and then you just stack them up in a nice list. Okay, this is a vector of partial derivatives.
+
+00:46:15:17 - 00:46:53:21
+Unbekannt
+So how should we interpret this the same way as before? Basically for a small change in w one keeping w two when everything is fixed, how does the function change if you change just w one slightly? And similarly for W2 and all the way to w one sounds familiar, it's the same thing. Okay. So now when you have these functions with many variables, many W's, since we have a gradient for each one of those W's, we stacked them up into a nice vector of derivatives, and this vector is called the gradient, and it's denoted using this.
+
+00:46:53:24 - 00:47:25:17
+Unbekannt
+Anyone know what the symbol is called? De Blasio Maybe. Maybe that's a synonym. But the one I'm familiar with this nublar a delta is the one that's upside down triangle. But I think the upside down triangle is called NAMBLA, if I remember, if I recall. Am I right? Evan, Thank you. It's my go to. So yeah. So the gradient, you just called it the gradient and it's written as this.
+
+00:47:25:19 - 00:47:53:21
+Unbekannt
+All right. So what we do is we simply do gradient descent on every one of the WS using its partial derivative. Okay, So in a gradient step, we update w one using this formula, W2 using this formula. Finished. We've just generalized gradient descent to an arbitrary number of variables. So and of course, as before, this can be summarized compactly as this vector formula.
+
+00:47:53:24 - 00:48:49:05
+Unbekannt
+Let us do this. So what's going on here is that you have w one or w one minus alpha times the function g of the blue one, then W two minus alpha you've got two. And then all we are doing is we're just stacking them up into a vector in that minus alpha and this vector just like that.
+
+00:48:49:08 - 00:49:15:16
+Unbekannt
+So this can be written as just this vector w the new vector or vector minus alpha and the gradient finished and you can see if it is, you know, GBP three, this vector is going to be one sun, 5 billion long. Okay. But there is two or 175 billion who. So it's the same thing, right? Okay, So yeah, so let's what do we have here?
+
+00:49:15:23 - 00:49:31:20
+Unbekannt
+I'm really thrilled by the way, this whole iPad business is working out, so I was a little worried about it. Okay, So if you look at two dimensions, this function and if you actually look at if you plot the function, this is w the first W the second W, and then this is actually the last function. That's the function.
+
+00:49:31:20 - 00:49:51:21
+Unbekannt
+GW And so you're trying to find the minimum here. And so that's how to get it into simple to do in progress if starting from this point. Or you can also sort of look at it from up top down into the function and that's what this picture this and it shows gradient descent starting from there and working its way down from here all the way to center.
+
+00:49:51:23 - 00:50:19:12
+Unbekannt
+Okay, So, all right, look up. So now gradient descent will just stop near hopefully a minimum. Right? But the problem is it may not be a global minimum. It will be it may not even be a minimum. So, so let's see what what I'm talking about here. Here are some possibilities. So let's take a simple function. Okay, Let's see.
+
+00:50:19:14 - 00:51:04:17
+Unbekannt
+This is GW. This is W, and turns out this function is actually looks like this. So you can see here. Well, this point this point here is a local minimum. This is a local minimum. A local minimum. These are all lots of local minimum here. Okay. And yeah, there's a lot of local minimum here too. So these are all places in which the derivative is going to be zero.
+
+00:51:04:19 - 00:51:37:07
+Unbekannt
+So if you're on gradient descent and it stops because the gradient is reached zero, you could be in any of these places, right? So there is no guarantee. So this in this picture happens to be maybe the global minimum because it's the lowest of the lot. Right. But there's no guarantee we're actually going to get there. Okay. There's not even a guarantee you're going to be in any of these places because you could literally be in this thing here where it's sort of taking a break and then going down and that, by the way, is called a saddle point.
+
+00:51:37:07 - 00:51:58:27
+Unbekannt
+I drew it badly, but the source of coming in, sort of taking a break and going down again, it's called a saddle point. So gradient descent can stop at a saddle point. It can stop at some minima. There's no guarantee is going to be global. Okay. But it turns out it has not mattered. So it has not mattered.
+
+00:51:59:01 - 00:52:22:07
+Unbekannt
+And there are a whole of reasons why it has not mattered. Because when you have these very complicated neural networks, they're very complex functions. Even finding a decent solution right through these complicated networks is actually really good for solving the problem. You don't have to go to the best, best possible solution. And in fact, if you go to the best possible solution, you actually, at the risk of overfitting.
+
+00:52:22:09 - 00:52:40:29
+Unbekannt
+So that's one reason. The other interesting reason and by the way, this is a very hard area of research to figure out. Exactly. So it's sort of like this empirically, what we have seen is that not worrying about local or minimal global, you know, all that stuff has not hurt us because these are things that are amazing. Djibouti, Djibouti, for probably they just stopped somewhere.
+
+00:52:40:29 - 00:53:04:08
+Unbekannt
+They probably don't need a local. Minimal. They are great. It's been running for six days. We spent $2 million nonstop. Right. Because these are expensive. So but that's still so magical. You don't need to get to anywhere close. Local minimum. But there's another interesting point which are which I read about. People basically hypothesize that for you to be at a local minimum, just think about what it means.
+
+00:53:04:08 - 00:53:25:10
+Unbekannt
+It means that you're standing at a particular point in every direction that you look. Things are just sloping upward, right? Everything is sloping upward. Only if everything is stopping upward all around you. Could you be at a local minimum by definition, but if you have a billion dimensions, what are the odds that you're going to be standing at a point?
+
+00:53:25:10 - 00:53:45:10
+Unbekannt
+But every one of those billion is going upward towards a really low chance. Some of them are going to at going up, some of them are going down, others are sort of coming down and going the other way. It's going to be crazy. So in some sense, the best you can hope for in these very high dimensional situations is probably a subtle point and it turns up it's good enough, right?
+
+00:53:45:15 - 00:54:10:06
+Unbekannt
+So for those reasons we are content with just running variable descent. But some tweaks which I'll get to in a second and it just performs really admirably. Yeah. Leena How does Alpha depend on like how much compute you have? Would you set the learning rate based on that or not really, no. The learning rate is really is a measure of sort of like this.
+
+00:54:10:09 - 00:54:29:29
+Unbekannt
+When you are at a point where you think that the gradient is looking nice and right, if you take a step in the direction it's going to go down. And if you further believe that it's going to keep going down in the direction for a while, then you're very confident about taking a big step. But if you are like, I don't know, because maybe take a little step, maybe I have to go this way.
+
+00:54:30:02 - 00:54:54:14
+Unbekannt
+I can't go straight anymore that you don't want to take a big step because then you have to backtrack. So those kinds of considerations going to the learning rate. And so that's sort of the rough answer to your question. It's not so much determined by compute and bandwidth and things like that. But again, it's very it's a sort of a complicated thing because sometimes with a given a lot of compute compute, if you have a particular kind of data, you can have very aggressive learning rates.
+
+00:54:54:17 - 00:55:19:29
+Unbekannt
+So it tends to be a bit sort of, you know, jumbled up, complicated. So but that's sort of the quick surface level idea of what's going on. Okay, I'm 31, by the way, folks. This lecture is probably one of the driest intellect, Boston, because I'm like, I have to go through all the concepts. Once we start doing collabs, you know, things get a lot more lively.
+
+00:55:20:01 - 00:55:40:19
+Unbekannt
+Okay. All right. So now let's talk about minimizing a lost function gradient descent. So here is our little binary crossing to be lost function that we saw from before, right? This is what we want to minimize. So if you look at this thing, there are the variables we need to change to minimize this function. Forks don't look a difference.
+
+00:55:40:21 - 00:56:06:18
+Unbekannt
+I'm okay with laptop and I. You don't look at your phones. Morgan. Sorry. We've kind of abstracted the variables. W but just to bring it back, those are actually the weights in the neural net right now, the weights and the biases. I'm just calling them as weights. So the output of these minimization functions are going to be the actual weights in your model, Right?
+
+00:56:06:18 - 00:56:31:08
+Unbekannt
+Exactly. Exactly right. The whole name of the game is to find the weights. And so, for example, when you see in the press that meta has essentially made the weights of lamassu or something available, that's basically what they have done, right? They're basically publish the weights, not so valuable microphone, because if you have a billion parameters, the compute time on that is horrendous and expensive.
+
+00:56:31:08 - 00:56:49:26
+Unbekannt
+That's why those weights are so valuable, right? The basis of the crown jewel because they are the result of a lot of money and time and smartness being spent. I think there's a separate question of why are they making it open source, which I'm happy to chat about offline. All right, cool. So what are the variables we need to try to minimize?
+
+00:56:50:03 - 00:57:11:05
+Unbekannt
+It's basically the parameters and they are hiding inside the model top, right? Because what is the model? The model is some function like that, right? If you look at the sample GPA, an experience thing we looked at on Monday, we finally figured out the the actual thing that comes out here is going to be this complicated function of all the X's and the W's and so on and so forth.
+
+00:57:11:05 - 00:57:34:00
+Unbekannt
+Right. And that complicated thing is showing up inside this thing. So, you know, and the W's here are the variables we can we need to change to minimize the lost function. And it's important for you to denote and understand that the values of X and Y and so on are just data, you know, optimizing anything that uses data.
+
+00:57:34:03 - 00:57:59:05
+Unbekannt
+What you are optimizing is the W's, the weights. Okay. Okay. So, so imagine replacing the model here with the mathematical expression of, whenever this appears, the last function and once you do that, your last function is just a good all function of the W's. The fact that it's a lost function is kind of irrelevant. It's just a function.
+
+00:57:59:07 - 00:58:27:08
+Unbekannt
+And since it's just a good old function, the W is you can play gradient descent it as we normally would. So big deal. Which brings us to something called back propagation. If you remember nothing else about black propagation, just remember this never used the word back propagation again, only use the word back prop. You left your hip and call to the deep learning community background.
+
+00:58:27:11 - 00:58:52:20
+Unbekannt
+Okay. All right. So what does back prop back prop is a very efficient way to compute the gradient of the lost function. So when you have this lost function and let's say you had a billion WS and you have ten data points, so the little end we saw was 10 million. That is a lot of computation and that is just for one step of gradient descent, right?
+
+00:58:52:22 - 00:59:12:23
+Unbekannt
+So back prop is a way is a very efficient and clever way to compute the gradient of the lost function, which takes advantage of the fact that what we have here, it's not some arbitrary model, it's a model that came from a particular kind of neural network which has layers. One after the other, and then there was an output at the very end.
+
+00:59:12:26 - 00:59:40:03
+Unbekannt
+So what back prop does is it organizes the computation in the form of something called a computational graph. And the book has a good discussion about it. And so what we do is we start at the very end, we calculate the gradient of the loss with respect to the output. Then we move left, recalculate the gradient of that output with respect to the output of the prior hidden layer step to the left character, the gradient of the current thing With respect to the previous layer, you get the idea right?
+
+00:59:40:08 - 01:00:11:15
+Unbekannt
+It's iterative and it moves backwards and by doing so you never repeat the same computation twice wastefully. That's the big advantage. You calculate once and reuse it many, many, many times. A second advantage is that if you organize it this way, it just becomes a sequence of matrix multiplications. Okay. And if we stick with the matrix multiplications and eliminate redundant calculations and best of all, there are these things called GPUs Graphics processing unit.
+
+01:00:11:15 - 01:00:37:01
+Unbekannt
+So really invented to video game rendering and it turns out to accelerate video game rendering. The core math operation you do is basically matrix multiplication, like some linear algebra sort of operations. And so someone really at some point had the bright idea for deep learning, calculating gradients and so on. We need to do medical applications and here some specialized hardware that does really that does a fast job of medical applications.
+
+01:00:37:08 - 01:01:01:09
+Unbekannt
+Can we can we use this for that? And they did it and all hell broke loose. That's literally what happened. And that's why Nvidia is valued at what, 1.5 trillion or something. So yeah, so they're really good and so back prop the way you do back prop plus using it on GPUs leads to fast calculation of loss function gradients.
+
+01:01:01:11 - 01:01:30:03
+Unbekannt
+If this thing were not true, this class would not exist because there wouldn't be any deep learning revolution. This is a fundamental, seminal reason. Okay. All right. So the book has a bunch of detail. And I actually did lecture. I book I had worked out an example of calculating a gradient like the old fashioned way and calculating it using back prop.
+
+01:01:30:05 - 01:01:54:03
+Unbekannt
+So take a look at it. I'll put it on canvas and you will understand exactly where the savings come from, where the efficiency gains come from. Okay, The interest of time, I'm not going to get into it now. All right. Any questions so far? Yup. Sorry. I've followed up, too. And so we've done gradient descent, which is different than calculation of the gradient of the lost function.
+
+01:01:54:03 - 01:02:39:23
+Unbekannt
+What is the purpose of the calculation of the gradient of the lost function? You copied the gradient because the fundamental operation gradient descent is to take your current value of W. Yeah, and modify it slightly. Modification is old value minus learning rate times. Brilliant. Okay. It would be cool if I say go go back five slides to the thing and just goes back product idea and it went startups so so this one so this is a fundamental step of gradient descent so this is the current value W you can look at the gradient at that current value multiplied by alpha.
+
+01:02:39:25 - 01:03:02:14
+Unbekannt
+Do the and you get the new value and you keep repeating, right? But GW that's not, that's not the loss function loss function That is loss. Yeah. Here I'm just using G as an arbitrary function just to demonstrate the point. Okay. But when you're optimizing, when you're training a neural network, what you're actually doing is minimizing a loss function.
+
+01:03:02:16 - 01:03:29:03
+Unbekannt
+Right. Loss of w sorry I got things mixed up, don't you? Yeah. How do we define the initial weights for the neural network? so, yeah, the initial weights. So there's a there are many ways too. So first of all, the initial is randomly, but random. It doesn't mean you can just pick any random weight. There are actually some good ways to randomly pick the weights.
+
+01:03:29:06 - 01:04:04:22
+Unbekannt
+Those are called initialization schemes and there are a bunch of very effective initialization schemes people have figured out over the years and those things are beginning to get us as the default. So don't get us, I believe using something called the he initialization actually initialization or the Xavier Global initialization. I wouldn't worry about it. Just go with the default initialization and the reason why they have to be very careful about how these based it initialized is if you have a very big network and if you initialize badly, then the gradient would just explode as you calculate it.
+
+01:04:04:24 - 01:04:27:23
+Unbekannt
+The earlier layers, the weights will have lots of gradients or the greens will vanish. So therefore called the exploding gradient problem or the vanishing gradient problem. To avoid all those things, research to figure out some way to initialize so that it will behave throughout. Yeah, it's using back props and GPUs was so critical. I'm just curious like who first did it and when was this?
+
+01:04:27:23 - 01:05:00:24
+Unbekannt
+Like a couple of years ago? Was it a company? Was it a researcher? But GPUs have been used for deep learning. I want to say I think the first case may have been in the MIT 2005, 2006 sort of thing. But I would say that it sort of burst out onto the world stage and made everyone take notice when a deep learning called Alex Nette in 2012 won a very famous computer vision competition, and it beat the sort world record for how good it was.
+
+01:05:00:27 - 01:05:23:16
+Unbekannt
+And that's when you would be like, Hey, what is this thing? And that's really when it burst onto the world stage. I'll talk a bit more about it when I get into the computer vision segment of the class. But you can google Alex Nette and you'll find a whole bunch of history around America. Hypothetically, then, is it true that if we could get to a global minima, that would mean there would be no hallucinations?
+
+01:05:23:18 - 01:05:46:28
+Unbekannt
+Good question. So if it is perfect, if you get to a global minimum, first of all, global minima doesn't mean the model is perfect. Great. It will have some loss. But global minima is going to be on the training data. You can imagine that the test data, future data has its own lost function, right? So what is minimum here may not be minimum there.
+
+01:05:47:03 - 01:06:11:29
+Unbekannt
+That's the problem. So sorry, is that a comment or just saying that that would mean that also you can be overfitting for. Yeah, exactly. Exactly. So if you overdo if you find the best thing in the training function, chances are it doesn't match the best thing of the test data. So on the test, you're actually doing badly. Okay.
+
+01:06:12:02 - 01:06:38:18
+Unbekannt
+So come back to this. Okay. Now the final twist to the tale here. We're going to go from something really in descent to something called stochastic gradient descent and stochastic data descent or SGD is the workhorse for all deep learning. Okay. And funnily enough, Judy is simpler than Judy. Okay. Just when you thought it couldn't get simpler, right?
+
+01:06:38:20 - 01:07:07:11
+Unbekannt
+Okay. So so for large datasets, computing the gradient or the lost function can be very expensive, right? Needless to say, because that's to be done at every step and the cardinality of the dataset is really big, right? And you may have billions of parameters. It's just very, very tough to compute it even with backbone. So the solution is that each iteration and I say iteration, I'm talking about this step of gradient descent instead of using all the data.
+
+01:07:07:13 - 01:07:35:18
+Unbekannt
+So calculating the lost function by averaging the loss across all end data points and calculating the gradient of that thing. What do you do? You just choose a small sample. Randomly, you choose just a few of the end observations and we call it a mini batch. So for example, the number of data points you you may have 10 million data points, but in every iteration you may literally grab just like 32 or 64, something really small, like absurdly small.
+
+01:07:35:20 - 01:08:04:29
+Unbekannt
+And then you pretend that, okay, that's all the data I have. You calculate the loss, find the gradient, and just use that here instead. Okay. So this is called stochastic gradient descent. Just strictly speaking, theoretically, as Judy uses just one data point. But in practice we use what's called a mini batch, 30 to 64, whatever. And so mini batch gradient percent is just loosely called stochastic gradient descent, as Judy.
+
+01:08:05:01 - 01:08:33:09
+Unbekannt
+Okay, So an SGD, as it turns out, you can see it's clearly very efficient, right? Because it's just processing a few at a time. And in fact, if you have a lot of data and you calculate the full gradient of the lost function, it may not even fit into memory right? It's really problematic. But this, Judy, it says, I don't care whether you have a billion data points or a trillion data points, just give me 32 at a time and you just keep on doing it.
+
+01:08:33:11 - 01:08:57:20
+Unbekannt
+And turns out because not all the points are used in the calculation, this only approximates the true gradient, right? It's only an approximation. It's not the real thing. It's only an approximation but it works extremely well in practice, extremely well in practice. And there's a whole bunch of research that goes into why is it so effective? And, you know, people are discovering interesting things about the study, but we don't have like a definitive theory as to why it's so good.
+
+01:08:57:23 - 01:09:27:29
+Unbekannt
+Yet we have some interesting, you know, research trends that have happened and very tantalizingly, very tantalizingly, because it's only an approximation of the true gradient, you can actually escape local minima. So in the in the true loss function, you are at a local minimum, but it's good, it's loss function. When you're doing a study, you're reaching the minimum of the lost function, which actually may not be the actual lost function.
+
+01:09:28:01 - 01:09:47:24
+Unbekannt
+So as you're moving around, you're actually jumping from local minima to local minima after actual loss function. I know that's a mouthful. I'm happy to tell you more. You're just a side thing that I just want you to be a bit of. Okay. One of the reasons why a study is actually effective, it's almost like you work less and you do a better.
+
+01:09:47:26 - 01:10:09:14
+Unbekannt
+How many times does it happen in life? This is one of the okay now as it comes in many flavors, many siblings. It's got a lot of siblings and variations and it's a big family. And we're going to use a particular flavor called Adam as a default in this course. And I'll get back to it when we get into the hubs and things like that.
+
+01:10:09:16 - 01:10:33:21
+Unbekannt
+All right. By the way, you know how you know all these pictures I've been showing you, a nice little function like that, a little ball and so on. This is a visualization of an actual neural network lost function. And so you can see, like the hills and valleys and the crags and so on and so forth. Okay. And you can check out the paper to more insight into how they actually give up this visualization.
+
+01:10:33:23 - 01:10:58:09
+Unbekannt
+It's crazy. It's complicated. Yeah. So first, you do you perform the actress shows until you minimize the loss on show for each mini batch and then move to another mini box. Yeah. So what you do is you take each mini batch and then you calculate the loss for the mini batch. You find the gradient and use the gradient and update the W, Then you pick up the next mini batch.
+
+01:10:58:11 - 01:11:15:09
+Unbekannt
+So you don't you don't give me the batch and try to perform the nutritional and it's not on you write you each mini batch, one titration, each batch one attrition because if you do a lot of iterations on one mini batch, first of all, you'll never be sure that you're going to find any optimal solution because you're not guarantee of any global minima.
+
+01:11:15:11 - 01:11:33:11
+Unbekannt
+And secondly, it's much better for you to get new information constantly because what you can do is you can revisit that mini batch later on. Right. And that gets us to these things called epochs and batch size and so on, which will get into a lot of detail when you do the collab. So let's revisit that question. It's a good question.
+
+01:11:33:13 - 01:12:01:12
+Unbekannt
+Yeah. When you do the back up process, it's nice. I made sure it sounded you started from the layers that were closest to the output and went backward. Okay. And my question is, are you doing that once or is it looping multiple times? And then just once? So why what each gradient calculation you do it once. Why does why does it want to start from the layer that's closest or why do you want to start it from the layer?
+
+01:12:01:12 - 01:12:21:20
+Unbekannt
+This process that. Yeah, So basically what happens is let's say that just for argument, but you go in the reverse direction, you will discover that a lot of parts to go from the left to the right will end up calculating certain intermediate quantities, including the very final gradient sort of item again and again and again. The same thing is going to get captured again and again and again.
+
+01:12:21:22 - 01:12:46:05
+Unbekannt
+So starting from the end and working backwards, you just reuse stuff. You want to be calculated. So that's sort of the rough idea. But if you see my PDF, I've actually worked out the example and demonstrate what I'm talking about. By the way, this great the backdrop is just sort of a like in calculus, we have something called the chain rule directly, the derivative of complicated function.
+
+01:12:46:12 - 01:13:12:13
+Unbekannt
+You calculate how you're going to do of like the order function than the inner function and so on. And so forth. The backdrop is essentially a way to organize the chain rule, to work with the neural network layer by layer architecture. That's all. There was a question, some of other. Yeah. So is it is it fair to say that once we are finding like the local minimum, we are not optimizing to all the G because like this local minimum is coming like from different curves, from different lines.
+
+01:13:12:13 - 01:13:37:29
+Unbekannt
+So is that fair to say or using stochastic data? Yes. So for in instance, category descent, when you take, say, 32 data points from a million and you're calculating the loss for that 32 data points, you're basically trying to do a gradient step, right? The W equals W minus alpha gradient. Think you're doing it for that, that 32 points loss function, right, which is not the 1 million points loss function.
+
+01:13:38:02 - 01:13:56:10
+Unbekannt
+That's why it's approximate. Okay. But the approximation instead of hurting you actually helps you because it helps you escape the local minima of the global loss function. So it's a sort of an interesting and somewhat technically subtle point, which is why I'm not getting into it too much, but I'm happy to give point you think about. Interesting. Yeah.
+
+01:13:56:13 - 01:14:17:20
+Unbekannt
+When you say you initialize the weights you initialize for the whole network or just the end layer and then go backwards. So you do everything in one shot because if you don't initialize everything in one shot, what's going to happen is that you can't do the forward computation to find the prediction and so they are done independently and initialization schemes will take into account.
+
+01:14:17:20 - 01:14:42:02
+Unbekannt
+Okay, I am initializing the weights between a layer which has ten nodes and on one side and put it on the other side. Independent. They actually play a role in how you initialize. Okay, so, so the summary of the overall training flow is that, you know, you have an input, it goes through a bunch of layers. You come up with the prediction, you compare it to the true values, and these two things go into the loss function calculation.
+
+01:14:42:02 - 01:15:02:02
+Unbekannt
+You got a lost number, right? And you do it for say, ten points or 32 points on a million points. And this loss then goes into the optimizer, which calculates the gradient. And once it calculates the gradient, it updates the weights of every layer using the W equals W minus alpha and gradient formula, gradient descent formula. And then you keep doing this again and again and again.
+
+01:15:02:05 - 01:15:29:03
+Unbekannt
+This is all flow, this whole what little network is going to get built for Hardesty's prediction This opportunity for was built and this whole alpha field was built and I forgot was But you I mean, it's astonishing, frankly, if you're not getting goosebumps at the thought that this simple thing can do all this complicated things, we really need to talk offline.
+
+01:15:29:05 - 01:15:51:26
+Unbekannt
+There was a handwritten sorry, just this is for each mini, but right. So my question is if you came with different way for it Mini. But how would you add it up? Like, okay, this wave has it's a perfect combination for this main event, but you have way different way for another meeting about how you combine those two.
+
+01:15:51:26 - 01:16:07:15
+Unbekannt
+Find all on each point. What you do is you find the you find you start of the rate, you run it through for the mini batch. You come up with the last function, you click the gradient, and now using the gradient you upgraded the weight. No, you have a new set of beats, which is the updated weights called W2.
+
+01:16:07:16 - 01:16:30:22
+Unbekannt
+And so W1 now W2 is using your network and we'll take the next mini batch. It's going to use W2 to calculate the prediction. And this this whole flow will become a lot clearer when we do the collapse. Okay, so we have 3 minutes. I don't want to go into regularization or what? Fitting in 3 minutes. So let's have some more questions.
+
+01:16:30:25 - 01:16:54:09
+Unbekannt
+Yeah. Can you use any activation function as long as it gives like positive values for like x squared or model X or something. You can use a variety of activation functions that are, but there's a whole literature on, you know, the pros and cons of various activation functions that you could use. But in general, you have to make have a couple of things.
+
+01:16:54:09 - 01:17:14:18
+Unbekannt
+One is that when you do back prop, the gradient is going to flow through the activation function, the reverse direction and the activation function actually sort of make sure the gradient doesn't get squished. You shouldn't get squished, it should get exploded. So those are some considerations. These are technical considerations, but those all those concerns should be taken into account.
+
+01:17:14:20 - 01:17:42:16
+Unbekannt
+If you can't take those into account, then you're okay. And so that's sort of the key thing to keep in mind. And that's in fact, the way the review is actually very popular, because as long as the value is positive, the gradient of the relative is just one, right? Because so if you look at something, it looks at because it's frozen, it jinxed it.
+
+01:17:42:18 - 01:18:04:12
+Unbekannt
+So sorry, Lifestream. So if you have something like this, it really was like that, right? So the gradient here is always going to be one, which means that as long as the value is positive, whatever comes in like this, you're just like gets multiplied by one and gets pushed out the other side. So it doesn't get it doesn't get harmed or squished or anything like that.
+
+01:18:04:14 - 01:18:33:06
+Unbekannt
+So that's one reason why there really was very popular because it preserves the gradient while injecting almost like the minimum amount of non linearity to do interesting things, which yeah, if you have a high number of dimensions, can you do many batching on like features dimensions instead of just observations? Keep the same number of observations, but just take a small sample of the number of features that you're actually using.
+
+01:18:33:20 - 01:18:54:19
+Unbekannt
+I see, I see. So you're saying let's say you have ten features and start picking all data points, ten features. What if you have choose five features and just use them and do two thing as long as you can actually compute the prediction. To compute the prediction, you may need all ten features, right? Or you need to have some defaults for those features.
+

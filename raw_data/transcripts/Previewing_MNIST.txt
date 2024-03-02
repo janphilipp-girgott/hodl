@@ -1,0 +1,196 @@
+00:00:00:00 - 00:00:26:17
+Unbekannt
+A professor, Christian. Over the next several minutes, I will walk through a collab which demonstrates how to take a data set a grayscale dataset of images, and then build a classifier, a neural network based classifier that can classify it quite accurately into one of ten categories. So we will solve a multiclass classification problem in this collab. Okay, so let's get going.
+
+00:00:26:22 - 00:00:55:45
+Unbekannt
+Let me first connect to to an instance to a GPU to make things nice and quick. All right. So this is the fashion that is set and you can you can see here, these are all sort of pretty small images, grayscale images of clothing. We have ten categories of clothing that are in these images. We have a total of 70,000 images of clothing and luckily for us, this dataset is actually very easily downloadable from Carus itself.
+
+00:00:55:46 - 00:01:15:34
+Unbekannt
+You don't have to go searching for it somewhere else, and we will do that. But before we do that, let's get the usual technical preliminaries out of the way. So let's just import TensorFlow and cross and pan doesn't matter, not let and then set the random seed so that, you know, everything we do has a chance of being reproducible.
+
+00:01:15:39 - 00:01:38:29
+Unbekannt
+Okay, so good. Now let's download the dataset using the the load data command. And I think I may have mentioned in class, but I don't know. But if I didn't, Karras does have a lot of really interesting datasets, and you can actually access them very easily using this sort of command. Okay. So now that we have downloaded it, we have essentially we have downloaded for 10 hours.
+
+00:01:38:29 - 00:02:04:35
+Unbekannt
+That is a training dataset. The features, the training dataset, images, you know, this is the labels for those training data points and then this is the test dataset and the way values. So let's take a look at the shape. So the shape of the training dataset, as you can see, is 60,000 times 28 times 28, which means that the rank tensor of rank three, there are 60,000 images here.
+
+00:02:04:44 - 00:02:29:35
+Unbekannt
+And then each of those images is a 28. By 28 square table of numbers. And then, of course, for each of those 60,000 images, we have a label which tells us what category of clothing it is. So we have 60,000 labels. Similarly, if you look at the test dataset, we have 10,000 images, each of which is 2028. So overall, we have 60,000 images in the training and 10,000 images in the test.
+
+00:02:29:40 - 00:02:52:07
+Unbekannt
+Let's take a look at the first ten rows of the dependent variable. And you can see here that it's 903, so on and so forth. So essentially these are numbers between zero and nine, which makes sense because there are a total of ten categories of clothing. And if you go to the GitHub site for fashion eminence, you will see here that these are the sort of the English descriptions of each of those labels.
+
+00:02:52:12 - 00:03:12:04
+Unbekannt
+Zero, for instance, as a T-shirt forward, as a coat, nine as an ankle boot. And so on and so forth. And let's create a handy little list here so that we can easily go from the numerical label to the English descriptor and back and forth. All right. Now, let's take a look at the label for the first data point, and it turns out to be this ankle boot.
+
+00:03:12:09 - 00:03:46:36
+Unbekannt
+All right. So if you look at the raw data for this first data point, which is X underscore train zero, a very first example, if you print it, you can see here it's just a table of numbers, 28, 28, and the numbers are all going from zero to, you know, to 50 ish. Right. You can see here and you will recall that, you know, a grayscale images are represented by a single table of numbers in which every pixel value is to sit incident of 55, which indicates the amount of white light intensity at that pixel.
+
+00:03:46:40 - 00:04:07:46
+Unbekannt
+Let's visualize the first bunch of images. I'm just grabbing the first 25 images here. And by the way, this is just some standard, Matt plot, lip chord to to plot these things. That is nothing. Machine learning or deep learning going on here. Just basic plot encode and wow, look at this. That is our famous ankle boot right there.
+
+00:04:07:51 - 00:04:42:32
+Unbekannt
+And then, of course, we have, you know, T-shirts and sneakers and pullovers and coats and bags and so on and so forth. Okay. I mean, these pictures are not super clear, if you ask me. So I think our neural network has a bit of a challenge on its hands, but we'll see how it does. Okay. So now, now that we have the data all prepped or rather almost fully prepped, let's go to the next step, which is that we want to make sure that, you know, when we feed data to a neural network and I mentioned this in class, that each independent variable should ideally be, first of all, it should be numerical.
+
+00:04:42:43 - 00:05:05:51
+Unbekannt
+And then secondly, it should be in a very small range in the hard to see example, we took each variable and standardized it by, you know, subtracting the mean and dividing with the standard deviation. But here, when you have video working with these images where the numbers are from 0 to 45 guaranteed, then you can actually do something simpler, which is you literally just divide everything we do to five and that will normalize everything to a 0 to 1 range.
+
+00:05:05:56 - 00:05:25:33
+Unbekannt
+Okay, so we just divide everything by 255. So that's what we do here in this step. Good. Perfect. Now we come to the action Network itself, setting up the network. You will recall from our discussion in class that the network we we, we are going to build is this one. Our input is a 28 by 28 table of numbers for each image.
+
+00:05:25:46 - 00:05:43:48
+Unbekannt
+And then that goes in here. And the first thing we have to do is to actually take this to an eight by 28 and make a vector out of it because from what we have learned up to this point in the course, we only can build networks that expect vectors as inputs. We don't know how to do anything else, right?
+
+00:05:43:48 - 00:06:01:04
+Unbekannt
+So we will learn other things later. But as of this point in time, we don't know how to handle anything but a vector. So we'll first make this into a vector. And the way we make it into vectors called flattening. And the idea is very simple. We take essentially think of it as we take each row, which is 28 numbers and then rotate them.
+
+00:06:01:04 - 00:06:20:10
+Unbekannt
+So it's kind of becomes vertical. Take the second row, put it under the, you know, the first column and stack them all vertically like this. And if you stack them all vertically, you will you will have 784 numbers. Okay? And you can, you know, convince yourself that 28 between here, this 184 right there. So that's how you go from the input to this long vector.
+
+00:06:20:15 - 00:06:44:10
+Unbekannt
+Once you have this long vector, then we know you are in familiar territory. We can literally take that vector and run it through a hidden layer. And in this particular how and live, you're going to have 256 neurons. I tried a few of different possibilities and hopefully six works really well, so we have to do six neurons. By the way, you're welcome to take this collab and try, you know, different numbers of neurons here and see if you can do better.
+
+00:06:44:15 - 00:07:01:21
+Unbekannt
+So yeah, so we have two of these neurons. Each of them is really and then then we come to the output layer and the output layer, as you will recall, needs to be a soft max, because here the output needs to be ten probabilities. So the output needs to be ten numbers that are probabilities and that add up to one.
+
+00:07:01:26 - 00:07:19:25
+Unbekannt
+And you will recall from lecture that the layer or a function that does that for you is called the soft max. So we need a soft max output layer. All right. So this is what we covered in class. And so this should be very familiar to you. Now let's take this picture and translate it into Cross-code. So it's actually pretty easy.
+
+00:07:19:30 - 00:07:36:11
+Unbekannt
+So this is a cross model. And so we first of all, as usual, we start with the cross start input to create the input layer. And here we tell it, Hey, the shape that you will be that I will be giving you to us is each image is going to be 28. 28. Right? That's, that's the shape that you should expect.
+
+00:07:36:16 - 00:07:56:40
+Unbekannt
+Right. And we call that the input and then this flattening business where we take this trade between it and create a long vector from it. It's actually you don't have to do it manually. Cross actually has a layer called Yes, you guessed it, flatten to do that for us. So we literally give it the input and then it'll actually flatten it into this nice long vector.
+
+00:07:56:45 - 00:08:17:36
+Unbekannt
+Okay, 784 long vector. And then once we have it, we just take this thing that's coming out of the flattened layer this each year, and then we just run it through the first layer, which is just a good old dense layer. By now it should be very familiar. It's got the six in neurons. The activation is really as always, and I've just given it a name, but this naming thing is optional.
+
+00:08:17:36 - 00:08:36:18
+Unbekannt
+You don't have to give it if you don't want to. And then this little network only has one hidden layer. So the next layer we have is just output layer and the output layer is again a dense layer. But since we need ten outputs, ten probability outputs, we ask for ten here and then we tell it used soft max activation.
+
+00:08:36:23 - 00:08:56:31
+Unbekannt
+And this will ensure that it uses a soft max function here, meaning that the ten outputs are not just probabilities, but they are probabilities that will add up to one. Okay. And that's our output. And then as usual, we tell Kyra's the input output, please connect them together and create a model for me using this line and then it gives you the model.
+
+00:08:56:38 - 00:09:20:53
+Unbekannt
+Okay, so let's run that. All right, good. We define the model and everything. Let's just take a quick look at the summary of the model input. One grade 20 A320, it goes in. So in 84 comes out of the flattening thing and then it goes through this dense network and then it goes through this output network. So a total of 203 posing and 530 parameters in this little network.
+
+00:09:20:58 - 00:09:48:18
+Unbekannt
+All right. So you can you should hand calculate the numbers to verify I won't go through this logic again, but just you know, understand exactly what's going on here and map it to this picture and make sure that you understand where all those numbers are coming from. All right. So 23203530. You can also visualize this whole thing graphically using the plot model function, which is very handy because it shows you for every layer the size, the shape of that.
+
+00:09:48:18 - 00:10:08:34
+Unbekannt
+And so that comes in and the shape of that. And so that goes out. So for instance, if you look at this hidden layer, what's coming in is a 784 long vector, right? The 784 here. But what goes up is a2426 long vector. And then in the very final output layer, two of the six long vector goes in and ten long vector comes out.
+
+00:10:08:34 - 00:10:28:30
+Unbekannt
+And this ten long vector is the one that is the ten probabilities that are up to one. Okay. All right. Now we come to sort of setting up the optimization. And now once we have the model defined as we did with the hard to see model, we need to tell there are three things which last function, which optimizer, and what metrics you want to report out.
+
+00:10:28:35 - 00:10:48:36
+Unbekannt
+And so we'll deal with the easy one first. So which optimizer to use? We really not going to agonize over this. As I mentioned in class and particularly researchers have discovered that this flavor of optimizer called Adam is really good. It's a great what I think of as sort of an excellent default on a set and forget kind of choice.
+
+00:10:48:48 - 00:11:07:23
+Unbekannt
+So we'll just do that. And this is a classification problem. And what the classification problem accuracy is usually really good metric to to report out. So we'll just report that out. And in terms of what loss function to use, you recall that the lost function we use must be matched with the kind of dependent variable that we have.
+
+00:11:07:28 - 00:11:29:24
+Unbekannt
+So in our case, and I'm going to repeat a slight trim lecture, our data here is actually in this version, it's called the sparse encoded version. But each for each image we have a number between zero and nine, which tells us what category of clothing it is. So it is a sparse encoded version and if the sparse encoded version, we need to use a single, the sparse categorical course entropy.
+
+00:11:29:29 - 00:11:53:09
+Unbekannt
+Okay, so that's should be our loss function. So putting it all together, we run the model, compile command, but we say use this loss function, use Adam and use a report or accuracy for me and we are almost ready to train it now. The final step is, of course, the model dot fit command. And for that you will recall from the heart disease example, we need to specify the batch size we need to decide on.
+
+00:11:53:09 - 00:12:12:16
+Unbekannt
+Okay, how many epochs do we want to run this thing? And then, as usual, to check for overfitting. We want to make sure that we set aside some percent of the data as a validation set. Okay. So what we will do is we will we will use a batch size of 64. You know, I tried 32. That seems to work fine too.
+
+00:12:12:27 - 00:12:29:06
+Unbekannt
+You can write 30 to 60 for 16 even or 128. You know, you can try a few different things to see if you get different results. But 64 is a pretty decent choice. And 20 epochs is a you know, a good starting point. If if we can get the job done in 20, we can always go for a longer, more epochs.
+
+00:12:29:06 - 00:12:56:10
+Unbekannt
+But 20 is a good starting point. So. All right, model not fit to be it the tensor corresponding to the images, the vector corresponding to all the labels. We tallied the batches of 64 epochs, 20. And then we say as before as we did. And how does this prediction take 20% off this data? Write the training data and set it aside as a validation data so that we can track overfitting?
+
+00:12:56:15 - 00:13:18:02
+Unbekannt
+Okay. So that's what we have. So now actually let's run it. It's going to run for 20 epochs. I tried running it early on and it's pretty fast, but while it's running, I guess one of the things I want you to sort of think about is for each role of this output, I want you to know, I want you to understand exactly where each of those numbers is coming from.
+
+00:13:18:07 - 00:13:48:25
+Unbekannt
+So, for instance, do you need to know why we have the number of 750 here in every one of them? Why? So what does this 750 Well, 750 here is the number of batches that are going to be used in that epoch. And you need to convince yourself why you have 750 then. And this is the loss. And the clue here is that we covered it in lecture earlier that I told you about how we would calculate the number of batches in any every epoch whenever using stochastic gradient descent.
+
+00:13:48:30 - 00:14:10:52
+Unbekannt
+The loss here is .385 that is just the value of the categorical cross entropy, the sparse categorical cross entropy loss function that is the value for the training set. The accuracy on the training set. This is the loss on the validation set and the accuracy on the validation. Those are all the numbers. And so that's what you need to make sure you understand.
+
+00:14:10:57 - 00:14:34:20
+Unbekannt
+good. So it seems to be almost done. Epoch 20 of 20. I've noticed here that when we the larger the model, even after this finish printing out the output of the final epoch, it takes a few seconds to wrap things up. Okay, it's done great. So now what we can do is we can take all this information and then plot the usual accuracy and loss curve to see if there is any evidence of overfitting.
+
+00:14:34:24 - 00:15:02:30
+Unbekannt
+So I'm just, you know, I've cut and pasted a bunch of these the bunch of this code as functions from either collapse, previous collapse. So let me just plot it easily. Okay. So that's what we have. So as we would hope and expect, the training loss nicely goes down with every epoch steadily goes down, the validation loss goes down, and then it kind of sort of, I don't know, flattens out, pops up a bit and then goes back down again.
+
+00:15:02:35 - 00:15:20:00
+Unbekannt
+So, you know, there's clearly some sign of overfitting here because you can see there's a big gap between the training loss and the validation loss. At the same time, it's not clear to me that we want to roll back to, say, the 10th epoch and then just stop there and pick up the model there because you know, it hasn't really gotten worse.
+
+00:15:20:00 - 00:15:37:51
+Unbekannt
+It's just become flat. Now, if it had actually gotten worse and started to climb up massively, then I would be worried. But because it's kind of flat, I'm okay living with this. But let's just confirm that the accuracy curves plot that. Okay, so similar picture I can see steadily climbing up on the training set and goes up all the way too.
+
+00:15:37:51 - 00:15:55:32
+Unbekannt
+So the mid-nineties, while the validation accuracy sort of flattens out in like the high eighties, I think. Right. And it's really doesn't get worse per se. It's like it's not like it goes like this and it starts to climb back down. Oops, sorry, social climb back down. So I think we can live with this. We don't have to go back and do anything.
+
+00:15:55:37 - 00:16:27:36
+Unbekannt
+Of course, the final the Holy Grail sort of, you know, the final test is to evaluate it on the test set, which we haven't touched so far. So let's do that. Okay? And we do that, we get, wow, 88.45%, which is nice. So now is this impressive? What's a good baseline to compare it to? And since there's a problem in which there are ten possible output categories and I think if I recall, I mentioned in class that these categories are actually balanced, meaning every category is roughly 10% of the data.
+
+00:16:27:41 - 00:16:43:41
+Unbekannt
+So in that situation, you know, the naive model that you would have, let's say, would just pick one of those categories, let's say sweaters and just call everything, predict everything to be a sweater, in which case it would be right. And most of the time and wrong 90% of the time, which means its accuracy would be just 10%.
+
+00:16:43:46 - 00:17:06:13
+Unbekannt
+And compared to that 10% naive model, this 88% is actually pretty good, right? Okay. Now, before we wrap up, one final thing. Let's say that, you know, you want to tinker around this model and maybe you want to add, you know, a second hidden layer or something. How easy is it? It's super easy. You just cut and paste the model from above and then you just literally just add this one additional line.
+
+00:17:06:18 - 00:17:26:11
+Unbekannt
+Okay? And as you can see here, I've just cut and pasted this hidden layer thing here, right there. All I have done is just changed the name to hidden two and sort of hidden one, and that's it. And so boom, it just made it look more complicated, divided on more human layer. And then you can summarize it and you can plot it and things like that.
+
+00:17:26:20 - 00:17:42:20
+Unbekannt
+And if you feel like it, you're welcome to actually train this, you know, model using the model or component fit functions and then evaluate on the training set to see how well it does. Maybe it does better, maybe it does worse than the model we have. You know, I leave it to you to figure it out. Okay, folks, that's all ahead.
+
+00:17:42:20 - 00:17:46:53
+Unbekannt
+I will see you in class shortly. Thanks. Bye bye.
+

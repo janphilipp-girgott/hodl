@@ -1,0 +1,152 @@
+00:00:00:00 - 00:00:35:57
+Unbekannt
+Yvonne, this is Professor Ramakrishnan. I wanted to take a few minutes to give you a bit of intuition about how max pudding works. It's a very simple but very clever idea. And I wanted to share that. Okay. So let's say we want to build a simple handbags and shoes classifier. Now, unlike the one that we built in class the other day where we used pictures of actual handbags and shoes, for this example, we will imagine that the images are really simple line drawings, sort of cartoonish stick figures, if you will, just to focus on the key ideas.
+
+00:00:36:01 - 00:00:54:29
+Unbekannt
+So these are the kinds of pictures we are going to see. And we will assume that the images can sort of come in in many different ways. They could be small, as you can see here. They could be really big occupying most of the picture or they could be sort of off to one side or the other, not quite centered.
+
+00:00:54:34 - 00:01:15:15
+Unbekannt
+And then if it's a shoe, for instance, it could be facing left. It could be facing. Right. So we want to accommodate this sort of variety of ways in which the image of images can appear. Okay. Now, intuitively, if we just look at this little examples, how could we detect if the image contains a handbag or a shoe?
+
+00:01:15:20 - 00:01:33:22
+Unbekannt
+No, There are many ways to think about this problem. But again, in the interest of simplicity, what does appear to be the case is that if you have a handbag, it seems to have sort of two vertical lines, one on either side. Right. And I have some examples here, two vertical lines, one on the left side, one on the right side.
+
+00:01:33:27 - 00:01:51:37
+Unbekannt
+But if it's a shoe, it seems to have just sort of one vertical line. You know, this in this case, it's sort of on the right because she was pointing left. And in this case, it happens to be on the left side because the shoe was pointing. Right. So fundamentally, we have a bunch of vertical lines on either side.
+
+00:01:51:37 - 00:02:24:02
+Unbekannt
+And this seems to be sort of a valuable clue to figure out whether the image contains a handbag. So how can convolutional and max pooling layers exploit this observation about vertical lines? Well, the first thing to recall is that convolutional filters, as we have discussed in class, are really feature detectors. They can learn to detect little features in the images and naturally vertical lines being an example of a nice, simple feature.
+
+00:02:24:07 - 00:02:44:22
+Unbekannt
+They can use a convolutional filter to detect vertical lines. But we have to sort of keep something important in mind due to the variety of ways in which these images can appear. We should keep the filter kind of small. That way it can detect vertical lines, however small the lines may be, and wherever in the picture they may appear.
+
+00:02:44:27 - 00:03:03:56
+Unbekannt
+So this way we sort of maximize our coverage under chance of finding a vertical line, regardless of where it appears and how big it is. Okay. So now let's say that we have such a convolutional filter at our disposal. We have a condition filter. We have been sort of magically given this filter and it has the ability to detect vertical lines.
+
+00:03:04:01 - 00:03:22:52
+Unbekannt
+All right. Now, what we can do is we can apply this filter to the images we have. So as we have seen in class, we can apply the filter starting from the top left, and then we move the next one over the next to and over all the way there. And then we come back for the beginning of the second row and keep on doing this thing.
+
+00:03:22:57 - 00:03:52:39
+Unbekannt
+Okay. So we applied from the top left to the bottom. Right, top left to the bottom right. And when we do that, what's going to happen is that whenever the filter detects a vertical line under it in the image, it will output a one. Otherwise, it's going to output a zero. Okay. Now, I've made a very important simplification here, which is that as we saw in class, a convolutional filter, essentially it does sort of this dot product of the numbers in the filter with the numbers in the image under it.
+
+00:03:52:51 - 00:04:10:46
+Unbekannt
+You're just a sort of a pairwise product and then add them all up and then it runs it through a relative, which means that it's going to, in general output a zero or a positive number. Okay. That's that is true in general. However, in our little toy example, I'm going to assume it's going to output just a zero or one.
+
+00:04:10:51 - 00:04:32:46
+Unbekannt
+Okay. Just for this exposition. So. So let's look here in here. Clearly, there is no vertical line. Read an article in starts here. There's no vertical line. So this filter looks at what's under it and says there is no vertical line. So it emits a zero. Similarly, all these things are zeros. And now when we come here, this filter says, Hey, there is a vertical line under me.
+
+00:04:32:51 - 00:04:56:04
+Unbekannt
+Therefore, it actually outputs a one, not a zero. And but here nobody aligns so all zeros over to clean up yet again. So this thing is a one. You get the idea. So all these filters are fighting away and giving you ones as outputs. Similarly here, while everything else in the middle is all going to be zeros because I don't know what you call lines in particular.
+
+00:04:56:04 - 00:05:22:40
+Unbekannt
+Notice that these filters, even though there is a line under them, it's not a vertical line, it's a horizontal line. And therefore they would still only give a zero. Okay. Now, if you look at the shoe cartoon figure here, obviously there's a vertical line and the side. So all these filters are giving you a once. Okay. But there are no other ones anywhere else because, you know, this stuff is a diagonal line, not a vertical line.
+
+00:05:22:40 - 00:05:47:10
+Unbekannt
+So we only get zeros. There's also a horizontal line, not a vertical line. So we only get zeros. So this is the basic thing that you get when you apply a convolutional filter to the image where this filter has been trained by assumption to be able to detect vertical lines. Good. So that's step one. Now, the next question we have to sort of ask ourselves, is that okay, great.
+
+00:05:47:11 - 00:06:15:07
+Unbekannt
+We have actually identified all these little vertical lines or lack thereof in the pictures. How can we best use information? How can we use all the zeros and ones that the convolutional layer is actually giving to us? And the way to think about it is that sort of conceptually, what we want to do is we want to somehow connect the ones and zeros to sort of this global image level sort of macro notion of there is a vertical line on some side of the image.
+
+00:06:15:19 - 00:06:36:37
+Unbekannt
+Right. These ones and zeros are very local because the filter is really small, but we need to somehow sort of aggregate them up to to this global notion of a line being on one side or other of the image or to put it slightly differently. We want to sort of step back and summarize is our aggregate what the convolutional filter has found for us.
+
+00:06:36:42 - 00:06:56:24
+Unbekannt
+Right. We want to step back on some of those. Now, Max balling is a beautiful way to do exactly this. Right. So let's look at that next. So what we will do is we will apply a max filling filter. And just to keep it very simple, we assume that we've designed this filter as the sort of this blue rectangle here.
+
+00:06:56:29 - 00:07:17:17
+Unbekannt
+It covers basically the left half of the image. Right. So we'll first apply the max pulling filter to the left half, then we'll move all the way and do it for the right half. By doing so, we have fully covered the image, right just to applications of this max pulling filter. Now, here's a key thing you need to remember from class, which is that what is Max pulling do?
+
+00:07:17:22 - 00:07:42:27
+Unbekannt
+It picks the maximum of all the values that it sees. Of all the values in its input. And in our particular example, the inputs it receives are all the ones and zeros from the convolutional filter that, you know, that preceded the max pulling filter. And so since these inputs, the largest ones and zeros picking the maximum is nothing more than outputting a one.
+
+00:07:42:32 - 00:08:02:34
+Unbekannt
+If there are any ones in its input and if all its inputs are zeros, well the maximum zeros are still a zero. So it's going to output zero. Okay. This is the key idea of max bullying that you will recall from lecture. In other words, sort of more qualitatively, Max plotting acts like sort of an order condition. Right.
+
+00:08:02:40 - 00:08:25:59
+Unbekannt
+If a feature exists anywhere in its input, Max, bullying will output a one if it exists nowhere in the input output or zero. Okay. So keep this in mind. Now let's look to see what happens when we apply this logic. So for the handbag example on the left, if you look at this max bullying filter, clearly there are a bunch of ones here.
+
+00:08:26:04 - 00:08:43:26
+Unbekannt
+But remember, the number of ones doesn't matter. All that matters is that is that at least one one in this? Great. Yeah, of course there are a bunch of ones. So what Max bullying will do is just. It'll just emit or output Just a one. Okay, Then we move the filter to the right, and then we look to see if there are any ones.
+
+00:08:43:28 - 00:09:01:30
+Unbekannt
+Yes, of course there are a bunch of ones here. So again, output, not one. So that's that. So the result of max bullying applied to our little stick handbag is just these two numbers, one on one. All right. Now, let's look to see what happens with the shoe. So we apply max bullying to the left side of the shoe.
+
+00:09:01:44 - 00:09:30:04
+Unbekannt
+Of course, there are a bunch of ones here. So you've got two. One. Then we applied to the right side of the of the picture. There are no ones here. It's all zeros. Which means that Max bully is going to put a zero. All right. So what we have here is that these zero one vectors that's coming out of max bullying, you can sort of think of them as a as a smart and very compact representation of the presence of vertical lines on the two sides of the image.
+
+00:09:30:09 - 00:09:54:36
+Unbekannt
+All the information about these little vertical lines have all been condensed, if you will, into just these two numbers. And it's sort of a smart representation of what's going on. So if you recall all intuition about what we can use to distinguish between handbags and shoes, we talked about the fact that handbags seem to have two vertical lines, one on either side of the image while shoes happen to have just one vertical line.
+
+00:09:54:41 - 00:10:16:12
+Unbekannt
+But of course, they could be either on the left or the right, so they match. Well, we can take this very intuitive sort of idea and really can map it to a very simple, crisp statement based on the ones and zeros that we see. So we can literally say, look, this vector that I'm getting, these two numbers that I'm getting from the picture, if I see two ones, I'm going to say it's a handbag.
+
+00:10:16:17 - 00:10:35:02
+Unbekannt
+Otherwise I'm going to say it's a shoe. That's it. Because you need the two ones indicate that there are two vertical lines. And this number indicates that as a line on the left, this number indicates of the line on the right, boom, it's a handbag. And here we're getting a one, which means there is a line on the left side of the handbag getting a zero, which means that there is nothing.
+
+00:10:35:02 - 00:10:55:06
+Unbekannt
+Nobody can write to the handbag. So we are guessing this must be a shoe that's actually pointing. Right. Therefore, it's a shoe. Now, little asterisk here. Obviously, this not a, you know, like a perfect classification rule. We can think of lots of corner cases. I'm just ignoring those to get the main idea across. Okay. All right. Now what do we do next?
+
+00:10:55:10 - 00:11:23:53
+Unbekannt
+We can take this smart representation, right? This is just these little zero one vectors, you know, which is produced by for us by Max Spalding, and then we can actually connect it to a little sigmoid, right as the final output layer. And by choosing the weights and bias for this output layer, meaning the weight on this arrow, the weight on this arrow, and then the weight on sort of a biased arrow that I'm not showing here, just those three numbers.
+
+00:11:23:58 - 00:11:54:59
+Unbekannt
+If we can find the right three numbers for this output layer, this resulting neural network will embody this logic that we have seen perfectly. And I would like you to try to convince yourself of this manually by just trying a few possible values for these two weights and one bias is a hint. Choose a negative number for the bias and just play around with the you know, for this number and this number, the two weights, and you will see that you can actually build a classifier that perfectly mimics this logic, okay?
+
+00:11:55:10 - 00:12:19:25
+Unbekannt
+And perfectly declare this to be a handbag and declare that to be a shoe. So the overall flow of a little neural network is that we start with these stick figure images. Then we apply a convolutional filter to it, which can which is which is learned to detect vertical lines. And then that filter gives us all these nines, zeros and ones based on very good of seeing a little vertical line.
+
+00:12:19:30 - 00:12:41:11
+Unbekannt
+And then we run it through max pooling. And max balling essentially looks for any the presence of any ones in its input. And if it sees a one or more at least one one, it is going to emit a one. If it sees nothing at all, just zeros is going to emit a zero. And now we take these zero one vectors coming out a max balling.
+
+00:12:41:24 - 00:13:00:34
+Unbekannt
+We run it through a little sigmoid with the right weights and buys for it and boom, you got a handbag or a shoe classifier. Okay, so to summarize, actually, before I summarize, one of the things I want to point out is that even if the object in the image, even if say, this is the original handbag, let's say it's kind of moves around right?
+
+00:13:00:39 - 00:13:18:48
+Unbekannt
+You know, in the various images that we get, maybe it's kind of moving around. It's not nice and centered, Max pulling this loop, catch it because what is going on, this whole Big Max balling filter is looking at the left side of the image. So regardless of what these three handbags are like moving around, it's going to figure out there is a vertical line on the left side.
+
+00:13:19:01 - 00:13:37:32
+Unbekannt
+Similarly, this thing is going to figure out there's a vertical line on the right side. So a little bit of movement in the image or as we call it in mathematical terms, a little bit of translation of the object back and forth, up and down is no problem for Max falling. It'll catch it. And then the resulting neural network will classify correctly.
+
+00:13:37:37 - 00:14:10:52
+Unbekannt
+By the way, this ability of max balling to sort of catch things, even if they move around a little bit, is called local translation invariance. Okay, that brings us to the end. To summarize, convolutional filters learn to detect features like vertical lines wherever they appear in the image. Max pooling allows us to sort of step back, summarize, aggregate all the little information that we are getting from convolutional filters into a sort of a useful representation that can be used downstream to do things like classification.
+
+00:14:10:57 - 00:14:19:14
+Unbekannt
+Okay, So I hope that was helpful. I look forward to seeing you again in class. I take care, everyone. Bye bye.
+
