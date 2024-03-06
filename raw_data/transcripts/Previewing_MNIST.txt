@@ -1,6 +1,6 @@
 00:00:00:00 - 00:00:26:17
 Unbekannt
-A professor, Christian. Over the next several minutes, I will walk through a collab which demonstrates how to take a data set a grayscale dataset of images, and then build a classifier, a neural network based classifier that can classify it quite accurately into one of ten categories. So we will solve a multiclass classification problem in this collab. Okay, so let's get going.
+this is Professor Ramakrishnan. Over the next several minutes, I will walk through a collab which demonstrates how to take a data set a grayscale dataset of images, and then build a classifier, a neural network based classifier that can classify it quite accurately into one of ten categories. So we will solve a multiclass classification problem in this collab. Okay, so let's get going.
 
 00:00:26:22 - 00:00:55:45
 Unbekannt
