@@ -1,0 +1,788 @@
+00:00:00:00 - 00:00:20:16
+Unbekannt
+All right so good consumer transformers today I to if you're going to do the second pass there's going to be a deeper cuts for the transformers stuck and I think maybe the next 30 minutes it's potentially the most demanding 30 minutes so that I was okay with that motivational speech. Let's get good okay. So quick review.
+
+00:00:20:16 - 00:00:40:25
+Unbekannt
+Why do we want Transformers? Because we want we want an architecture that can generate output that has the same length as the input output. So this is number two. If we want to take the context into account and don't hate ordering them, and as you saw last time, the console architecture delivers on those three requirements. And so just a quick review.
+
+00:00:40:25 - 00:01:05:19
+Unbekannt
+If you had a phrase like the train left the station, we have all these little arrows which stand for the stand alone or I'm contextual embeddings and then we can initialize it with random vectors. We can use three train vectors. Really doesn't matter in the call up. Yeah, sorry we can't really hear you in the back. I don't think you're making that much that you're like, What's that?
+
+00:01:05:24 - 00:02:00:07
+Unbekannt
+I said, Yeah, I forgot your mike. Like, okay. All right, so we've got nuts. Can you hear me now? No, this one. So you check now. I'm sorry, folks. Do you want to just come maybe to the front? I also try to speak a bit louder. Yeah. I don't know what's going on, so. But yes, what's most.
+
+00:02:00:09 - 00:02:30:09
+Unbekannt
+Okay. All right, So. So if you if you we start with either standalone embeddings, i.e. contextual entities, which I mean, pre-trained or random doesn't really matter if you look at the caller B did the other day, we actually just start with random reads for the embeddings and then we add positional embeddings to them. And so, you know, each embedding each word here, we take a standalone, we take a position and we just literally just add the element by element.
+
+00:02:30:11 - 00:02:53:09
+Unbekannt
+Then we get a total embedding and that's called the positional embedding of each word. Okay, Forces the bag. Are you okay with my volume? All right. Okay. So and then that's what we have positioned in print embedded. So this whole thing goes into this transformer encoder stack. And what pops out the other end is contextual embeddings. Okay? So that's the overall flow.
+
+00:02:53:11 - 00:03:20:02
+Unbekannt
+Now, we applied this, the transformer stack to the board, the slide classification problem where we basically took every incoming natural language query that comes in. We calculated position embeddings and then we run it through the transformer stack and then we get contextual embeddings. And then at this point, since each word that comes out, each embedding that comes out, needs to be classified into one of 125 possibilities.
+
+00:03:20:04 - 00:03:53:17
+Unbekannt
+We run it through Trello and then we attach a soft max to each and then right this basically what we did last class. So this is about online. Okay. Now actually, any questions on this report? I continue on. I was wondering like then how do you decide where to add most attention and worldwide or transformer layers? You mentioned that activity has 96 of them so.
+
+00:03:53:20 - 00:04:12:18
+Unbekannt
+Right. So if you three has an idea like the six transformer blocks, each one is a block. So I think the question goes to do you add more attention heads within a single block or do you add lots of blocks? And what are good things to do? What increasing the number of attention heads in a block does for you.
+
+00:04:12:25 - 00:04:33:26
+Unbekannt
+It allows you to pick up more patterns at that level of abstraction. But if you add more blocks, much like later, convolutional filters can build on earlier convolutional filters. You're going up the levels of abstraction. So to go to vision, for instance, you have the notion of lines and so on in the beginning, and then you have a notion of edges, which are two lines.
+
+00:04:33:28 - 00:04:58:12
+Unbekannt
+Then you have, you know, nodes, eyes, face and so on and so forth. So both are worth doing. So typically that's what you typically find that people typically have, you know, maybe a dozen heads or, you know, five, six, a dozen heads. You'll see examples of how many heads in a couple of architectures later on today. And you can the more you go up, the more capable the model becomes, as long as you have enough data to train it.
+
+00:04:58:14 - 00:05:17:02
+Unbekannt
+So the perennial question of do we have enough data to train this large model? Because if you don't have enough data, you might run into overfitting problems and so on. That's always a problem. So, okay, so here I just want to quickly switch to the color because we didn't have a chance to finish it. I'm not going to run it because it's going to take some time.
+
+00:05:17:04 - 00:05:54:07
+Unbekannt
+So baby left off last time, right? So you so this best. Okay, so here we you basically took this architecture that we just saw on the slide and then we essentially wrote it as a cross model and it went through this model of the last class. I remember how to do it all over again. What we did not do last class was actually run it.
+
+00:05:54:09 - 00:06:13:03
+Unbekannt
+And so so if you actually run it right, you can just run it for ten epochs, just like we normally do, give it data, got a bunch of epochs, shows a particular bar, say they're just over 64, you're running for the Xbox and then you evaluate it on the best set. You get a 99% accuracy on this problem.
+
+00:06:13:05 - 00:06:34:23
+Unbekannt
+One class almost looks at one one block, rather, one block. That's it. And of course, here there is a little trickiness going on here because a naive model can literally say every word that comes in this other course. And since the owners are the majority of the works, it's not going to do badly. Right? It's like having a classification problem in which one class is very prompt, predominant.
+
+00:06:34:26 - 00:06:54:20
+Unbekannt
+So the new way to actually go, well, let's just say every time something comes in, it's that majority less the same thing happens. But if it does adjust for that, it turns out that the accuracy on the non or slides, which is really what you care about, is actually 93%, which is actually pretty good. Okay. And then I had some examples of, you know, lots of fun, easy.
+
+00:06:54:20 - 00:07:21:11
+Unbekannt
+You can do, including queries. But I tried to break stuff like cheapest flight to fly from M.I.T. to Mars and see what I'm thinking. So it all right back to problems which so this what we have now, what are you going to do in today's class? We are actually going to take the input that we built last time and introduce three new complications into it.
+
+00:07:21:14 - 00:07:46:24
+Unbekannt
+And when it finishes, because using these three complications, we will actually have the actual transformer that was invented in the 2017 paper. Okay. All right. The first week is the hardest week, so we'll slowly work our way to it. So the thing to remember is let's reduce the potentially what is self retention. You have a bunch of words and we further said that for any particular word like station, we want to take a special embedding and then make it contextual.
+
+00:07:46:28 - 00:08:07:27
+Unbekannt
+And the way we do that is by taking each word embedding and then calculating these DOT products between all the other words. And then since these dog products can be positive or negative, we want to make them all positive and normalize them so that they're nicely out of the one. So we then expand and share them and then divide with the total right, which is basically soft marks.
+
+00:08:08:00 - 00:08:40:07
+Unbekannt
+And when you do that, you have nice actions that add up to one. And then we said, Well, the contextual embedding for W6 is just all these weeks S1, S2 all the way to a six multiplied by the original WS, and then you get the connectivity for W6. So this is the basic logic we covered last year. Now it is obviously the case that we explained it only for one word, but we have to do the same exact competition like every one of the other words to so that we could calculate w five had W for pack, W three pack and so on and so forth.
+
+00:08:40:12 - 00:08:56:29
+Unbekannt
+Right. So there's a lot of computations that are going on and they all look kind of similar, but you got to do a bunch of dot products. You go to like, you know, do some soft maxing on it and stuff like that. So the logical question is, is there a way to organize it very efficiently? And the short answer was yes.
+
+00:08:56:29 - 00:09:20:03
+Unbekannt
+In fact, if we could not do that, there wouldn't be any transformer revolution, okay, because it is that ability to package it up into a very interesting and efficient operation that allows you to put the whole thing on goes, okay, so now I'm going to switch to iPad and give you some iPad scribblings of mine which were concocted last night because I was very unhappy with the slides that follow.
+
+00:09:20:05 - 00:09:41:05
+Unbekannt
+So if you're going to go back. Okay. All right. So if it looks you folks are lucky if it doesn't work last year, Hollywood is lucky to. So this was okay.
+
+00:09:41:08 - 00:10:09:03
+Unbekannt
+All right. So we're going to go here. So let's assume we have a simple thing like, it's rough. You're not trained at the station to the long sentence. Let's just say you have a simple centers like Island Element. Okay? And so 800 is what you have. And then you have these standalone embeddings w 1 to 3. Okay.
+
+00:10:09:06 - 00:10:29:22
+Unbekannt
+So it comes into the of potentially and let's assume that these W once applies to the video they are already positionally encoded. Right? And they added up the position putting all those up. It's all behind us that all happens outside the transform. So you get it here. Now what you do is you actually make three copies of this thing.
+
+00:10:29:25 - 00:10:49:19
+Unbekannt
+Okay? And let's call this whole thing that's just X, okay, I'm just giving it the name X. It's a matrix of these three vectors. And so the first copy goes up here, the second copy goes straight, the third copy goes down, and nobody will not copy just yet. So if you look at the first two copies, here is the key thing to focus on.
+
+00:10:49:25 - 00:11:09:06
+Unbekannt
+Okay? This whole thing to remember that we want to calculate dot products between all these vectors and basically if you want to calculate the part of every part of vectors, every pair of works, the whole point of self-protection is that every pair of words we are attracted are related. They are right, which means that we have to complete all parts of our products.
+
+00:11:09:09 - 00:11:32:23
+Unbekannt
+And so what you do is you take this vector, right, that W and obviously you take this other copy that went up, okay, and then you transpose it. So when you transpose it, it all becomes nice and vertical like this, like all the vectors come in can to this, but it does what becomes already and then what you do is you take each one, you take one and then you multiplied by w one.
+
+00:11:32:23 - 00:12:03:04
+Unbekannt
+Here you take w one, w two, w1w3. You can get all the dot products like that. And then you do that, you have these nice cells that every pair of words that are considered calculated in this group. Okay. And the key thing to see here and forks of the matrix algebra background, we'll see this immediately. All we're doing is we are taking this X, which is the matrix at women and then X Transpose, which is the matrix that we went sent up and then brought back down.
+
+00:12:03:07 - 00:12:29:21
+Unbekannt
+Yeah. Basically doing the matrix quantification of X Times extracts. So that's what we're doing. And when we do that we're getting this nice grid of values, every pair of words that dot products have been calculated. So you might want matrix classification. Well, that's okay. So if you have three words that are nine multiplications, right? So if you have a million words, that's a lot of multiplications, right?
+
+00:12:29:24 - 00:12:50:13
+Unbekannt
+1 trillion. But I don't want really easy to say audit office because you know w one thanks everybody is the same as W so there's some occasion so you get this good okay in one chop, one modification and then B because each of these numbers is just a dot, part of which can be negative or positive, maybe the soft maximum.
+
+00:12:50:15 - 00:13:07:02
+Unbekannt
+And so what we do is we take all of these numbers and we put it into a soft max function for each row and calculates a soft max. And what do I mean by that? It takes each number here. Does this at the top erase so the number does it for each of these numbers and then divides with some of those numbers for each row.
+
+00:13:07:05 - 00:13:27:10
+Unbekannt
+And when you do that, okay, you can think of this operation of soft max applied to X times X transpose you get this nice little table of numbers. This table of numbers basically says that for the first word, right W one for the first word, 8.1 of the of the first 1.7 of the second point, 3.2 of the third.
+
+00:13:27:12 - 00:13:52:06
+Unbekannt
+And we do a weighted average. So we have this table here. We have no the third copy shows up here. Okay it's right there. So we do this same stack, which is just a matrix multiplication again. And when we do that, we get the final contextual index. So this, for example, is just point one, 71.2 and 72 point.
+
+00:13:52:06 - 00:14:17:04
+Unbekannt
+So point seven, 11.233, two. And it gives you the same logic here as well. Okay. And you can read it later on. I will post this thing. So to make sure you understand exactly how it looks. But the larger point I want you to focus on is that the entire self attention operation we just looked at here basically is just this beautifully little compact matrix formula.
+
+00:14:17:06 - 00:14:38:26
+Unbekannt
+Okay, X comes in, you do X transpose movement, it's multiplication. You have to do a soft text on top of it. And then what appeared to be X again and boom, you're so that is the magic of taking the transformer stack and representing it using matrix operations because then lightning fast on you because. Okay. All right. So that was the one moment.
+
+00:14:38:28 - 00:15:06:16
+Unbekannt
+Okay, now let's kind to the punch. So recall that in the last class I talked about the fact that the self attention operation, the W's are coming in and you're doing all this stuff in the W's, right? And then we're getting some w hats out, but there are no parameters. There's nothing to be learned inside the transformer itself potentially right there.
+
+00:15:06:16 - 00:15:24:29
+Unbekannt
+And all the little ways that are nobody. See, they're all proficient, so. Well, okay, what are we learning then? Right? So what we now do is we are going to make the self attention layer tunable. You're going to inject some grids into it so that when you train it on actual system, the weights will keep changing to adapters.
+
+00:15:24:29 - 00:16:07:18
+Unbekannt
+So could the particularities of what are the problem you are looking right. So that takes us to the tunable. So for attention there, tunable so potentially so this is the key thing to keep in mind. Any questions on this before I continue with the general, anything? Okay. Is this picture working or whether we look All right. So what we've now do is we have the same exact logic as before where we have this thing that comes in, okay, we have this input that comes in the scene.
+
+00:16:07:18 - 00:16:32:24
+Unbekannt
+We call it X again, the source of this matrix of embeddings. And then before we just send three copies in. So doing that, what we're going to do is will take each copy X and then we will actually multiply it by a matrix. Okay. This matrix is called the key matrix and this restricts this matrix of numbers on base that will be learned by black problem.
+
+00:16:32:26 - 00:16:59:20
+Unbekannt
+So basically what you're saying is that when this thing comes in, let's see if there's a way to transform this X into some other set of embeddings which may be useful for your task if you don't know if they're going to be useful. But surely giving it a bit more ability to have weights which can be learned means that you're giving it more explicit power, more modeling capacity, and whether it actually uses the capacity would depend on how much data you have and how well you train it.
+
+00:16:59:22 - 00:17:20:20
+Unbekannt
+And maybe if it's useful, if want to use it. What I mean is if transforming X actually doesn't really help at all, then this matrix is going to be what it's going to get The identity matrix because you take basically one and multiply by x is going to white X again. So the worst case, maybe you just say that I have nothing going here but maybe that is something you can learn.
+
+00:17:20:22 - 00:17:46:21
+Unbekannt
+So, so that's what we do. So we multiply by this matrix a K, and then we come up with the same, you know, some embeddings transform embeddings. And because these things k Now this cube, as you will see, has its origins in this field of information retrieval. But I personally find that that interpretation is not super helpful because that's one of the useful lots of applications outside of information retrieval.
+
+00:17:46:27 - 00:18:07:02
+Unbekannt
+So I'm not going to go with that kind of interpretation. I'm going to go with the definition of let's make each of these things tunable, okay? And durability means we need to give it a base. All right. So that's what we have here. So the second copy we did, this is the first of all, be well, let's do the same thing with a second copy will take the second copy and multiply it by some of the matrix for an issue.
+
+00:18:07:04 - 00:18:30:09
+Unbekannt
+And when we are done with that, we get these embeddings and we will call these embeddings as. Q Okay, okay. Now, just like before, we will take this, this thing here, I'm going to transform it so it all becomes like some modicum of that. And then we do exactly the same as before. We can create all these ways to draw products using one, one shot, one matrix multiplication.
+
+00:18:30:12 - 00:18:52:12
+Unbekannt
+And because we are calling this Q and we are calling this whole thing as care, this thing just becomes. Q Thanks, Katie. Okay. At the end of it, you come up with a grid of numbers just like before, okay? And these numbers could be negative or positive. So we need to do the soft facts on them to make sure there will be hidden functions that add up to one.
+
+00:18:52:15 - 00:19:17:10
+Unbekannt
+So we take this cupcake business and then we do we just run it. We put it through a soft max function for each row. And when we do that, we will get basically like a table, like the ones we saw before. By the way, the numbers here are the same just because it duplicated it, because I'm busy. In reality, given that has gone through all these transformations, the numbers are not going to be one of these numbers.
+
+00:19:17:12 - 00:19:42:29
+Unbekannt
+And then you take the final copy, which is X times every right. Each copy is getting multiplied by its own matrix, right? And this copy is being multiplied by Abe. And let's call this XIV. Okay? Which is here as just we. And so what you have here is the soft max-q. Katie HP is exactly the same kind of product as we saw before, matrix multiplication, and then boom, you come up with the final output.
+
+00:19:43:01 - 00:20:18:19
+Unbekannt
+These equals, which is actually going to give the power. Thanks for stopping me immediately. Okay, so, so we have these contextual embeddings and that's what's coming out of the of the transformer. So now the whole thing we did here exploded can be represented as soft max of Q times. V Okay. So if we zoom in a bit. Okay.
+
+00:20:18:21 - 00:20:41:29
+Unbekannt
+So X given three tracks went here the first track X times decade X times, they kill extensively and this thing is called K, this thing is called Q is quality. And then we do the same transpose as before. You do the dot product thing to calculate the bad waste products, but everything which is just. Q Katie, we run it through a soft.
+
+00:20:41:29 - 00:21:16:22
+Unbekannt
+Max We get soft. Max A Q You multiply it by one through the final rating and then boom, output comes back to this function. I said, Okay, so what we have done is we have introduced three matrices, learnable matrices into the self potentially. Okay, now, okay, let's stop the questions. Yeah. Is there a relationship between a K, AQ and a V like the A in development?
+
+00:21:16:25 - 00:21:44:14
+Unbekannt
+Definitely. So let we have it. So here we have a set of parameters KQ will be if there are let's say if there were 100, the total length was that a number of total opens, but let's say 50. So you would have 60% of parameters like we'll have to split up if you have a 50, if the dimension is 50 long, what is coming in the WS a 50 line, then the key that what comes out of it, if you want it to be 50 as well.
+
+00:21:44:16 - 00:22:13:17
+Unbekannt
+So the matrix needs to be 50 times 50, 100. Know what are the three different things, the three that the three matrices are trying to learn. So what are the different things that the matrices are trying to learn? We don't know. All of you are saying is that we have be which can be defined words. But but, but you need to give it some or transform what is coming in in into potentially useful things.
+
+00:22:13:19 - 00:22:33:28
+Unbekannt
+Right. That's actually useful less we figured you have some not and of course as you know the punch line is massive you took it in if you would find it to be planning literature is that when you want to increase the capacity, the modeling capacity of a particular model, you just take a small piece and inject a little bit modification approach.
+
+00:22:34:00 - 00:22:53:01
+Unbekannt
+So we take a vector that's showing up in the middle and then you make it run through amendments to get another vector. And then the further after you run through a matrix, you run through a little value as well, even better. So that's how you inject modeling capacity into the middle of these networks. And that's what these people are doing here.
+
+00:22:53:03 - 00:23:12:05
+Unbekannt
+Yeah. So in the last step you had the Matrix V, So on the previous example, you had used the original Matrix X, So could you just say sort of why is it not using X and what does that mean? So what we're saying is that the original version we had three copies and between them all identical. Nobody said that either.
+
+00:23:12:05 - 00:23:34:15
+Unbekannt
+This would transform each copy into some other representation which could be useful. So we may as well use three different matrices for waste offered. Two There are three opportunities to make the more explicit. We'll use all of them. Yeah. You mentioned that these are kind of you're tuning it, you're kind of fine tuning it. Is there any risk in your mission here?
+
+00:23:34:21 - 00:23:55:15
+Unbekannt
+You know, if I do a category here so you've added more recently, but what could that be when we finally train this model to look at all the weights are going to be updated using back propagation, Right? Right. In particular, these matrices will also get updated using back propagation. So there's no risk of or is there a risk of overfitting to this couple?
+
+00:23:55:16 - 00:24:12:16
+Unbekannt
+But for diversity parameters of the model. Right. Which means that you have to look at the validation set. And on the good stuff, we basically adding more parameters in a very interesting way because we want to add more capacity to the retention layer. We want to give it a more of an ability to learn things from the data.
+
+00:24:12:18 - 00:24:39:09
+Unbekannt
+Before it could not learn anything, it could only do cuts. So we want to solve that problem. All right. I'm going to continue on and come back. It's okay. So. All right, let's just just for fun, I'm going to do this book. The original paper is called Attention Is All You Need. That's why transform a paper. You should read it at some point.
+
+00:24:39:11 - 00:25:10:20
+Unbekannt
+I just want to show you something. It's good. So that is the famous transformer formula, okay? And the only thing we ignored is this root of decay. But it doesn't affect it. I wouldn't worry about it. The reason they have it is because these soft maxes, when you have lots of numbers and some numbers are really, really big, what's going to happen is that all the little numbers are going to get squashed to zero.
+
+00:25:10:22 - 00:25:30:05
+Unbekannt
+Okay? And so to make sure the gradient flows properly, they just divided by a particular number to make sure no numbers make big. Okay, it's a small, technical, important but reliable technical detail, which is like not even my iPad, but the rest of it. You can see this is exactly the formula we divide. Q Katie times V soft.
+
+00:25:30:05 - 00:26:18:07
+Unbekannt
+Max Okay, so this is the famous transformer formula and congratulations. Let me understand it. You seem less than fully convinced, correct? Okay, So that's what we know now. So so, yes, I know I have a bunch of slides which are hard, but actually I can make this. I had a bunch of other slides. This is from last year, which actually explains what I did in the iPad in a very different way without using any matrices and so on.
+
+00:26:18:10 - 00:26:36:13
+Unbekannt
+I was looking at it last evening and I was getting very annoyed with these slides for some reason because I felt that it wasn't really conveying the core matrix, sort of the matrix, the ability of using Matrix algebra two to actually do this so efficiently and compactly, which is why I decided to like handwrite this thing on paper.
+
+00:26:36:15 - 00:27:09:17
+Unbekannt
+Okay, but you should read it afterwards to make sure that whatever you saw on the iPad actually matches this. Okay. Because to different with 1 to 20 something always helps. Okay. So that's what we have here. Now to just to recall, though, by making self-protection durable, we've got a very interesting benefit, which is that when you have these different attention heads, before you could have two attention heads, but because there are no parameters inside, their output would have been identical because the inputs are the same, four would therefore be identical.
+
+00:27:09:19 - 00:27:35:28
+Unbekannt
+But now by since each attention had to have its own AQ a.k.a the matrix, the outputs are going to be different. That's why it makes sense to do the durability thing, because that's what actually makes multiplication. It's actually useful. Jacksons is is there actually any relationship between a Q&A V or is the A just for like a notation standpoint?
+
+00:27:36:05 - 00:27:58:14
+Unbekannt
+Invasion Thing is we want to use Q curve for the resulting matrix. And so I had to find something else to use for the first one and I was like, okay, with you. And I might give you the subscript. So yeah, what more? More? Well, yes. What is the size of the matrices? Are there like square matrices or.
+
+00:27:58:17 - 00:28:13:18
+Unbekannt
+It depends what happens instead, but it's a whole bunch of you can think of it as a hyper parameter in some ways. Typically what people do in most implementations is that they will actually just preserve the site. So if the incoming I'm building a stent, they'll make sure the the thing coming out of the thing is also done.
+
+00:28:13:20 - 00:28:41:08
+Unbekannt
+So you just do a ten by ten matrix to transform it. But the value, the matrix, on the other hand, there is a bit more technical stuff going on, but it often tends to be smaller. So for example, let's say that you incoming is 100, you do 100, 100 for the key, 100, 200 for the 20. But if you have say, five attention heads, you may do 100 to 20 for the VS because ultimately all of these are going to get concatenated into another one.
+
+00:28:41:10 - 00:29:18:19
+Unbekannt
+So I can tell you more offline but funding broadly speaking these things tend to get transformed. They do not because of the dimension in-and-out. Yeah so this AQ is these numbers are random when you start with it and then allow it to become so right? Yeah. So the values of these matrices a way to learn through optimization using a study and then what that means is that each of these applications now has its own copy of these matrices.
+
+00:29:18:22 - 00:29:42:16
+Unbekannt
+It has its own matrices and over the course of back propagation, these will look really different. Okay, So important. Each additional shape will have its own set of three matrices. So if you have an attention hex 30 matrix will be that again. So by the math, it seems like it's creating essentially a relationship between all of the content being ingested.
+
+00:29:42:16 - 00:30:00:22
+Unbekannt
+And if creating, if you're ingesting all the content for each attention head Are there different categories of attention head type that you're trying to go after? Yeah. So basically what we're trying to do is to say a particular attention head. So in any particular sentence, it may turn out to be the case that one pattern could be about the meanings of these words, right.
+
+00:30:00:23 - 00:30:18:28
+Unbekannt
+Like the word bank and what it means the word stations and things like that. That's what really have you been talking about. But there is a whole other pattern through grammar and some things like that. There could be another one in terms of tone. All of those things are very important and it really we don't know how many such patterns exist, much like in a convolutional network.
+
+00:30:18:28 - 00:30:37:20
+Unbekannt
+We don't when we're designing how many filters to have, we don't know how many kinds of little things we have to detect, you know, where to glean horizontal layer semi-circle quantities and stuff like that. So you just give it a lot of capacity so that it can learn whatever it wants. All right. So so that is the transformer encoder.
+
+00:30:37:26 - 00:30:58:22
+Unbekannt
+So we have done what the first of the three complications needed to make it like industrial strength and legend. The second thing we do is something called the residual connection. So what we do is that what are the comes out here W one third of the physics goes in and comes out as W one had W two and so on and so forth.
+
+00:30:58:27 - 00:31:23:28
+Unbekannt
+Three actually what comes out of the hand, but what comes up here, there's some intermediate WS Right. That is what the set for today is going to give you some intermediate. WS What we do is and because what's coming on here, these vectors are the same length as what goes in, we can just add element by element. So we did the input and we actually added the word comes up.
+
+00:31:24:00 - 00:31:46:02
+Unbekannt
+So why would we want to do that? Why would we want to, you know, go to a lot of trouble to process this thing? And then when it comes out, like literally out of the original input, what what's what do you think the is the intuition is. So it turns out think of it this way. You know, a bunch of inputs.
+
+00:31:46:04 - 00:32:16:29
+Unbekannt
+You send it to a neural network, it transforms it, it gives you something. That's right. At that point, you might be thinking, well, everything that everything that happens in a click from that point onward can no longer see original input. It can only work with the transform. Right? But what if your transformations are not great? So as an insurance policy, what you can do is you can build up the transform stuff and you can take the original stuff and send both it right.
+
+00:32:17:01 - 00:32:34:06
+Unbekannt
+And this whole thing is and you can Google it. It's got like a wide and deep network and things like that. But the whole point is that let's not lose the original input anyway. Let's also send it along. But if you keep adding the original input to every of it, it's going to get longer and longer and longer and bigger, which you don't want because you want it all to be the same size.
+
+00:32:34:12 - 00:32:53:10
+Unbekannt
+So the simplest alternative is to just add the you take the transform stuff and you add the original input. You get the same thing again. What that what came out, what came W one was 100 long vector and the transform version is also 100 long. So just looking at them, it's like you're going to get a 100 number.
+
+00:32:53:13 - 00:33:16:18
+Unbekannt
+So that is what's called a residual collection. Okay. And as it turns out, it's zero connections. It may improve the gradient flow during back propagation dramatically and that's why they're very heavily used. And in fact, risk net, which we looked at for computer vision, it stands for residual net because it is the first network to actually figure this up.
+
+00:33:16:20 - 00:33:40:11
+Unbekannt
+It's not this is not just a transformer thing, but it's widely used, you know, lots of neurotic new architectures. The notion of it has to do with connection. That's what it means. Okay. So be doing this to a connection. And then we come to the final speak, which is called layered mobilization. So once we add the residual connection, we do something else go to these vectors before they continue flowing.
+
+00:33:40:13 - 00:34:05:09
+Unbekannt
+And what later nomination does is it basically says that you would recall from the very beginning of the semester I've been saying that whatever comes into a neural network, the inputs, let's really make sure that they are all in some sort of a narrow, well defined range. They can't be in a big range, right? So for pictures, but you may just be the one in every number way to define so that every little pixel values between zero and one.
+
+00:34:05:12 - 00:34:23:15
+Unbekannt
+Okay. For continuous things like the hard to see the example, we standardized it by calculating the mean and standard deviation and doing subtracting the mean and dividing with the standard deviation. So when you do that, all the numbers are going to roughly be in the minus one, two plus one range. So in neural networks, it's for backup to work really well.
+
+00:34:23:15 - 00:34:44:27
+Unbekannt
+You have to make sure that no numbers get too big, that all the numbers are always in some sort of a narrow range. So what the normalization does is to say, you know what? Whatever is coming out here, I want to make sure none of these numbers are too big. I want to make sure they're all well behaved in a small range, because if I don't do that, backdrop is not going to work very well.
+
+00:34:45:00 - 00:35:05:22
+Unbekannt
+And so I'll say here is this what we do to ensure we don't have the problem of vanishing gradient? So so the second thing that the critical problems that are exploiting gradient, actually gradient, whatever this is based on, so you would find a whole bunch of dash normalization techniques, layered normalization, batch normalization and so on and so forth.
+
+00:35:05:25 - 00:35:36:04
+Unbekannt
+All these are methods to make sure that these numbers stay in a small range. So it doesn't cause gradient issues like, All right, so for in particular, what we do is what happens inside this layer. Layer normalization uses calculate the mean and standard deviation of every one of these images. Okay. So if you have, let's say, one six and you have six means of 600 deviations for each one across the rules, and then standardize that meeting, subtract them in the middle of Sandy.
+
+00:35:36:11 - 00:35:56:16
+Unbekannt
+And when you do that, all these things are going to be nice and small. And then we do this a little other thing where we we have introduced two new parameters to rescale it and move it around a little bit just because adding more weight always helps make these things better. So we add them. And this gets slightly complicated because of the way the dimensions.
+
+00:35:56:21 - 00:36:17:00
+Unbekannt
+So I'm not going to spend much time on it. And then what comes out the other end is a very well behaved set of numbers in a nice and small amount of edge. Okay, so this is called layer normalization. You can see this link going to sound a bit better and we do that as well. So to put it all together.
+
+00:36:17:02 - 00:36:39:22
+Unbekannt
+Okay, so this is a console, the encoder where we have this multi-hit attention layer that each attention to head and the inside of it is tunable with those air matrices. And then we have a to do a connection, we do that and then we do layer now and then we do the same thing in the next feedforward layer as well, and then boom or pops out everything by that definition in the multi hit attention level.
+
+00:36:39:23 - 00:37:03:16
+Unbekannt
+And I'm doing dawn and everything. Theoretically I can add even devices or the hate speech aspects which come in to take care of it. Right? So the model can account for the fact that something is biased to something is not. the thing is, it's also which the mode is accounting for it. It is capturing whatever patterns happened to be embedded in the data it's capturing right now.
+
+00:37:03:16 - 00:37:18:26
+Unbekannt
+What do you do with that captured is up to you or it depends on the actual problem your friend. So in particular, it is going to capture all the bad stuff too, because a good training data has a lot of biases, stuff in a toxic things in a dangerous thing, so that it doesn't it doesn't have a sense of values as to what it's good or bad.
+
+00:37:18:26 - 00:37:40:19
+Unbekannt
+It's just going to pick it up. Guess putting on that then how do you actually make it unlearn those or how do you mitigate the effect of those? That's a course unto itself. I'm happy to give you a point this off like, all right, so this what we have and remember what I said that was just single class all a block.
+
+00:37:40:23 - 00:37:57:20
+Unbekannt
+And since what comes in and what goes under the same dimensions, we can just stack them one after the other, right? It's very stackable. You can do it, you can multiply, you can you can second vertically as much as you want. And as I mentioned, I think Deputy three has 96 of these things stacked one on top of the other.
+
+00:37:57:22 - 00:38:29:07
+Unbekannt
+And so yeah that brings us to that is that is the ensemble encoder and this exactly maps to that so basically the input because in command you add positional embeddings and then you send it to see these many attention blocks and they all get added up and then it comes up the attention. BLOCK You add the ad and NOM here means ad means that us a dual connection because you're adding the input, which is why you have this arrow going from the input being added there and then you normalize it, sent it along and do it again and it comes out of.
+
+00:38:29:09 - 00:38:54:00
+Unbekannt
+So. All right, now just to be very clear on what is being optimized during back propagation in this complex flow right now, clearly the embeddings that you started out with, both the standalone embeddings as well as the position of the position, those things are going to get optimized. Those are just ways they're going to go optimize. Clearly, everything inside the platform would include a block is going to dominate.
+
+00:38:54:03 - 00:39:13:21
+Unbekannt
+Right? And what are they? Well, they are the AP AQ IB matrices with each attention head layer now has parameters as well. The next like the little feedforward layer has beats as well. All these things are going to get optimized and then it goes through this value which again as a what your base is going to get optimize.
+
+00:39:13:26 - 00:39:35:08
+Unbekannt
+And the final soft max is a bunch of weeks that's going to get this. All these things are going to get optimized buy back stock for. So in that sense, you just step back for a second and look at the whole thing. It is just a mathematical model with a lot of patterns and they're just going to use gradient descent or stochastic great as an optimized.
+
+00:39:35:10 - 00:40:02:09
+Unbekannt
+Yeah. So for those matrices, when we train the model, are we calculating weights for like each cell of every possible matrix based on the number of inputs, like every possible dimension up to the max number inputs. Actually, the weights themselves depend on how long your input sentences, because what they're doing is what each sentence that comes in. Let's say three words that are three.
+
+00:40:02:12 - 00:40:28:07
+Unbekannt
+So that sentence each of those embeddings gets multiplied by the kid, right? So it only needs to work, needs to know each and but it doesn't need to know how many words do I hope that's okay? And that's a I'm glad you raised the question then, because that's what makes a Transformers number of reads independent of the number of words in your sentence.
+
+00:40:28:09 - 00:41:04:12
+Unbekannt
+Depends. Pencil cap. You can work because it determines how many embeddings you need, how many images you need. Length only matters in terms of the position embedding, because if you have a thousand long sentence, you need a thousand long position embedding metrics. But beyond that, it doesn't care makes. And that's why, for example, Google, Gemini, 1.5 probe, which is a million, it can accommodate basically a million long million book in context random right It can it's too big to compute heavy but does not change the number of parameters.
+
+00:41:04:15 - 00:41:28:21
+Unbekannt
+Yeah. Conceptually which weights are optimized first are they in sequential order or are they optimizing the weights at the very same time for all assumptions? Because if you think of back propagation, ultimately you have a loss function rate and you calculate the gradient of the lost function. So if you had a a billion parameters, the gradient is basically a billion long vector, right?
+
+00:41:28:21 - 00:41:45:27
+Unbekannt
+And you're going to take the gradient and we're going to do w new equals old minus alpha times the gradient. So all the W's are going to be instantaneous, not the way it actually works. And computation is you going to do it because the back and back propagation is going to start at the end and slowly flow backwards.
+
+00:41:46:00 - 00:42:09:26
+Unbekannt
+But when it's done, everything will be updated. Yeah. So my question is, if you take the two attention heads and we have the matrices of a and and them, I would the parameters of all three of them, all the weights of the three mattresses on this side and the same would be different because finally the texture and putting from the same and output is same.
+
+00:42:09:26 - 00:42:32:04
+Unbekannt
+So the learning process should be the same like, like a CNN where we had put filters which were different. So what different thing we are putting into initialization? Is that what we mean by initialization? Get two heads right. We have three matrices, the starting values of six, which is a different starting value of eight. It gave me a Q&A with different about the aircraft.
+
+00:42:32:06 - 00:42:59:17
+Unbekannt
+Much like for all the rates, typically the values are randomly chosen if they were all the same thing. You're right, it won't make a difference that they will not change the same. Yeah. Is the input of the transformer the sentence or the the array of the meaning of each word transform? It itself is expecting embeddings. And so what basically happens is that we get some sentence.
+
+00:42:59:17 - 00:43:16:20
+Unbekannt
+We run it through an organizer, which connects it to a bunch of tokens, which are just integers. And then it goes through the embedding layer, which maps the integers to these embeddings, and then you feed it to the transformer. But when you do back propagation comes all the way back to the starting embedding layer and updates those bits.
+
+00:43:16:22 - 00:43:38:24
+Unbekannt
+Okay, so they can be trainable. So the embeddings that we see at the beginning, we see them as input here, but they can be trained. Exactly. Yeah. Are the attention had solely parallel or can you have like a stack of attention heads. Typically they families and because you can always start the block itself, they get more and more followers.
+
+00:43:38:26 - 00:44:02:20
+Unbekannt
+All right. So so no, don't play the transformer later. The common use cases are that you have a whole sentence that comes in and then you just want to classify it, right? The canonical thing being, hey, moving sentiment classification book, positive or negative classification. Another common one is labeling, but every word gets labeled as a multiclass label and that's basically what we saw with that slot filling problem.
+
+00:44:02:22 - 00:44:19:24
+Unbekannt
+And then there is another thing called sequence generation where you give it a sequence you wanted to continue the sequence or generate more stuff, i.e. large language models and all that good stuff. So so this is, you know, all in 100 because we actually literally protocol opens the transformer state. Now the question is how can we do that?
+
+00:44:19:27 - 00:44:35:07
+Unbekannt
+How can you do basic classification with these things? So now if you again, when you send the sentence in after all that stuff is done, and when I say encoder, you are I'm assuming that you can have one one block. You may have 106 marks. I don't care. At the end of the day, you send something in, you get a bunch of content.
+
+00:44:35:07 - 00:45:03:20
+Unbekannt
+Anybody got it right? So at this point, we need to take these conviction readings and somehow make it work for classification. Just classifying something in do. Yes, I'm no positive or negative, so it would be nice if we can actually take all these and buildings and essentially summarize something to a singular but in a single vector. Because if you have a single vector, then we can run it through maybe a relative, and then we use it more boom, We can do a, you know, a binary classification.
+
+00:45:03:22 - 00:45:29:06
+Unbekannt
+Super easy, right? So this begs the question, okay, how are we going to go from there? All the many blue things to one green. Okay. Now, of course, what we can do is we can simply average them. They can take them really just simply average them element by element. You'll get a nice screen. Okay. Any shortcomings from doing that?
+
+00:45:29:08 - 00:46:03:21
+Unbekannt
+Mark? You would lose the ordering of the words you do, but in some sense the positional embedding, the position encoding you have in the input does have this notion of position, right? So you're not basically losing the order necessarily, but you sort of averaging all this information for something and averaging is going to lose some richness. Okay. Luna I think it's going to be skewed to the one that has like the biggest number, right?
+
+00:46:03:21 - 00:46:21:22
+Unbekannt
+So if something is influencing more, yeah, the biggest ones are going to dominate, but hopefully we won't have much of that because all the layer and all this in the beginning, as hopefully mentioned, the numbers are all in a reasonably smaller than behave. But the point really is that you're going to lose richness in the information because you're just rushing it down.
+
+00:46:21:24 - 00:46:46:28
+Unbekannt
+So there's a much better and more elegant way to do this, which is that what you do is for every sentence when you're treated, you add an artificial token called the class token. Okay? Literally, it's an artificial token. And it's this again, it, you know, class in the literature and then this token is getting trained with everything else.
+
+00:46:47:01 - 00:47:12:21
+Unbekannt
+Okay. And so once you once you've finished training, that token has its own ability to And because it has been trained with everything else and this token is developed is a contextual embedding, which means that it's very much aware of all the other words in the sentence. So in some sense, this context, the seamless tokens, contextual embedding sort of captures everything that's going on about that sentence right?
+
+00:47:12:24 - 00:47:32:13
+Unbekannt
+And so what we do is once we are done training, we just grab this thing alone and then send that through a review and a sigmoid. So there's a very clever trick to somehow, you know, insert obviously a big at the end. Let's just have something just for the whole thing, the sentence and just learn a little bit everything else.
+
+00:47:32:16 - 00:47:50:09
+Unbekannt
+So like a metaphor, it's going and be planning does that whenever you think you're making an ad hoc decision about something like a logical bunch of stuff, you should always stop and say, Is there a better way to do it? But it doesn't have to be ad hoc. Read that right. It is learnable from the data, but again, using back propagation, that was a yeah.
+
+00:47:50:11 - 00:48:12:20
+Unbekannt
+So is there a reason that you and I did this seals at the start? Why not there at the end? Is there any difference? The only thing to remember is that it's a good question. So different centers are going to be of different length, right? So that would be short sentences. There would be long sentences in particular, the long the short sets are going to get kind of gray.
+
+00:48:12:28 - 00:48:28:23
+Unbekannt
+I remember I talked about fighting to make it to fit to one length so what until the console but it was illegal on the platforms because don't do it it's just fighting it doesn't really matter for anything. So if you have to see us at the very end, we have to have much more administrative bookkeeping to take everything.
+
+00:48:28:23 - 00:48:49:04
+Unbekannt
+What the last one ignored and only do the last one just what she's just going to do. Because that's the beast. Yeah. What would be just a practical application of this? Would it be something like sentiment analysis, like positive or negative? Okay. Yeah. So basically any kind of text comes in and you want to figure it out. Some labeling problem, like a classification problem.
+
+00:48:49:06 - 00:49:03:08
+Unbekannt
+The easiest example I can think of a sentiment, but you can imagine, for example, an email comes into a like a call center operation and you want to take the email and automatically figure out which department should I send it to.
+
+00:49:03:10 - 00:49:27:19
+Unbekannt
+Okay, So no, no. If the input data for the task is natural language text, right? We don't have to restrict ourselves to only the input being going to be how right would it be great to learn from all the text that's out there? So, for example, to go back to the call center thing I just mentioned, you know, white it, let's say it's coming in English, the ability to take that English email and wrote it to one of ten things.
+
+00:49:27:22 - 00:49:51:05
+Unbekannt
+You know, you should have to learn English just for what you also do application. You should learn English generally and use it for other things. Right? So what could be just a lot of all the text that's out there? And so that brings in something called Self-supervised learning and the idea is enterprise learning is this. So if you recall the first learning example from lecture four, right, maybe had written it right and we took resonated, we chopped off.
+
+00:49:51:05 - 00:50:09:12
+Unbekannt
+The final thing, we made it sort of headless and then we attach that output of the headless listening to a little bit of layer and output and then hand back to shows and you recall that we were able to build a very good classifier, find bugs and choose. We just like a hundred examples, right? So the question is, why was this so effective?
+
+00:50:09:15 - 00:50:29:28
+Unbekannt
+Why was this so effective? And turns out the reason why any of this stuff actually works is because neural networks or they learn representations automatically when you train them. So what I mean by that is when you imagine a network, you feed it a bunch of stuff, it goes it all the layers, it comes out. You can think of each layer as transforming the raw input.
+
+00:50:29:28 - 00:50:50:18
+Unbekannt
+And so different or different representation of the input. Okay? And so and these are all representations. That's actually a technical term. And so you can from this perspective, when you train a neural network, a deep network with lots of layers, what you really learning is you're learning a way to you're learning how to represent the input in many different ways.
+
+00:50:50:21 - 00:51:11:21
+Unbekannt
+Each of these arrows are the different you are presenting things, plus you're learning a final regression model, either a linear regression model or a logistic regression. But fundamentally, that's what's going on, because the final layers tend to be sigmoid. Soft Macs are just linear, right? So the final layer, if you just look at this slide alone, whatever is coming in, it's just going through essentially a linear regression model or elastic regression model.
+
+00:51:11:28 - 00:51:36:21
+Unbekannt
+That's it. So fundamentally you're learning representations and a final level model. Okay. But the reason why all these things look so much better than logistic regression is because those representations have learned all kinds of useful things about input data. They have automatically feature engineered for you. So so from this perspective, you can imagine that each layer here is like an end to it includes the input, right?
+
+00:51:36:24 - 00:51:55:17
+Unbekannt
+The first layer encodes it, the first two layers encode something, the first three layers of code something, and so on and so forth. So a deep network contains many inputs. And so the question is what do these representations actually embody what do they capture? Is it like specific knowledge about the particular problem that you train to train the network on?
+
+00:51:55:19 - 00:52:17:00
+Unbekannt
+What is it like general knowledge about the input data? Because if it has general knowledge about the input, we can use it to solve other problems, unrelated problems. So is it specific knowledge or general knowledge? But it turns out they actually captured a lot of general knowledge about them and that's why you can reuse all of them. You can reuse them for other unrelated things because they are captured general stuff.
+
+00:52:17:02 - 00:52:35:19
+Unbekannt
+So if you look at this, I think I showed you before, right? If you look at a network that classifies everyday objects into a bunch of categories, you can learn a lot of these little patterns in the beginning and later on. And so to look and this is a face detection network, it has learned how to look at identifying little circles and edges and laws like shapes and finally faces.
+
+00:52:35:21 - 00:53:07:28
+Unbekannt
+So all of these things are examples of repetition, learning interesting things about the input. Okay, so since these representations are capturing intrinsic aspects of the data, you can use it for other things, right? You can take a face detection neural network and use it reuse emotion detection, for instance. So the question is, if you can somehow get like an encoder that generates good representations for your input data, you can simply build a regression model of those as input and labels as output can be done and does exactly what it for those interests.
+
+00:53:08:01 - 00:53:28:14
+Unbekannt
+We found a thing that had already been trained on some of the everyday objects in the images, and the key insight here is that since we don't have to spend precious data on learning these good representations, we won't need as much labeled data in the first place because the Pre-training used a lot of data and you're sort of piggybacking on the data.
+
+00:53:28:16 - 00:54:03:25
+Unbekannt
+So in some sense your training data is everything that the Pre-trained model was trained on, plus your little recorded examples. Okay, so this would be that you said, let's listen in as an encoder that can take raw, important, transformative, useful representations. This is what we did. All right. So the general is that you find a deep neural network built on similar inputs but different outputs, and then you basically grab maybe the penultimate representation of the one before that then you chop off the head, attached your own output head, train the whole thing just to find a layer or read the whole thing.
+
+00:54:03:25 - 00:54:22:11
+Unbekannt
+If you want. But this is like the playbook we followed for, isn't it? The same thing works for all kinds of other data types as well. So now to build such a model, we need labeled data, right? We were lucky because the rest of it was actually trained on image level data. We just like a million images, each of which labor in 2000 categories, which is very convenient for us.
+
+00:54:22:13 - 00:54:45:21
+Unbekannt
+Right. But what if you want to build a generally useful model for X data? Really, you need to collect a lot of text, you know, but that's no problem because it is full of text you can easily skip, then you can just download Wikipedia. So that's sort of all the problem is else, which is that how do we define an input label for a piece of text?
+
+00:54:45:23 - 00:55:04:21
+Unbekannt
+Because unless we have a matching output label, we can't do any training on it. There's no assumption, there's no background. We need some notion of output. What is the right answer? What is the right output? So for an input sentence, what should the output label? That's the key question, because if you can answer this question, you can just doing all these things I'll look into next to that.
+
+00:55:04:21 - 00:55:32:03
+Unbekannt
+Right. So like a beautiful idea for doing this is called sensible based living. And the key idea is that your picture, your input, one of the inputs you take a small part of the input and just remove it and then ask it network to fill in the blanks from everything else. Okay, so this is called masking and it's just one of many techniques and some sort of baseline, but this is very commonly used, so there's always an input, right?
+
+00:55:32:05 - 00:55:58:08
+Unbekannt
+And then you take it and then you just take this thing in the middle here randomly and zero without a mascot. And so this incomplete input is your no new input. And the thing that you took out of your FIG label. So you can almost imagine, right, if you take if you're if you're baking donuts, you make a donut until you punch a hole in the middle of the donut, the donut with the hole is your input.
+
+00:55:58:10 - 00:56:31:23
+Unbekannt
+The munchkin is that little I mean, making everybody hungry at this point. So so on. Once you do that, no problem. You have an input, you have you have labels, you just write your little clauses. Those basically fill in the blanks. And so if, for example, if you make a sentence like the slowest position, if you just go in there and just just knock out randomly a bunch of words like the second and the ones are not, you're going to just pretty good like mask.
+
+00:56:31:27 - 00:57:02:19
+Unbekannt
+You know, this is do in and then what is actually given this sentence to try to fill in the blanks about actual words. Okay so now I'm using part in the process of learning to fill in the blanks. The network learns a really good representation of that kind of input. Let's see. And it kind of makes sense because if I give you a sentence with a few missing blanks and you're able to very successfully fill in the blanks, you have learned probably to support the world to be able to do that, right.
+
+00:57:02:19 - 00:57:23:26
+Unbekannt
+If I say the capital of Francis bash on the Paris. Okay. How did you know that? It's sort of like that we're learning to fill in the blanks. You really have to learn how all these things work, all the kind of connections between these words and so on and so forth. So and so. What you can do is once we build such a model, we can just extract the encoder from it, right?
+
+00:57:24:01 - 00:57:45:14
+Unbekannt
+And then we'll fine tune it like we do, like we transfer learning. But this is how you build a generic, a generic pre-trained one on one dribble data. And so we can use a transformative encoder to build this whole thing in the middle because remember, the transformer can pick any sentence and give you the same say sentence back along with predictions for everything.
+
+00:57:45:17 - 00:58:07:01
+Unbekannt
+So we could just have it take this thing in and ask it instead. It all the missing words you and so like it. But in other words, mass self-supervised learning is just a sequence labeling problem. So basically this is a sequence that comes in and then you you've done the transform of you and you get all these embeddings, it goes through all that stuff.
+
+00:58:07:03 - 00:58:28:00
+Unbekannt
+You really don't care about these outputs. But of the word mask, when done in the input, you basically try to get to the right answer is, for example, the word mission and you're trying to and that is the right answer. There's the right answer here. And then you take these right answers, clear the loss function and go back profitable neural inputs, right answers and do it in business.
+
+00:58:28:07 - 00:58:52:07
+Unbekannt
+That's it. Now, if you treat trainer transform model like this one, the massive amounts of English text, let's see if we did that. We get something called book what is a very famous transformer work and Bert was the first model actually that Google used to upgrade it such in 2019. Like the bizarre example you may recall from earlier lectures that uses book under the hood.
+
+00:58:52:09 - 00:59:12:10
+Unbekannt
+Okay. And so now I just want to show you, because you can actually read the book to people and will actually make sense to you. Now based on what you've learned in this class, look at this book's model architecture is a multi-layered bi directional transformer in quarter to quarter. We do note the number of layers and all the blocks as L, the hidden sizes.
+
+00:59:12:10 - 00:59:39:15
+Unbekannt
+H and the number of attention patches. Gate And how much is that? OC We want? H is 768 okay, so which means that the building sizes of 768 and the hidden feedforward layer is four times as much. So it's 4096. So the focusing units is the feedforward layer, the embeddings are 768 and you can see there are two good models here.
+
+00:59:39:17 - 00:59:57:21
+Unbekannt
+This one has 12 transformer blocks, this one has 24 transformer blocks. Okay. So you can actually even separate you can actually related to exactly what we discussed in class. It all mixes just really good. All right.
+
+00:59:57:24 - 01:00:15:00
+Unbekannt
+We will come back to it in the next class because my direction is really me instead of the words can pay attention to every other word in the sentence. And as we will see on Monday, you can have a different other transformer thing called a causal transformer in which you only pay attention to the words that came before you, not the ones after you.
+
+01:00:15:02 - 01:00:38:21
+Unbekannt
+So by additional means, all words of seen. Okay, So so what we know is it already said to solve sequence classification, you can add a little token at the beginning and then we'll use it for classification as it turns out. But really conveniently for us, the people are better, but they actually ought when they train. But they just use a C in this business, a jury thing.
+
+01:00:38:23 - 01:00:56:17
+Unbekannt
+So it's actually available for us out of the box. So we do use but for sequence classification, you don't even have to do any surgery. It just gives you the class token automatically, which is very convenient. And you can also use it for sequence labeling as well. So for sequence classification and sequence labeling, Bert is actually usually a really good starting point.
+
+01:00:56:19 - 01:01:16:18
+Unbekannt
+And in particular there have been lots of improvements and variations of Bert over the years. And if you're curious about this, there's a thing called the sentence Transformers library. It's got a whole bunch of both related code and resources that you can use to do things out of the box. Okay, So okay, there's a bit of a word world.
+
+01:01:16:20 - 01:01:38:29
+Unbekannt
+So to solve any of these problems, classification or labeling, where they put it in natural language, we can obviously as a model like Bert label a few hundred examples attached that I kind of Legos and fine tune it like we did for the rest of it. But if your problem is like a standard in other people, okay, you don't even have to do that because people for the standard pass, they're already pretreated on the standard tasks, right?
+
+01:01:39:01 - 01:02:00:21
+Unbekannt
+And so you can do all these things that any fine tuning a lot like literally out of the box. And so there are many hubs which had these pre-trained models, but perhaps the biggest one is the hugging face hub. And I checked last night, it has 500.5 thousand models available. I think if you recall last year when I got hot, I think the number was a lot smaller, maybe 50,000.
+
+01:02:00:23 - 01:03:10:26
+Unbekannt
+So it's like going really, really fast. And so. All right, let's just switch to a previous caller. Wants to understand and before we do that, let me just sort of I mean, this is a good. All right. So so let me face it. How many of you are familiar with I think this is so it's good, right? So for the others, basically, you have a whole bunch of pre-trained models, I think in case you actually have a lot of datasets, you work with for your own tasks, there are lots of people deploying what they have built in this thing called spaces and of course a lot of documentation and so on.
+
+01:03:11:03 - 01:03:27:01
+Unbekannt
+So the thing you can do is that what they have done is they will organize all these models by the kind of task you can use them for. So you can see here that a whole bunch of computer vision tasks that you can use them for. There's a whole bunch of natural language tasks, latex classification, feature extraction. This is that.
+
+01:03:27:06 - 01:03:45:07
+Unbekannt
+Lots of interesting examples. Yeah. And so what you do, you literally can go in there and say, okay, I want to do a classification, you build it and then it tells you all the models that are available, those that are 50,000 more this classification and you can look at, okay, which is most downloaded or which is the most like and then you can just use that as a starting point for whatever you want.
+
+01:03:45:10 - 01:04:06:22
+Unbekannt
+Okay. So, so that is sucking face. And so the way you do hugging first is just connecting it. If you have a problem, which the input is the natural language text, the first question you ask is, is it standard or not? Is it a standard? If the standard does go look, do not reinvent the wheel, the signal usually works pretty well.
+
+01:04:06:25 - 01:04:28:09
+Unbekannt
+Okay, So here we will use this thing called the Transformers library from plug in phase in particular the pipeline function here demonstrated quickly how to do this thing. Fortunately, this library as of the code has been started up so we can we don't be installed using inside of it. So we'll take this example where you have a bunch of text that says, you know, Amazon.
+
+01:04:28:09 - 01:04:48:03
+Unbekannt
+Last week I got an Optimus Prime action figure from your store in Germany. Unfortunately, I opened it. I just go into my horror that I'd been sent an action figure of Megatron and imagine the person's lecture distress entries. So as a lifelong enemy of the Decepticons, I hope I can understand the dilemma. So to resolve the issue, I demand an exchange rate closer expeditiously.
+
+01:04:48:03 - 01:05:11:07
+Unbekannt
+So sincerely, Bumblebee. Okay. That they should come up with a name for the example. All right, well, let's a text we have. So the important the despite plain function is the one that basically gives the ability to open the box, start using it without any pre-planning, nothing like that. Okay, so we download this thing. well, I got an 800 today.
+
+01:05:11:09 - 01:05:34:11
+Unbekannt
+It happens very rarely. So. So here, let's say you want to classify that text. Okay? You want this one classified for sentiment. You literally go in there and say a pipeline text classification does the task you want the pipeline to do for you. Right. And you create a classic button. Okay. It's going to download a bunch of stuff and so on and so forth.
+
+01:05:34:13 - 01:05:59:17
+Unbekannt
+The first time it just takes time to download and then you literally take the text you have here and then run it through the basket, as it were, just a little function. So you get some other parts and then actually the negative sentiment is negative, but the 80% problem is pretty good, right? Second, so instead of cinema classification, so so we've got a few different examples.
+
+01:05:59:19 - 01:06:20:13
+Unbekannt
+I hated the movie. If I said I love the movie or delaying. Okay, that's a little tricky. The movie would have been speechless. Incredible. And then I had to add this last thing here last night. It almost, but not quite entirely unlike anything I've seen. Okay, That's a lot of decision by the people. Douglas Adams was not this famous sentence about somebody picking some beverage and saying it's almost but not quite entirely unlike tea.
+
+01:06:20:15 - 01:06:44:21
+Unbekannt
+I was inspired by them. So let's see what else is right there. Okay, so a negative. I hated the movie. If I if I said let me relate. The movie left me speechless. It says it's negative, but it could go either way. Like a good class of better are probably giving you a probability around the 50% mark because sort of rate on defense incredible is positive.
+
+01:06:44:28 - 01:07:03:24
+Unbekannt
+And then it got foiled by a crazy long sentence and it's positive. Okay, now that's classification. Here's one of the quick example so you can actually give it a piece of text, right? For example, you can take like a Reuters news story. You can feed it and say extract all the company names from the company names, people names and things like that.
+
+01:07:03:25 - 01:07:24:00
+Unbekannt
+It's called named into the extraction. And there, you know, back in back in the day, people would bring they would hand painstakingly these very complex systems. We named it extraction. Now we're just a pipeline of it. So you can take the thing and you can create a pipeline for any unnamed action and for any particular task that you're using.
+
+01:07:24:00 - 01:08:01:16
+Unbekannt
+That might be a few action. But I'm busy can set as a part of the configuration so we don't do it like, okay, perfect. And then we have the output. So it says, okay, Amazon is an organization and Germany is a location lock, just nice. So these things have a central capability to our block, things like that. And you can read in the documentation and then all of these are persons and then why all the like the Optimus Prime plus all this stuff is all it got.
+
+01:08:01:16 - 01:08:20:13
+Unbekannt
+All right. It thinks Optimus Prime is miscellaneous actors, miscellaneous and so on and so on. But you get the idea. You can take standard things like write those stories and so on. You just read a book. You can get a very good entry extraction grade out of the box, and once you get these entries extracted, then you can put them into a nice, structured data table like a database, and then you can run traditional machine learning.
+
+01:08:20:14 - 01:08:45:03
+Unbekannt
+But I'm going to have, I think, a few more examples of question answering and then just write it. You can actually give it a thing and ask a question about it. And I can actually give you the answer which gets into the causal transformer thing that we're going to see on Monday, which builds up into large language models because you obviously can give something, you can give a passage or tragedy and ask a question.
+
+01:08:45:03 - 01:09:11:06
+Unbekannt
+I'm going to give you an answer. So it's really interesting. But just for fun to just let us see if there's any good. Okay, so what does a customer want and what is an exchange? A Megatron. And it's telling you, which then it in the text and and the relevant passage. It's pretty good, right? So because remember, if you have stuff like this, then when you ask like a large language model a question, it gives you an answer.
+
+01:09:11:07 - 01:09:28:19
+Unbekannt
+You can actually ask it to give you exactly where in the input it found the answer. And because you know these things are going to hallucinate, you can actually look at the input that it's claiming to use and look at what it says and see if they actually match. It's a way to sort of do way on element.
+
+01:09:28:22 - 01:09:56:24
+Unbekannt
+Okay, So that's what we have here and I have other elements from them as well, which so yeah, so if you have a standard task you know you can just use by and it's actually solid many of them out of the box without any heavy lifting. So I mentioned earlier on the Transformers approach to be effective for a whole bunch of domains outside of natural language processing, like, you know, speech recognition, computer vision, so on and so forth.
+
+01:09:56:26 - 01:10:17:18
+Unbekannt
+And so I want to give you a couple of quick examples of how to think about transport using transformers for non text applications. Okay. So the the key insight here is that the architecture of the transformer block that we have looked at, amazingly enough, can be used as it's but no changes, no surgery needed, no clever thinking required for any particular application.
+
+01:10:17:20 - 01:10:37:10
+Unbekannt
+What is needed that the climatically may be required is you need to take the inputs that you're working with and you need to figure out a way to tokenize and encode them into embeddings which can then be sent into the transformer. So all the action is in taking that input, the non text input and figuring out a way to cast them in the language of index.
+
+01:10:37:12 - 01:11:06:22
+Unbekannt
+That's where that's the game. Okay, so here's something called the Vision principle, which is very famous actually. I think it may be the first, perhaps the first transformer architecture that was applied to vision problems. So so let's say you have a picture. So let's see. You have this picture. Okay? It is just a picture. Okay. So you have to find a way to create embeddings from this picture or to tokenize this picture in some ways with sentences, you know, I love hard as well.
+
+01:11:06:22 - 01:11:23:05
+Unbekannt
+Obviously I love and heart three tokens. It's pretty trivial to figure out how to organize them. But with the picture, what do you do? Right? It's kind of weird to think of tokenizing a picture. So what these people did is that they said, You know what? I'm going to take this picture and chop it up into small squares, right?
+
+01:11:23:07 - 01:11:47:28
+Unbekannt
+So in this example, they have taken big picture and chocolate with the main little pictures. Okay. Then you could take each of those nine pictures. Each of those nine pictures right. If you look at the how it's represented, it's just three tables of numbers, the Ojibwe values. Right. So you can take all those numbers and you just create a giant long vector.
+
+01:11:48:00 - 01:12:10:28
+Unbekannt
+Okay. You have a huge long vector and then you run it through a dense layer, the gold, but the smaller and smaller vector is your embedding. That's a part. The way you transform the long vector into small vector is just a dense layer whose weights can be learned. So what these people did is they said, Well, I'm going to put with these patches.
+
+01:12:11:00 - 01:12:26:29
+Unbekannt
+Then I think each patch are do a linear projection, they are flat and the patch is nothing more than a detail was a numbers factored into a long vector. That's What that word flattened here means. And once you flatten it and just sort of run it through a dense layer. So by the way, you will see the words linear projection.
+
+01:12:26:29 - 01:12:50:11
+Unbekannt
+It's a synonym for running through a dense layer, so you're running through a dense layer. You get these nice vectors, these vectors, and now you say, well, you know what? I want to take the order of these things into account, because clearly this little patches on the top left, well, this fight just about in the middle, the order markers in the picture otherwise they're very jumbled, which is going to be the same thing.
+
+01:12:50:13 - 01:13:13:27
+Unbekannt
+So you use position embeddings. You basically say there are nine positions in any picture, right. 023456789 positions. So I want to create nine position embeddings and then I'm just going to add them up. I'm just going to add them up to this end. But just leave me two words with words with each word, and embedding each position and embedding behind them up.
+
+01:13:13:29 - 01:13:39:01
+Unbekannt
+Each image has an embedding the position of that little patch in the picture has an embedding behind them. Okay. And then because we want to use it for classification, no problem. We'll have a little C elastic and then we just run it through the transformer. That's it. And then you get the C in the stock and then you can attach a soft max word and say, okay, it's a boat, it's a ball, it's a color.
+
+01:13:39:03 - 01:14:04:06
+Unbekannt
+That's how this simple approach actually works. Amazingly. So that is the visual transformer. And I'm going to through it fast, just to give you a sense of all these things, but many questions. Yeah. So my question you take it gives of X fixed number of characters. That is a lot of words. It could be that it didn't exist probably.
+
+01:14:04:08 - 01:14:28:28
+Unbekannt
+But here's if you look at who is the object that I would like not only makes, but we take a look at a lot of images and the to substitute for each one that it's all so always like there is no notion of vocabulary here. All you're saying is that given any image we create nine. I just sub images from it.
+
+01:14:29:00 - 01:15:03:13
+Unbekannt
+Each of these patches gets passed through a dense layer and outcomes and embedding. So at that point, any image you give me, I'm going to give you nine embodies all of it. And once I get than anybody else, I just throw it into the middle of the transformer right. All right. So another example, I think that some of you have asked me outside of class, how would a transformers for structured data, tabular data, rank for tabular data in general, things like boost grading, boosting looks really variable, so it's good to try them suddenly.
+
+01:15:03:15 - 01:15:29:06
+Unbekannt
+I don't think transformers and big blunder books have any great edge over actually boost hard structured data problems. So it's worth trying both of them. However, you can use Transformers with this stuff too. So that's called the top transform, one of the first ones to come on a transformer tabular data. And again, it's pretty simple. All you do is in any kind of that you have, you will have some categorical variables like blood pressure, things like that.
+
+01:15:29:09 - 01:16:07:28
+Unbekannt
+Right. Not a bad example, gender, right. And on and so forth. And so what you do is you take all the categorical features and for each categorical feature you create embeddings because a categorical feature is just text category, which is just text. So you can create x ten, but expect no problem. And you take all the continuous features, cholesterol and blood pressure and whatnot to go to the heart disease example, and then you just create all the correct them all and just create a vector folder.
+
+01:16:08:01 - 01:16:29:10
+Unbekannt
+You're just a vector. Okay, Then you run these the embeddings for all the categorical variables through a nice transformer like. And you can see it is exactly the block you've seen before, no difference. And then at the very end, when it comes onto the transformer, you take all the different pictures that come into the transformer and then it concatenated with the continuous features.
+
+01:16:29:13 - 01:16:54:13
+Unbekannt
+Okay? And then you run it through maybe one or more dense layers and both output. So this is a tabular data transformer. There are many, you know, refinements improvements over the years that have come since then. But the key thing I want you to remember is that categorical variables can be very easily represented as embeddings. That's the key.
+
+01:16:54:15 - 01:17:11:15
+Unbekannt
+All right. So that's that. Now, once the input has been transformed into some of this common language of embeddings, we can process them without changing the architecture of the block itself because it wants is embeddings. Just like you give me embeddings, I give you a great protection. Embeddings out and nobody gets hurt. That is a deal with the transformer stuff.
+
+01:17:11:18 - 01:17:31:01
+Unbekannt
+So now this this ability, this sort of since transformers agnostic to the kind of input as long as it comes, it comes in as a form of an embedding. You can use for multimodal data very easily. So for example, let's say that you have a problem in which you have a picture that can be sent in some text that goes in a bunch of tabular data.
+
+01:17:31:03 - 01:18:05:19
+Unbekannt
+I mean, you take the text and do language that X that in order to you take the image and imagine like we just saw with the visual transformer, you take the ability to understand the element is like we because the turbulence, once we do it, it's all a bunch of embeddings and then you attach a little class token on top city, a bunch of transformers blocks and then outcomes are contextual plus token contextual version running through Trello, maybe a segment of SoftBank's trip delivered, but so this is extremely powerful, its ability to handle multi-modal data.
+
+01:18:05:22 - 01:18:09:09
+Unbekannt
+Okay? And that's why, for example, if you look at Gemini, Google.
+
