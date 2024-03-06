@@ -1,0 +1,760 @@
+00:00:00:25 - 00:00:23:23
+Unbekannt
+Good morning and welcome back. I hope you had a nice weekend. I hope you got to enjoy the sunlight later. But. Okay, So speaking of sunlight, if if the glare gets too much, let me know how to pull the blinds. Don't can see this. Okay, though, for the moment. Okay, great. All right. So today we we continue our journey.
+
+00:00:23:23 - 00:00:46:04
+Unbekannt
+And today we get into launch language models, which I'm sure everyone is very excited and curious about. But before I get started, just a quick word on the projects. So for the projects, your your greatest deliverable is the project report along with the runner up. Okay. But what do you have to submit by Monday night? Monday night? Yes, Monday night.
+
+00:00:46:07 - 00:01:09:14
+Unbekannt
+It's that the project report. I'd like a very brief video. Like a less than 1 minutes. Just a brief video which sort of basically sells your project to your classmates. And that's it. And so on Wednesday and on Tuesday, that sent out a link so that you folks can look forward it up with the videos. And then we'll send out a survey and say, this is the best one I've seen so far.
+
+00:01:09:16 - 00:01:29:07
+Unbekannt
+We'll probably give you a chance to pick two because you'll probably pick your own first. So and then we'll tally up the numbers and then the top one of our eight or so will present on Wednesday morning. But you will not you will not know ahead of time whether you got picked. So on Wednesday morning, every team needs to come in with a brief presentation.
+
+00:01:29:09 - 00:01:47:25
+Unbekannt
+Okay. You don't have to submit the presentation. It won't be graded, nor will the video. Video want to get it either. Okay, So and the presentation is going to be roughly planned for like an eight minute presentation, maybe with a sort of a Q&A Q&A at the end. And so that'll give us enough time to get through everybody without feeling super rushed.
+
+00:01:47:27 - 00:02:16:14
+Unbekannt
+Any questions? Okay, great. So so let's start with a quick review. Last week we looked at Bird, how Bird was created and we learned about this technique called masking, which is a kind of self-supervised learning. And the idea of masking was really simple. We asked ourselves the question, We have seen ways in which people can take images and pre-trained models like resonate on a vast, you know, vast body of images.
+
+00:02:16:17 - 00:02:36:20
+Unbekannt
+But then for each image, somebody had to go and label them right? So for text, we asked the question, Well, what does it mean to label a piece of text? Then we don't actually have a clearly defined end goal in mind except the general goal of pre-training things, right? And then we said, well, what we can do is we can actually replace some some of the words in every sentence with a what you call like a mask token.
+
+00:02:36:20 - 00:03:01:14
+Unbekannt
+And then we just train the network to recover the blanks, to fill in the blanks. Right. And this technique, which is one of many ways of doing what's called self-supervised learning, is called mascot. And we and we described how if you essentially take all of Wikipedia and for every sentence you mask it like this and then train a network to recover, to fill in the blanks, the resulting network becomes really good at doing all kinds of interesting things.
+
+00:03:01:21 - 00:03:51:12
+Unbekannt
+And that in fact, the first such network or one of the first such networks was called Bert. And in fact, in the homework you'll be looking at Bert and so on and so forth. Right? That's mascot. Now we're going to switch gears and talk about a different kind of sales process, Westlite, which is different from masking, which turns out to be vastly more interesting on par for you don't agree there is some cause and effect, but this is just kind of like two thirds against which I would put it on this side.
+
+00:03:51:24 - 00:04:53:11
+Unbekannt
+I sure you at some point they just like keel over because they get entangled in these waves or other things. I might also know this in their local sheet. So. All right. So keep going. Thanks, Rick. Okay. So we are going to look at another technique. And this technique is called next word prediction. So now it is actually in some in some sense a special case of masking where you're basically saying take a sentence and it's a randomly picking a word and making it a blank.
+
+00:04:53:13 - 00:05:09:23
+Unbekannt
+You're saying I'm just going to take the last word and make it a blank. Okay. And then you send the sentence in and then you have the machine just fill in the blank on the last word, predict the next word. Okay. And you don't have to use full sentences for it. You can use box of sentences. What sentence fragments as well.
+
+00:05:09:23 - 00:05:30:14
+Unbekannt
+So if you take the same sentences before the mention of the from school, you can literally divide it into well, you can give the an Oscar to predict mission. If you can give it the machine and ask it to predict off, you give it the mission off as to predict that you're good idea. So every sentence fragment you can take and literally just give it the first few and then predict the next one first true.
+
+00:05:30:15 - 00:05:49:24
+Unbekannt
+Next one plus three. Next one. Okay. So this is the expert prediction. And so the let's what we're going to do now is we're going to actually take the transformer encoder architecture that we used to build Bert, in the last class, and we're going to try to use it to solve an expert prediction, to build a model that can do an expert prediction.
+
+00:05:49:26 - 00:06:35:20
+Unbekannt
+Okay, So that's what we have. So what we're going to do is if you take the phrase the cat sat on the mat, you just switch. So something like so the phrase was, let's say the cat sat on the mat. So what you might want to do is to say, okay, this is the input output. The cat, and maybe you have the cat that sat sat on it.
+
+00:06:35:20 - 00:07:03:09
+Unbekannt
+So. Right, you get the idea. And then finally we have the cat beside the mat. But this basically what we have, all these inputs and outputs, but we're going a very compactly across it as if it's just coming in through as one sort of data point in one batch. And that's what we're doing here. So what we're going to do is we're going to stack it up like this where we have the cat sat on the on the left, meaning everything but the last word.
+
+00:07:03:11 - 00:07:29:01
+Unbekannt
+And then we're going to take that same sentence and just shifted to the left one right. So the cat's out on the mat. We cut off the mat, right? And that becomes the input. Then we cut off the first word and that becomes the output. So when you look at it that way, you can see here, right the you'll want this to be used to predict cat you will want the cat to be used to predict, SAT and so on and so forth.
+
+00:07:29:03 - 00:07:52:18
+Unbekannt
+Okay. So this is just a little sort of manipulation so that we don't have to have, you know, like dozens of sentences or sentence examples just for one starting sentence. So if you have something like this, what you can do is you can run it through positional input embeddings like we have done before with Bert. Then we can run it through a whole bunch of transformers, right?
+
+00:07:52:20 - 00:08:19:19
+Unbekannt
+It's like a transformer stack. Then we get these contextual embeddings, then we run them through of maybe one or more releases. If you want, because it's always a good idea to stick somebody loose at the very end. And then we basically attach a soft max to every one of the things that are coming out okay. And then that soft max is actually going to be a soft max whose ranges the entire vocabulary.
+
+00:08:19:22 - 00:08:39:23
+Unbekannt
+Okay. For now, let's assume that the cabinet is just a vocabulary of words, not tokens. We'll get into tokens a bit later on in the class. For now, just assume it's words. And roughly speaking, let's say there are 50,000 words be normal category. So each of these soft Max's and this is exactly what we did for. But by the way, each of these soft Max's is like a 50,000 way soft max.
+
+00:08:39:25 - 00:08:59:14
+Unbekannt
+Okay. But what we're going to do is here, when we look at it this way, since we are fundamentally bothered about an expert prediction, as you will see later on, we are actually going to ignore all these predictions because who cares? We are only going to look at the last one to figure out, okay, what is the last prediction?
+
+00:08:59:14 - 00:09:19:24
+Unbekannt
+What is it? Because the last prediction is going to be based on everything that came before it. Yeah. So this is really the next word that's actually being predicted. All the things before we don't get so much. Okay. And all this will become slightly clearer because you're going to make a couple of passes through it. Yeah. How do we predict the end of a sentence then?
+
+00:09:19:27 - 00:09:39:21
+Unbekannt
+So the notion of a sentence has disappeared At this point, what we're going to do is when we look at how we tokenize the input for these kinds of models, we are actually going to take punctuation to account. So if you're going to take periods into account, exclamation marks into account, and so on and so forth, and that that'll answer your question and we'll come back to that.
+
+00:09:39:23 - 00:10:02:16
+Unbekannt
+Okay. So this is what we have. So All right. So just to be clear, the embedding that's coming out of the final dense layer is passed through its own soft max, But the number of soft max categories is equal to the capsize. All right. Okay. So first of all, so let's say we train models, a model like this with lots of inputs and outputs.
+
+00:10:02:18 - 00:10:30:18
+Unbekannt
+Okay? There's just looks like Bert, right? It's not that different, except that there is no notion of a mask. Do you notice any problems with the way this thing has been set up? Entente Like for some words, like you're going to have a lot of potential output pairs that come out of the true, which means that if you have a board like this, the next to be very hard to predict is true.
+
+00:10:30:18 - 00:10:53:18
+Unbekannt
+So some words may be hard to predict depending on the last word of the sentence. There was the input, right? That's what you're getting on. Yeah. Other concerns. So I want you. Yeah. Sasha, since you're using contextual embeddings like the output of the first word is going to have access to the second word. And so it's kind of like cheating.
+
+00:10:53:20 - 00:11:27:01
+Unbekannt
+Bingo. So remember, for bingo is a technical term and deep learning, which means grit. So. So if you go to this, right, as she points out, if you look at the self attention layer, not remember the self attention layer, it is the key building block of the transformer block, Right. And so in the self-correction layer, every word which calculated contextual embedding by weighting weighted averaging of its relationship to all other words in the sentence.
+
+00:11:27:03 - 00:11:50:03
+Unbekannt
+So the last word can see the first word, the first word can see the last word, and so on and so forth. Right? But when you are doing next, what prediction? This feels problematic because you're peeking into the future, right? So so let's say that you want to predict the next world. If you look at this architecture, what it can simply do, it can simply copy it from the input because it can see the whole sentence.
+
+00:11:50:05 - 00:12:10:23
+Unbekannt
+So if I tell you, Hey, the cat's out on the mat, if I just gave you the cat side on the can you predict the next word from you? Yeah, duh. It's smart. The whole thing becomes challenging. Only if I say the cat sat on the dash. No, predict the dash. So to put it another way, let's say that you want to predict, right?
+
+00:12:10:23 - 00:12:36:13
+Unbekannt
+Your Fed in the first two words and you want to predict this. This is the right answer for the prediction. The network should only use the first two, however, but because self-interest can see that it can see this next word, it'll trivially learn to predict the next word to be set right. There is no challenge for it. So this is the key problem, right?
+
+00:12:36:13 - 00:12:58:13
+Unbekannt
+This is the key problem. We're just using the transformer as it's too much. So what's her lost function here? The lost function in all these things is actually the same as before, which is that for every output that's coming out, So you imagine you have just a traditional classification problem in which you have one output, let's say dividing your classifying things to ten categories like we did at the fashion industry, ten digits.
+
+00:12:58:15 - 00:13:16:27
+Unbekannt
+So you have ten outputs, right? And then go through a self max and then you have ten probabilities and then we use cross entropy, right? So here for every one of these things, we use cross entropy. So we take this output and there's a cross entropy for just for that, plus cross entropy for that, and so on and so forth.
+
+00:13:16:29 - 00:13:35:04
+Unbekannt
+So be minimized still cross entropy. But the sum of all these cross entries and does it get complicated at all by the fact that we have a large vocabulary size now? So lots of outputs. I mean, it gets complicated just because there are more things to worry about, compute and so on and so forth. But conceptually, no difference whether you have ten or 40,000 the same thing.
+
+00:13:35:06 - 00:13:53:13
+Unbekannt
+It's just that instead of classifying an input into one of ten categories, your inputs themselves, or as long as the number of words in your sentence. So each word that comes into a sentence is being classified in one of 50,000 bits, right? So essentially you have as many classification problems as you have number of words in a sentence.
+
+00:13:53:15 - 00:14:19:00
+Unbekannt
+But at the end of the day, the last function is a sum of all those things ought to be 1%. The average of all those things. Actually, I think I may have a slide about this, which I may have hidden because I wasn't sure if I would have time. Let's unhide it and so on. I did not agree ahead of time that we're going to set this up like this.
+
+00:14:19:00 - 00:14:40:27
+Unbekannt
+Okay. So all right. So yeah, so we still use a cross cross entropy cross cross entropy loss function. So each one that comes in, so the cross entropy is actually minus log probability of the right answer. And you may recall this from earlier in the class. So we just do the same thing for a catch side on the everything that we just take the average one over seven.
+
+00:14:41:04 - 00:15:07:17
+Unbekannt
+Well, that's so let's go back to this problem. So this initial issue is that we can't allow words to be predicted. Knowing the future. They should only know about the past words. Okay, so what do we do? Right? We have to make a change to the transformer to make it work. For an expert prediction. And. All right, this is what we look at.
+
+00:15:07:19 - 00:15:29:01
+Unbekannt
+You want to avoid this. So what we are going to do is when we are calculating the contextual embedding for the word remember the condition reading for the word is going to be a weighted average of all the other words embeddings. We will simply give zero weight to future words if you give zero weight to future words. So it's almost as if they don't exist.
+
+00:15:29:03 - 00:15:55:18
+Unbekannt
+Okay. Now this would be complete in a second. So imagine that this is the the thing we are going to calculate. These are all for every word in the sentence. We are calculating the the pairwise attention rate. And you will remember, I went through this like an iPad thing last week. We calculate all the weight. So for example, to find the so all these weights and every row will add up to one.
+
+00:15:55:21 - 00:16:19:24
+Unbekannt
+And so you take the conduction predicts of the card sat on the multiply them by the respective weights that add up to one which is the first row of this table and that gives you the contextual embedding for the word and so on. And so forth. And since we can't look at the future words, all we do is we go take this table and we just zero everything out and read all, okay, you just zero everything here out.
+
+00:16:19:26 - 00:16:37:17
+Unbekannt
+And then we re normalize so that the remaining cells, the non zero node cells will still out of the one in each row. So what that means is that if you're actually only looking at the only, this thing is going to play a role for cat only this thing is going to play a out. So let's, let's, let's give an example.
+
+00:16:37:19 - 00:17:06:03
+Unbekannt
+So to calculate, to predict on you'll only look at the words for the cat set. Okay The rest of it will not be considered at all. Now, the effect of doing all this is that, by the way, this is called causal self attention. This tweak is called causes. Self attention is also called mast self attention. Right? Just different labels with the same thing.
+
+00:17:06:05 - 00:17:40:17
+Unbekannt
+And so what that means is that when you are looking at the input for the only, this is going to be used to pretty cat the cat only these two are going to be used to predict sad and so on and so on and so forth. Okay, so this thing here, this so all we do is we go into our transformer and we just change each attention had to be a causal attention head.
+
+00:17:40:19 - 00:18:09:10
+Unbekannt
+And the way it's actually done under the hood is actually very elegant for computational efficiency purposes, but I won't get into it because it gets a bit, you know, involved. But the key idea is replace basic plain vanilla attention with causal attention, a.k.a master tension, and you do that boom. Suddenly it starts looking for an expert prediction. It can't cheat anymore.
+
+00:18:09:12 - 00:18:39:11
+Unbekannt
+And when we do that we get the transformer causal and of course it and by the word causal here there's no connection to causality. So it's just a total. So if you look at the original transformer paper, it was created for translation for machine translation, you know, English, a German, right? Those kinds of use cases. So it had something called an encoder, which we are very familiar with from last week.
+
+00:18:39:13 - 00:19:04:18
+Unbekannt
+And then it had something called a decoder. Right. And it is called the encoder decoder architecture. And we are not going to cover the encoder decoder architecture because we are not covering mission translation in this class. But I'm mentioning this because the this part of the architecture is called a decoder because it uses C here. That is a massed attention business going on here because it is using this masked attention.
+
+00:19:04:21 - 00:19:29:27
+Unbekannt
+It's called a decoder. So the transformer causal encoder is also referred to sometimes as the transformer decoder. But the word decoder has two meanings. It's a synonym for the causal encoder like we have seen today. It's also used to refer to sequence to sequence translation problems for the second part of its architecture. So you just have to keep it become clear from context what we are talking about in this course.
+
+00:19:29:27 - 00:19:50:15
+Unbekannt
+Of course there is no confusion because we are not going to be looking at translation, right? We may say decode, decoder, causal encoder. It's the same thing. So I thought there were some transformers that use bi directional, like attention. Like is it different from like the course. No, the but the bi directional all, all by direction means is that I could see everything.
+
+00:19:50:17 - 00:20:23:14
+Unbekannt
+So the encoder we looked at last week, the basic self attention thing is by detection. So basically all I could look at in both directions to see what are the words so that you are not using the one in the future in causal, you're not using the one in the future. Correct. All right. So, so to summarize where we are, this is what we looked at last week for Bert, and this is the transformer encoder and we take the same thing and in stuff like multi attention, we will do causal motor retention.
+
+00:20:23:16 - 00:21:03:02
+Unbekannt
+We get the decoder a.k.a causal encoder, Okay. And we use the left for matched prediction. We use the right for next one prediction. So all right. So now if you have instead of having an encoder, if you have a causal encoder DC here now we can train models for an expert prediction using the same exact approach as before the right be set up the inputs and outputs like I described earlier, if you run it through a bunch of stacks, a stack of causal encoders then lose soft max and so on and so forth.
+
+00:21:03:04 - 00:21:33:12
+Unbekannt
+Right? Otherwise the details don't change, but the all important changes go into the attention layer and make it fast or causal. Any questions so far? Yeah, this would only apply when we're training the model, not when we're validating our test results. So if I if you give me a sentence after training, right. The final prediction is only the only thing you care about.
+
+00:21:33:14 - 00:21:56:28
+Unbekannt
+And by definition the final prediction will use everything that came before it. So was that your question? No. I think the fact that we're doing out the weights for the future words I thought would apply more when we're training the model and we try to minimize the loss as opposed to when we're asking what the next word of acceptance should be.
+
+00:21:57:04 - 00:22:12:17
+Unbekannt
+Right. But the point is, when we actually use them, what is the objective like? What do we want to do when we actually use them for inference? Once we finish training, our objective is given a particular strain going to be the next word, right? And to find the next word, you can in fact use everything that came before it.
+
+00:22:12:20 - 00:22:45:08
+Unbekannt
+And therefore we thought any change to this model didn't just work for your purpose. You don't have to go in that and change it to you don't have to unmask it for infinitesimal because you don't need to just have one question disregarding like when we do the puzzle transformers, we are putting certain weights to zero for the words that we predicted, and then we normalize the words which are to be future, and then we normalize it and we have to the transformer earlier and of all the words, all the words together.
+
+00:22:45:15 - 00:23:00:17
+Unbekannt
+So won't be there be the difference in weights between what the things between the two ways of training the weights are gonna be very different. And they are two different models. Bert is used for certain things, and this kind of model, which is the basis of it, is gonna be useful. We are training it as well like that.
+
+00:23:00:17 - 00:23:21:11
+Unbekannt
+I mean, by putting in moving some motivation to zero, Correct. Right. So what I'm talking about here is the what we are trying to do here is to say, let's say that we want to do an excellent prediction as the as the task, as a self self-supervised learning task. And and we want to train such a model on a vast amount of text data, right?
+
+00:23:21:14 - 00:23:38:11
+Unbekannt
+Well, we can't just use what we did last week because it's not going to work because of the fact you can see the future. Therefore we make a tweak and then we build this model. Now the question becomes, okay, what can you do with this? Such a model? Right? We are basically trying to replicate the models that the one that can see everything, Bert, and that one that can see the future, which is actually DPD.
+
+00:23:38:14 - 00:24:06:17
+Unbekannt
+So what can you do with it? And we're going to come to that. Okay. All right. So now once you train such a model, right, given any input sentence, let's say that the sentences, it was a dark and it was a dark end, right? It goes through all these things. And remember what I said earlier, the fact that it's predicting something after just seeing it, we don't really care.
+
+00:24:06:19 - 00:24:27:10
+Unbekannt
+What we're really curious about is what is the next thing is going to say? The next thing is going to say it's going to be it's basically going to be what's coming out of this soft max because it makes sense. You don't care about anything that when before it, because we already have like a half a sentence and we want to just find the next thing here.
+
+00:24:27:13 - 00:24:45:05
+Unbekannt
+So we only care about this. We I mean, these things have come out of the of the architecture of the model, but we don't we throw them up. We don't even pay any attention. Okay? We only look at what's coming out and this one here and what comes out of that soft maximum number is a 50,000 way table of probabilities.
+
+00:24:45:07 - 00:25:06:17
+Unbekannt
+That's what a soft Max's, right. It's a whole bunch of probabilities that are up to one. And so it's going on. And let's say, for example, that, you know, you have starting with Aardvark all the way to Zebra, right? And these are the probabilities. So it was a dark and, you know, just for kicks, I put Stormy as the most highest probability number.
+
+00:25:06:17 - 00:25:25:05
+Unbekannt
+But these numbers add up to one. We have this table. Okay. And then what we do is we choose a token from the stable. B, you get to choose, right. The whole bunch of numbers in this table that we get to choose a token. The the simplest thing one can think of is just choose the word that is the most likely right.
+
+00:25:25:05 - 00:25:43:09
+Unbekannt
+And we choose the word that's most likely here. And we we're going to have a whole section on how to choose these things coming up. Okay. For now, let's go with the simple option. We're going to just choose the one that's most likely point six, and then we attach it to the input. So now the input has become it was a dark and stormy.
+
+00:25:43:11 - 00:26:02:25
+Unbekannt
+We run it through and again, we only care about the last one. Soft Max. Okay, we do that, we got another table and this table. Turns out the table keeps changing because the soft max is different for each time you run it through because the input has changed. So you get a new table and it turns out the most likely one is night.
+
+00:26:02:27 - 00:26:29:09
+Unbekannt
+Okay? And then we attached. So now it comes out the other end and we attached an idea and we keep on going, right? We can keep on going maybe till we basically we tell them to locate, generate up to 100 tokens and stop. It might stop after 100 or you might decide the model may decide, in fact, that when it sees a punctuation like a period or exclamation mark or something, it's going to stop motion.
+
+00:26:29:12 - 00:26:44:22
+Unbekannt
+And we have control over this when it stops on how it stops. But this is this is sort of the basic process. And you folks are very used to it because we will be playing with LGBT and the like, right? So but the basic building block as an expert prediction, feed it back to the input. Thanks. Expert prediction.
+
+00:26:44:22 - 00:27:05:03
+Unbekannt
+Keep on doing it right. You keep on doing it and suddenly, you know it's writing and then obviously you to. Yeah that's I mean that the longer the initial input is it's better it's going to give you a better prediction. It depends on your objective. So fundamentally you have some task you want the thing to do for you.
+
+00:27:05:04 - 00:27:27:15
+Unbekannt
+Right. And that task may you need to give it all the information can possibly be find useful. Yeah. So the long the the more helpful the input, the better. Maybe that's how I would say it. Yeah. Ironic what this also applied to something like Google Search or because they also do next letter prediction too. But would this be a deeper.
+
+00:27:27:15 - 00:27:46:06
+Unbekannt
+Yeah so the Google autocomplete for example I don't know if they actually use this kind of model under the hood or not. I just don't know. These things tend to be kept tightly under wraps, you know, if they were to do it, if they were using it, you know, my guess is that they so I don't know if you folks have seen recently or the last few months.
+
+00:27:46:06 - 00:28:09:05
+Unbekannt
+They have there is there is a generative AI panel that opens up and you do a Google search. That panel, I suspect, uses this, but I don't know if the default Google autocomplete actually uses it or not because it's very computer heavy. Right. So I don't know what they do. So yeah, this is what you do. Other questions on this, on the mechanics of it.
+
+00:28:09:07 - 00:28:38:16
+Unbekannt
+Yeah. For our vocabulary list, I'm assuming it's static. It's Yeah, correct. And as you can see here, it's not really a word vocabulary. It's a token vocabulary. But yes, it is static for a given model. And so for I guess I'm assuming for Google or any other sort of like search engine, that wouldn't necessarily be static. And so when it comes to this, I guess I guess I'll even like refrain from the question because the model would be different from this, I'm assuming, Right?
+
+00:28:38:18 - 00:29:09:02
+Unbekannt
+Yeah. And if you're sort of thinking about what happens to like new words and things that are formed and how does it handle it, if the vocabulary is static, there's a very elegant solution that's coming up. Okay. All right. So now, in other words, we have learned how to do second generation. We already saw that we can do classification with Bert, we can do labeling with Bert Bert like models which are trained on mass prediction and for generating sequences.
+
+00:29:09:02 - 00:29:36:08
+Unbekannt
+And we know how to do it. We just need to use a transformer causal important. Okay. Now these kind of models, second generation models trained on text sequences using an expert prediction or auto regressive language models or causal language models. Okay. And of course, the gypsy family is perhaps the most well-known example of an auto regressive language model.
+
+00:29:36:10 - 00:29:57:08
+Unbekannt
+Auto regressive, because people who have done econometrics and some regression know the notion of auto regression means that you predict something. And then you you use sort of, you know, the past predictions as inputs into the next time you predict, right? So this is the notion of auto regression. You feed, you predict, you feed the prediction back, you get the next prediction and keep on cycling through.
+
+00:29:57:10 - 00:30:26:18
+Unbekannt
+Yes. So when you kind of put in an input into Gypsy, for example, and you has that, you know, it shows you like the next words as it's come in, is that an indication of it doing this recalculation you describe here? Correct. That's exactly what's going on. In fact, if you use the API, there is the thing called the streaming API that you actually stream each token that's coming out through the through every pass and you can actually see everything very clearly.
+
+00:30:26:20 - 00:30:44:23
+Unbekannt
+But when you actually work with the web interface and you see the thing almost as if it's typing like a human, what I've heard from people, I don't know if this is true, what I've heard from people is that they can actually do it much faster. They slow it down intentionally to give you the feeling that it's actually coming from a human.
+
+00:30:44:25 - 00:31:02:13
+Unbekannt
+So it's like a UX trick to slow it down, to make it feel as if someone is actually typing something on the other end. So when you're interacting with a chat bot, for example, sometimes you see it actually typing like slowly you can see the bubble and you can see the typing is actually intentionally slowed down because you know it's a bot otherwise, right?
+
+00:31:02:13 - 00:31:25:22
+Unbekannt
+So there's a little bit of a UX creepiness maybe going on. I don't know to what extent this is 100% true and how pervasive it is, but folks who work in the field have told me that this actually is not uncommon. So, okay, so that's what's going on here. These are language models and of course GPT three is an auto regressive language model.
+
+00:31:25:25 - 00:31:52:23
+Unbekannt
+And the reason why we have an l AI in front of the alarm because it was trained on lots of data with lots of parameters. Right. Some someone does actually does at some point. It's not a small language model anymore. It's a large language model. So yeah, so it's nothing more momentous than that. So, so as it turns out, 83 uses 96 transformer blocks, 96 blocks, and each block has 96 causal attention heads.
+
+00:31:52:25 - 00:32:12:06
+Unbekannt
+Okay. And you can see you can read the geometry paper. It gives you all the details of the architecture. That is interesting because if they didn't publish the architecture from geometry after geometry, everything began closed. So you don't actually don't know what architecture is, even though there's a lot of speculation on Twitter. So but we know exactly what happened, right?
+
+00:32:12:08 - 00:32:34:19
+Unbekannt
+96 blocks each has 96 causal attention heads. And then the data was actually they scraped 3 billion sentences from a whole bunch of sources, web text, Wikipedia, a bunch of book databases. And and then they basically just took those 30 billion sentences and just read it. Exactly. Next what Betty Boop, boop, boop, boop, boop, boop, boop. That's it.
+
+00:32:34:22 - 00:32:56:03
+Unbekannt
+Now, in the 23, I think it cost them a lot of money because things were not as we hadn't figured out, as efficient as we know now, But it was still pretty amazing. And I talk about, you know, what is so special about you three? Just a minute or two. So so this is what we have here. And as you folks have seen, the notion of generating text, right.
+
+00:32:56:10 - 00:33:19:09
+Unbekannt
+Is very powerful. Right? Because we can obviously generate text, but it can also generate code because quarters just text, we can generate documentation for code, we can summarize text, we can answer questions, we can reach out. I mean, the list goes on. All the excitement we see around you and I from the time Chad Djibouti came out is precisely because the simple idea of text in text out is just so flexible.
+
+00:33:19:12 - 00:33:45:01
+Unbekannt
+It's so versatile. It can handle all sorts of use cases. That's why there's so much excitement. By the way, if you're really curious, I would actually recommend seeing this video where there's this guy and record party build from scratch. Okay, It's a fantastic video. If you if you have even a little bit of curiosity about how these things are actually built, I would strongly recommend checking it out.
+
+00:33:45:03 - 00:34:14:18
+Unbekannt
+And there is also a little blog post where this person, you know, basically if you know number, you can actually create Djibouti three Djibouti using numpy without any using any frameworks and things like that. So I found it super interesting and helpful to understand what exactly is going on. So if you would like to do this. Okay. So now we're going to talk about decoding sampling strategies, which is I said that when we produce, when when we come up with the soft max for that last token, Right.
+
+00:34:14:18 - 00:34:38:10
+Unbekannt
+We have 50,000 choices. What do we pick? Right. As it turns out, to actually get really good performance out of Geneva system, select Djibouti, You need to be quite thoughtful about the how to decode, right. How to actually sample from the table. So we'll talk about that for a bit. So so first of all, definition, the process of choosing a token from the probability distribution from the coming out of the soft max.
+
+00:34:38:10 - 00:34:59:29
+Unbekannt
+Right. I'm sticking this table right here. This is a soft max. Right. This process of choosing it is called decoding. That's a technical term for it. Right? We have to we get this table, we have to decode meaning. We have to pick something from this table. Okay. That's called decoding. Now, there are two sort of extreme cases of very highly simple ways to do this.
+
+00:35:00:01 - 00:35:39:09
+Unbekannt
+The first thing, of course, is just pick the one. Just pick the word with the highest probability. So this is called greedy decoding. Okay. So in this case, for example, if stormy is point six, the highest probability in this whole table, if we just pick Stormy. Okay, so that is the obvious extreme, simple case. The other thing we can do, which is also super simple, is that because we have a probability table here, we can just reach into the table and sample a word out of it, right in proportion to probability, which means that if you if you have this table and your sampling from it, if you sample from it 100 times 60 times,
+
+00:35:39:09 - 00:36:14:19
+Unbekannt
+you probably get stormy because the probability is point six, but some small fraction of the time you may get strange things like aardvark and zebra and so on and so forth, but you just literally doing random sampling. That's a fine way to do it to Right? There's something wrong with that. So these these are both options. So the key thing you need to remember is that the which one you pick and there are some variations on it which we'll get to in a moment, what you pick, which way to decode, you pick really depends on what your task is, what you try to use the system for, read the lamp for.
+
+00:36:14:22 - 00:36:42:09
+Unbekannt
+So the the broad thing to remember is that if you're working on questions for which the factual accuracy of the response is really important and are you want the output to be deterministic, meaning every time you ask it a particular question, you really want the same answer buckets. You can imagine a customer call support agent where there's two different customers on the same question and they get different answers, right?
+
+00:36:42:09 - 00:37:05:14
+Unbekannt
+You don't want that, so you want deterministic outputs. So in those situations you should use the greedy. Decoding is a good starting point because you will get you know, you won't get any random stuff because for any given input sentence, the soft max that comes out the table is not going to change. It's the same table. And if you're always picking the highest number in the table, that's not going to change either.
+
+00:37:05:17 - 00:37:31:11
+Unbekannt
+So guaranteed determinism. And I found that for reasoning, questions and things where, you know, you're asking questions, math questions, reasoning, questions, logic questions, you should really sort of keep it as sort of greedy as possible in my experience. Okay. Now there are other situations where random sampling is actually a better option If you're doing creative things right, write a poem, write a hike, you write a screenplay, things like that.
+
+00:37:31:13 - 00:37:49:16
+Unbekannt
+You do want a lot of creativity, in which case you actually randomness is your friend. You get a lot of different varieties of responses, diversity of responses, all that is really good. The price you pay for it is that you lose deterministic determinism. The outputs are going to be stochastic, they're going to be random, they're going to vary from the same question that's are going to vary again and again.
+
+00:37:49:19 - 00:38:09:24
+Unbekannt
+But in many cases, maybe it's okay, you don't care. Okay, So that's sort of how roughly how you think about the other. What I want to say is that the diversity of response is also important because if you imagine a chat bot, if you ask questions, if the chat bot always responds to the same stilted robotic fashion, like it kind of starts to get annoying.
+
+00:38:09:27 - 00:38:26:19
+Unbekannt
+You want some variation in the output because a human will never give you the same thing back. Though I must say that when I interact with call center agents, I think they're just cutting and pasting from a text library. So it does look kind of robotic. So maybe you're already kind of used to this. But anyway, so those are some of the things to keep in mind.
+
+00:38:26:22 - 00:38:52:26
+Unbekannt
+Yeah. If you're using random sampling, do you end up with a better estimation of the uncertainty and probabilities are more, more calibrated in the sense that the table that you end up at the end is the real probability that you observe from the words in your corpus. The table doesn't change regardless of you. Sampling the table is a starting point for sampling.
+
+00:38:52:28 - 00:39:16:09
+Unbekannt
+Not all of all decoding is about what token from the table you want to pull out. so it doesn't impact loss function? No. Okay. Yeah. It's all those things are fixed. You looked at the table and then you literally can forget how you got the table. And now the coding starts. You know, it's end. The reason why Chargeability would generate a different answer given the same prompt.
+
+00:39:16:09 - 00:39:38:03
+Unbekannt
+If run it again and again because they are using random sampling. Right? Is exactly what I will see. I'll do a demo of it very, very shortly because it can actually manipulated on top. If you do the prediction word by word, is there a way to make it resilient to mistakes? Like if if you said the night was dark and aardvark, that can mess up the next word, right?
+
+00:39:38:04 - 00:40:00:04
+Unbekannt
+You can totally mess it up. So how does it get it can't get itself back on track. It cannot. And so great question and we'll look at an example of things going off the rails in just a second. Yep. Is this help thing works where you can slide between being more creative and more accurate? Yeah, exactly. So it has its creative, balanced, precise something, right?
+
+00:40:00:06 - 00:40:22:04
+Unbekannt
+Yeah, They're basically under the hood. They are very polluting some of the. But if you're going to look at some of those parameters in just a moment, they're just manipulating it for you. But if you use the API, you can manipulate it directly. Okay. All right. So, so here is sort of the basic thing to remember about random sampling.
+
+00:40:22:06 - 00:40:47:17
+Unbekannt
+So our hope is that, you know, for any given sentence, we think that there is probably some set of good answers for the next world and a whole bunch of bad answers, right? Intuitively. So we want the probability of the good stuff, right? We want like you can imagine, a distribution is going like that. There is the head to the distribution, the first few words in distribution, if you sort them from high to low probability.
+
+00:40:47:19 - 00:41:06:25
+Unbekannt
+And then there is all the long tail of, you know, kind of, you know, inappropriate, not inappropriate, irrelevant words. Right? So our hope is that the model is so good that for any given input phrase, it basically concentrates the output and the soft max are just a few good words and sort of kind of zeros out everything else.
+
+00:41:06:28 - 00:41:33:27
+Unbekannt
+That is the ideal scenario because in that scenario, if you do random sampling, you by definition you'll pick something from the high quality head of the distribution and life is good. Okay, now we want random sampling to sample from the head and not from the tail. That's the key point. And what do I mean by head until it's pretty clear.
+
+00:41:33:29 - 00:41:37:18
+Unbekannt
+Oops.
+
+00:41:37:20 - 00:41:57:07
+Unbekannt
+So imagine you have to take the table if you look at the soft blacks table, which you went from, what about aardvark to zebra? Right. And let's say we sort the table based on high to low probabilities. So maybe what's going to happen is that star me is going to have a probability of, I don't know, point six.
+
+00:41:57:09 - 00:42:25:01
+Unbekannt
+And I think if I remember right, a light had a probability of 4.3. And then there are a whole bunch of other words all the way to the 50,000 word right from highest low probability. So this is what so this is you can think of this as like a probability distribution. Okay. And so basically what we are seeing here is that this this is the head of the distribution.
+
+00:42:25:04 - 00:42:52:12
+Unbekannt
+Well, this long tail is the tail of a distribution. And we want our system to grab something from the head and not from the tail, because the head is the stuff that's actually the relevant, useful good stuff. Okay. That's really what we're trying to do here, but it makes sense. Okay. So it's sort of come back to this and here it's like the most important point to remember about the slide.
+
+00:42:52:14 - 00:43:17:12
+Unbekannt
+While the probability of choosing any individual bird in this long tail is pretty small for anyone, but it's pretty small, the probability of choosing some words from the tail is high. Some word from the tail is high. So to go back to this thing here. Yeah. So in this particular example, point six plus point three, there is a point nine probability it's going to be the stormy or night, but there is a 10% probability.
+
+00:43:17:13 - 00:43:48:13
+Unbekannt
+It's going to be one of these works and who knows what that word is going to be. It might be some random nonsense word, right? So what that means is and this goes to this goes to Anton's point from before, if the element happens to sample a token from the tail, which is not good, it won't be able to recover from its mistake or just go off the rails, which is why every word that gets generated is really important to get it right, because it can't recover very often enough.
+
+00:43:48:15 - 00:44:11:06
+Unbekannt
+Is there a technical way to define the difference between the head and the tail? No, it's sort of like this common thing people use. And the reason why it's not is because it's more problem developed as to what like the you know, like basically you're saying that for any particular problem I think they're putting on the question the right number of words is probably 24 at the same for a different question.
+
+00:44:11:06 - 00:44:36:09
+Unbekannt
+Maybe it's 40 for a totally different model for the same question, maybe ten. So because of that variability, we just can't figure it out. Okay. So all right, so and I'll show you this how to do this in just a moment. So just for kicks, I went in to Jeopardy 3.5 and I said, students of the M.I.T. Sloan School of Management are.
+
+00:44:36:11 - 00:44:58:21
+Unbekannt
+And I said, Pretty good expert. Okay. So it turns out invited is the most likely an expert followed by given, expected, required and able. These are the top five words. Okay. And the probability is 3%. 2% is a, you know, pretty small probabilities. But then the words that are below it. Right. The remaining what are the 50,000 odd words, even lower.
+
+00:44:58:24 - 00:45:20:28
+Unbekannt
+Okay. So here the most likely what is invited. So what I did is I went in there and said, okay, let me try again now. But students at Emory Sloan School of Management are invited and know autocomplete that find me the next thing. So it comes back with see now this is my new prompt from the medical management invited to submit their original white papers to the annual might be something it seems reasonable.
+
+00:45:21:01 - 00:45:44:17
+Unbekannt
+Doesn't seem bad, right? It seems reasonable. Okay. No, let's mix it up a bit. So now I go in there and I noticed that the word master's and the word spending were much lower probability than these top five words. I just mucked around till I found these things. So this really point or 5%, this is .11 percent. So these are clearly in the table, right?
+
+00:45:44:19 - 00:46:10:19
+Unbekannt
+They're not the most likely. So I said, what's going to happen if I actually forced the use master's and then I forced it to use spending? Okay, That's what you would you get students in various of management out of masters of chaos. They routinely low pass deadlines. You fracture And then I couldn't take it anymore. I stopped it a single word.
+
+00:46:10:21 - 00:46:36:22
+Unbekannt
+And then I said, Students in many school of management are spending, which is the other unlikely word the semester learning life skills. So far it looks promising through knitting socks if I'm not making this stuff up, but this is Jeopardy 3.5. So. So yes, it will go off the rails already super careful. And so so the way we sort of tame random sampling to make it work for us.
+
+00:46:36:24 - 00:46:59:06
+Unbekannt
+Yeah. Do you think that these sentences refers like the bust, like the master of chaos routine? You blow past it like think it's something that it was in the training set? Yeah. I mean, that is the thing is it's basically doing roughly it's doing some very rough an approximate pattern matching from all the training data it was trained on.
+
+00:46:59:08 - 00:47:20:27
+Unbekannt
+So it doesn't mean, for example, that on the MIT dot edu website, right on the collection of sites that actually there were text saying that yeah it might be Sloan so were doing all this crazy stuff. It's probably more like a whole bunch of you know college university websites probably had some content like that. Maybe there was a bunch of Reddit people posting stuff like that.
+
+00:47:20:29 - 00:47:43:25
+Unbekannt
+So you just doing some rough pattern matching. It's basically looking. The thing is, you have to remember always with large language models, what is trying to give you, It's giving you a response that is not implausible. There is no guarantee of correctness, there's no accuracy nothing like that. It's giving you a probabilistically, plausible response. That's okay. Now, I slowness, being slowness.
+
+00:47:43:28 - 00:48:03:06
+Unbekannt
+We look at stuff like this. If you get a friend. So we're we're imputing our values onto your generation, but it doesn't know and it doesn't care. So in fact, if I when I typed in something like list all the awards that Professor Ramakrishnan has won, it gave me an amazing list of awards. Apparently I won this and I want that.
+
+00:48:03:06 - 00:48:14:01
+Unbekannt
+I want none of it is true. So which the student said, Not yet. So I had the team made a note of that fine person's name. So.
+
+00:48:14:04 - 00:48:42:12
+Unbekannt
+So yeah. So that's what's going on. Yeah, it's I get the sense, like, maybe there's something. Sorry, I get the sense that maybe there's some sort of sliding window that somehow weighting later words more strongly than earlier words, given how far out because they feel like the context of students at MIT right should have steered in a certain direction even with the presence of the word masters.
+
+00:48:42:14 - 00:49:01:28
+Unbekannt
+So is there something like that happening? No waiting. The thing is, think about the training process. Training The training process. We gave each sentence fragments and we all should predict the next word. Now, clearly, the more you know what the input that's coming in, the longer the input, the more clues you have to figure out what the right next to direction is going to be.
+
+00:49:02:05 - 00:49:25:08
+Unbekannt
+Right. If I say the capital, the capital of will be like, I don't know, it's got to be a country, I guess, or a state, but I don't know anything more than that. But if you if I say the capital of France is dramatic, narrowing of the coin of uncertainty. So that's basically what's going on. And in fact, that is a very beautiful expression I've heard, which is that what what elements do they call it?
+
+00:49:25:11 - 00:49:42:19
+Unbekannt
+Subtractive sculpting. So what I mean by that is it's sort of like when you start, it's like this big block of marble that everywhere chips away at the marble. And then when you are done, it's kind of pretty clear it's David inside the marble, right? That's sort of what's going on.
+
+00:49:42:21 - 00:50:04:25
+Unbekannt
+All right. So to come back to this, what can we do? We can. There are three ways in which you can tune random sampling to make it work for you. The first way and the idea of all these things is that you have some probability distribution. We are now going to sort of manually focus on the head and then we're going to kill everything else and only focus on the head and sample from that head.
+
+00:50:05:02 - 00:50:22:00
+Unbekannt
+Okay. Which immediately begs the question, how will you decide what the hell is right? And that is sort of alien. This question from before, how will you decide where to head us? So one way we do that is to say, you know what? I know we have 50,000 words, the vocabulary. I don't care. Each time I'm only going to pick the top keywords, right?
+
+00:50:22:03 - 00:50:38:06
+Unbekannt
+It could be ten, 20, 30, 40, 50. That's very problem dependent. I'm going to pick the top 20 words and I'm going to ignore everything else and only sample from the top ten or the top 20. That's called top sampling. And so the way it works is that let's say this is your whole distribution and I just stopped at red and so going all the way to 50,000, right?
+
+00:50:38:06 - 00:51:02:26
+Unbekannt
+And then you see and you decide let's say that you want K to be to so you just grab the top two words equals two and then you re normalize the probability. So they add up to one so point six and point to renominated it becomes point seven, 5.25. I know. Just imagine that this is the new soft max table that you're sampling from and you grab a number from I'm sorry, a word from here on your top.
+
+00:51:02:29 - 00:51:27:17
+Unbekannt
+Okay, that's this card top K, something very commonly used, but it has a small shortcoming, which is that it basically assumes that this k that you come up with, let's say, 20 every input sentence. The right number of words in the head is 20, which seems obviously it's not a well-supported assumption, it's just an assumption. So then the question becomes, can we do better?
+
+00:51:27:19 - 00:52:01:21
+Unbekannt
+Right? Because what you really want is you want the words that you pick to have the bulk of the probabilities, right, as much probability as possible. You don't really care how many words are considered as long as together they have a lot of probability. Which brings us to something called top B sampling, also called nucleus sampling. And so deciding on the number of words we're going to pick every time we decide, you know what, we're just going to choose all the words such that the probability of such words that have chosen is at least B sometimes maybe just two words, sometimes two, maybe 20 words.
+
+00:52:01:24 - 00:52:31:08
+Unbekannt
+We don't care, and then we sample from it. Okay, so here, same thing here. Let's say you go with peak as point nine. So you point six plus .2.8 plus .1.91.9. We stop and then we grab these three words and then we re normalize them to get this thing and then boom, we sample from it. So this actually has even more effective, in my opinion, because it's sort of it fluctuates, it doesn't hard code the number of words you think is important.
+
+00:52:31:11 - 00:52:57:19
+Unbekannt
+Was it a question? Right. Yeah. What if, like, let's say point nine ended up like Foggy was .12. What? It only took point one from Foggy. Yeah. What it does is So give it to give it a point then what it's going to do is it's going to keep adding words till it just crosses that number. Yeah. I was thinking can't you just have it threshold for the words switched out to make.
+
+00:52:57:19 - 00:53:15:09
+Unbekannt
+It would be I think probably just this topic. What you just told me was like 0.89 and then the other one is just 0.1. So you're picking towards. Yeah, you can do that. And in fact what you can do is you can always say, I want to pick a word which is the most likely word, right? You can do that.
+
+00:53:15:12 - 00:53:42:04
+Unbekannt
+But if you say, I want a word, I want only consider words whose probabilities are at least something. Then basically what you're saying is that I'm just going to keep on doing and then we draw a line here. Right. But the problem is you don't know how many words have crept over your threshold. Right? You might, for example, find that to go to your example, maybe you said point nine as the threshold may maybe that a whole bunch of that was a word at .89, but you just missed because it didn't make the threshold.
+
+00:53:42:10 - 00:54:00:29
+Unbekannt
+You'll be like, no, I should have 8.89. So there's no right answer, unfortunately. But these are exactly this is exactly the kind of thinking that brought us these kinds of ways to tune these things. All sort of, you know, the foundation here is that the realization that we cannot sort of a priori decide what the right number of words is.
+
+00:54:01:06 - 00:54:21:22
+Unbekannt
+So we have to find heuristics to try to do these things. So in practice, people try all these methods. In fact, you can do both. You can do you can set up so that you can do copy and copy at the same time. Basically you're saying grab words till you cross the probability or you cross whichever is earlier.
+
+00:54:21:25 - 00:54:43:15
+Unbekannt
+Okay, So those are two methods people use heavily. The third method is called distribution. I'm sorry, temperature and the idea of temperature is that you're talking top P, It's sort of we have to decide on a number upfront K or P, and then we just draw the line and look at the words that pass the threshold temperature. It's like a softer way to do the same thing.
+
+00:54:43:15 - 00:55:21:12
+Unbekannt
+It's a softer way to emphasize the head more than the tail. So I think the iPad right. So the idea of temperature is, remember, when we have this soft Max, so, you know, aardvark, the zebra, you have all these probabilities right now. Remember, where did we get these probabilities, These probably came from a soft max. So what is a soft max?
+
+00:55:21:14 - 00:55:48:03
+Unbekannt
+We basically had, you know, all these nodes, say 50,000 nodes in some output layer. And these are just numbers. Let's just call them a one through a 50,000. And then we run it through a soft max function. And what did it do? It basically did it a to a one year two eight to all the way to erase to eight, let's call it N and then we divided it by the sum of all these things to get the probabilities.
+
+00:55:48:03 - 00:56:14:11
+Unbekannt
+So this number became e raised to a one divided by the sum of all the E race. Two s okay, so it is two. And what about you say one positive zero two and so on and so forth. This how soft Max works. I'm just refreshing your memory from a few weeks ago. Okay. Now what temperature does is that let me just write it.
+
+00:56:14:14 - 00:57:00:20
+Unbekannt
+So you run through this all the way. What it does introduces a new parameter here called temperature is that we divide everything here by t, which symptoms and effect of adding this little knob called temperature here. Right. Is very interesting. So let's assume for a second that T is a very, very small number. Assume the T is pretty close to zero, very small number.
+
+00:57:00:23 - 00:57:23:04
+Unbekannt
+So if T is close to zero, what's going to happen is that since it's in the denominator here, all these numbers, all these numbers are going to become really big because is really small rate. If A1 happens to be a positive number is going to be really big. If even as a negative number, it's gonna be a really, really small negative number.
+
+00:57:23:06 - 00:57:46:29
+Unbekannt
+Okay. Now in particular, what's going to happen is the biggest of all the animals. It is already big number. It's going to get massive, which means that its probability is going to dominate everything else because you're thinking really big number and doing it. So that number. So what's going to happen is that okay, what what in this message?
+
+00:57:47:02 - 00:58:25:15
+Unbekannt
+So if the is close to zero, the biggest a the word responding to the biggest, a will have a probability of one or close to one. And since all the probabilities have to add up to zero, which means that everything else is going to be zero. So the biggest AVL have a probably a one, everything is going to have zero.
+
+00:58:25:15 - 00:58:54:26
+Unbekannt
+So reducing temperature close to zero means that the probability distribution is going to peak at the biggest word and everything is going to become zero. So in practice, what that means is that if you look at something like this, if you apply temperature here, what's going to happen is that stormy, this thing is going to get something like point nine, nine, nine and everything else is going to get wiped out.
+
+00:58:54:29 - 00:59:10:26
+Unbekannt
+It's going to get really small, it's going to get even smaller and so on and so forth. And so T is exactly zero. Basically what that means is that this is going to be exactly nine one and everything was going to be just good zero. So one of them is one and everything else is zero. When you do sampling from it, you just pick the big number, right?
+
+00:59:10:27 - 00:59:35:16
+Unbekannt
+Which means that it so it becomes greedy. Decoding. So that is the value of having temperature as a knob. Conversely, if you take temperature T and make it bigger and bigger, right, as opposed to smaller and smaller, this distribution is going to become flat, meaning all the words are going to have the same probability. So any one of these words becomes equally likely.
+
+00:59:35:18 - 01:00:10:27
+Unbekannt
+So t close to zero. The biggest, biggest word gets picked t close to c exceeds one goes to 1.52. Any word becomes likely, it becomes truly random. So that is the effect of temperature. And this knob, you can actually tune it in the interface. So I have a demo. All right. So in Foxy, this screen. Okay. All right.
+
+01:00:10:29 - 01:00:31:06
+Unbekannt
+So this is called I'm at platform dot open eight or com. It's called the open air Playground. And in this playground you can actually put in all the sentences you want. You can choose the model and. Then you'd like to tell you what the soft max output is. Okay, it's very handy. So this is where I said so.
+
+01:00:31:06 - 01:00:49:20
+Unbekannt
+Here are a few things I want to draw attention to. The first one is you see temperature here that before this one, if you make it zero, it becomes greedy decoding, but you can make it more than one if you want. It'll give you all kinds of crazy stuff, as you will see in a second. Okay. And then they don't have top case.
+
+01:00:49:23 - 01:01:08:03
+Unbekannt
+They don't have support for Top Gear opening. But they do have support for to speak. You can put P here in this thing and I'll ignore these things. You can read the documentation to understand those things, but you can actually ask it to show the probabilities. So I'm going to ask you to show all the probabilities. I'm also going to tell it, Don't go nuts.
+
+01:01:08:03 - 01:01:39:20
+Unbekannt
+Just give me like a few outputs. Let's call it 30. Okay? And now I'm going to enter some sentences for this to see what's going on. So let's enter the same sentence as before. Students at the end my t non management bar. I think that's what we had. Right? So submit. So this was filling out. Now you go click on this word, you get all the probabilities.
+
+01:01:39:22 - 01:02:14:26
+Unbekannt
+All right so you can see invited given expected these are all some of the things we have. And so what you can do is you can go in there and say, here clearly speaking, it's just a check to make sure that I use the same sentence as before. It's very brutal. It's going to management. R Okay. I know what it is.
+
+01:02:14:28 - 01:02:45:09
+Unbekannt
+Okay, so let's try that again. Okay, So invited 3.18. That's what we had already invited at 3.193.0. Get close enough. So this is what we have. And now if you wanted to force it to choose invited here, you're just go in there and make the temperature zero zero means it's always going to pick the best one greedy recording so you can hit it again and your friend to give you invited.
+
+01:02:45:15 - 01:03:03:03
+Unbekannt
+See if it's giving you it. So that's how you manipulate it. Using temperature. You can also ask it. You can also manipulate P, you can do all these things, right? But so it's a it's a people use it very heavily for debugging, right? And they're playing with a bunch of data with the model for that particular use case.
+
+01:03:03:07 - 01:03:24:00
+Unbekannt
+You just play with it to get a sense for what kinds of probability distributions you'll see and then you can fine tune it using that, using that knowledge. So yeah, check this out. Well, I said that if the temperature goes above one to a higher number, every word in the protocols, it becomes sort of equally likely, which means this is going to produce garbage.
+
+01:03:24:00 - 01:04:00:25
+Unbekannt
+Right. So let's actually see garbage production in action. So. All right, let's just take the temperature. And next, I'm going to do. Okay, which means that literally anything is possible. Submit that I present to you a model, large language model and up is shocking because when we work with these language models, we have we always then we see it doing some smart things.
+
+01:04:00:25 - 01:04:23:28
+Unbekannt
+We always ascribe some level of, you know, interesting abilities and intelligence and so on. And then you realize all I had to go in going there and change one parameter and it's garbage. Yeah, you should check your microphone, your next opportunity to go, I see. Okay.
+
+01:04:24:00 - 01:05:10:10
+Unbekannt
+So you just see it's on the right. I'm just going to speak to the moment from your need to sort of hang on to this, which is okay. So. So. All right. So you can see that a lot of garbage is showing just by twiddling one parameter. So you have to be in production use cases. We're building applications on properties.
+
+01:05:10:10 - 01:05:42:10
+Unbekannt
+Last time this model is going to be very, very careful to these parameters. So we attention. All right, so what do I have next? Okay. So that brings us to the sort of the end of the decoding section. Think now I'm going to switch gears and talk about tokenization, which is that been so far all things we have done, including the homeworks and so on.
+
+01:05:42:12 - 01:06:14:16
+Unbekannt
+We looked at this tokenization, the standard process, right, for taking a bunch of text and regularizing it, which was the IEEE process, standardize TOKENIZE index, right, and then encode and the standardization I mentioned earlier strips out punctuation, lowercase is everything. Sometimes it removes stop words like and things like that. It also does this thing called stemming, but it turns out if you actually work with something like GPT you know that it hasn't stripped out punctuation, The function is really good, right?
+
+01:06:14:16 - 01:06:46:27
+Unbekannt
+It uses keys, uppercase and lowercase. And in fact, even better, you can actually make up a word as part of your question and use that word consistently in the output. So just for fun. So I made up a word which was colored. So can I just to just get rid of the before I said, here's a new word.
+
+01:06:46:27 - 01:07:12:24
+Unbekannt
+And the definition the word is random, hardly backwards. I said, the definition. A student who understands deep learning backwards. Please use this word in a sentence and here's a sentence. It's coming up in. Well, I was like a little shocked during that verse. During the book seminar, it became evident that Jane was a true role, though effortlessly explaining even the most complex people in inconsistent reverse order.
+
+01:07:12:26 - 01:07:37:07
+Unbekannt
+Okay, so it clearly knows how to use anything you make of it, right? So it has the ability to compose things from scratch as opposed to just looking up stuff. So there is a thing coming from. Right. That's the question. And the answer is a very beautiful thing called white fat encoding, which we'll look at next. So. All right, so what here, let me look at this process.
+
+01:07:37:07 - 01:07:58:14
+Unbekannt
+The disadvantages are, but some of the things we have discussed, which is that we want to be able to preserve observation. We won't be okay. It's going to be over 200 new words and so on and so forth. So the new like the sort of the model models like Bert and so on, they use different tokenization schemes. They don't actually do the CIA thing and the Japanese family uses white bread encoding VPI.
+
+01:07:58:16 - 01:08:16:09
+Unbekannt
+Bert uses something called word piece. All of these ways of including the fundamental idea is to say, Well, you know what? Why don't what are the language you're working with? Why don't we start, first of all, with all the individual characters? Because if you could actually work with the individual characters, you can clearly compose any word that comes up, right?
+
+01:08:16:16 - 01:08:38:05
+Unbekannt
+Rando is just r, e D or etch Six tokens if you're working with characters on the character level. But working only with characters is not great, right? Because that means that the model you're giving it no information about the world. It has to learn every word from scratch, what the word means, and so on and so forth. So it would be nice if we can actually give it words as well.
+
+01:08:38:08 - 01:08:56:27
+Unbekannt
+But we don't we don't want to give it infrequent words, because infrequent words by definition are not what adding to your vocabulary. This is going to, you know, pick up another and bring back dirt and things like that. But infrequent words. We're just we're just compositor. We like to construct them on the fly because we can always use categories.
+
+01:08:56:29 - 01:09:20:22
+Unbekannt
+Okay, So if you don't want to put every word in that, you only want to put frequent words, but to give this thing the ability to compose new words and not always have to go to characters, we will give it parts of words. So these are called Sub Works. So the key idea is that let's come up with a way to boost vocabulary, which has characters full of words that are frequent enough to be worth adding.
+
+01:09:20:25 - 01:09:40:20
+Unbekannt
+And some words of good fragments are frequently enough to be worth adding. So, for example, the word standardized ICP normalize standardized and so on and so forth. Izzy is going to show up a lot in many places, so you don't want to have standardized normals and so on. You just want to have ice. You could just attach it to all kinds of words and make it all work, right?
+
+01:09:40:22 - 01:10:01:20
+Unbekannt
+So that's the basic idea of all these tokenization schemes. And BP is one such, which is to figure how would actually construct this vocabulary from cleaning cards. Right. And by the way, when I say characters, this will include not just, you know, uppercase, lowercase alphabets, some numbers will also include punctuation so that all of these things just become atomic units.
+
+01:10:01:23 - 01:10:19:18
+Unbekannt
+All right. So so what we call the BP works is that we're going to start with each character as a token. And I'll talk about the rest of the thing on the page in just a moment. But anybody who's got it as a token so let's say that your training corpus is just a single sentence, the cat settlement.
+
+01:10:19:20 - 01:10:43:24
+Unbekannt
+Okay? And even though GPT does not actually do any lower casing, it'll just actually use like THC uppercase A different than DC lowercase. Just for simplicity. I'm just going to standardize it. Yeah. So just it against some of that and then I'm going to write it in this form that I basically put a comma after every word, and then I put a little underscore to show the space between the words, okay, I'm going to write it in this form and become clear why I'm writing it.
+
+01:10:43:24 - 01:11:15:02
+Unbekannt
+And this is like, okay, now my starting vocabulary is just all the individual letters in the training class. So the starting is just one of all these letters. Okay, That's It and this is a starting point. And now what we do and this is a keystone B, merge tokens that most frequently occur right next to each other. So if two characters or two tokens are occurring right next to each other, a lot less as much because they seem to be getting a lot together, write me as a list.
+
+01:11:15:04 - 01:11:35:01
+Unbekannt
+And so here, for example, I've listed the frequency of the adjacent domain. So for example, if you look at the edge, B Edge shows a right after each that here it also shows up here. So therefore it shows a place of h e again is showing up here. It's also showing up here. So that also shows a place.
+
+01:11:35:03 - 01:11:57:05
+Unbekannt
+C, on the other hand, is showing up here. It's not showing up anywhere else. So it shows a plus 80 shows a three times in match. So I didn't care and so on. So pretty good idea. So you're just looking at pairwise adjacent tokens and you pick the most frequent one that showing up, which in this case happens to be a D and then you take an anti and you merged it.
+
+01:11:57:07 - 01:12:17:17
+Unbekannt
+So it becomes 80. So when you do that what you you might set and then you add that new token that you've just literally created a couple of reasons and then you update corpus to reflect the mode you just did. So now the corpus becomes the cat sat on the map, but in this case there is no and B separately.
+
+01:12:17:20 - 01:12:58:12
+Unbekannt
+That is just a D combo or token of equal to this step. So far think the most frequent. It's a much the less it's a bid to compress the data. And in fact, the algorithm came from someone trying to figure out a way to compress data. So we should think of it this way. Suppose I tell you, I want you to compress a message I'm going to send to you, and then you look at all the aspects to just you had to deal with, and it turns out you're finding that certain characters are occurring next to it all the time.
+
+01:12:58:14 - 01:13:17:03
+Unbekannt
+Right? Maybe this one argument, let's say ABC shows up ridiculously often in the messaging and then you go like, you know what? If it's already showing up all the time together, y treat it as three things. Let me just call it one thing. ABC That's it. You said a single token called ABC. Every time you send me does an ABC, not B C, That's the basic idea.
+
+01:13:17:06 - 01:13:37:19
+Unbekannt
+So here people come here, that's what we have. And then what we do is now we do again this calculation of adjacency tokens on this update on purpose. And you can see here the chosen one shows up here twice. So you get to if it shows up twice, everything else was important. And yeah, many things are showing up with equal frequency.
+
+01:13:37:19 - 01:13:56:19
+Unbekannt
+Just pick one randomly from this. So if you pick up the edge, right, and we manage that, which means that we had to cavities and once we do that, we update the carcass and now we have the entries. Don't want to be fuzed together along with the previous thing, 18 of them be fuzed together. That is a composite of the second ones.
+
+01:13:56:22 - 01:14:19:27
+Unbekannt
+And then we do the same thing. We find the tokens returns are actually showing a price. Everything else is showing up once. So we take the ag merger to get the wool and now we have the cat settle the match. So this process continues until we reach a predefined limit federal capital gains up. Then they build up D2.
+
+01:14:19:29 - 01:14:42:20
+Unbekannt
+And you can just see, I think I did some digging around on this thing. Yeah. So GPP two and three, they set the vocabulary size to be roughly 50,000. So you're basically keep on doing this delicate limit of $40 and then stop GPP for on the other hand actually which goes all the way the 100 doesn't what out the reasons.
+
+01:14:42:23 - 01:15:01:10
+Unbekannt
+Okay, so this is in action. And so what's going to happen is once you finish all this thing in your vocabulary, you have all these things that your much when a new piece of text comes in, right, the merges. Remember here we merged 80 to get eight, this did become this and so on. But a new piece of text follows.
+
+01:15:01:10 - 01:15:25:17
+Unbekannt
+The top of this is to apply the mostly exact same order. So if the new text comes into the rat, it's first going to apply the 80 to 80 to become use this year and then go to a few states to get this. And there's got a few states that need to get that. And the final list of tokens, it goes in Jiomart is going to be the token for the token for space and the token for are looking for.
+
+01:15:25:20 - 01:16:10:21
+Unbekannt
+So let's see what's an action sheet opening A has a has. It's one thing, but I found this site to be really good so let's tokenize ads on Google on so you can see. Joe Fairless So each uppercase, each has its own token, it's token number 39 and it's a node token dash is its token on is this whole token event space deep as a token and space learning of that.
+
+01:16:10:21 - 01:16:42:24
+Unbekannt
+So okay, note one thing, suppose you have said, let's just say you just had to be running. B has a different token. That's basically what they would realized is that most words are actually going to show up after the space. After a space, right? Much more likely. So having a space attached to the beginning of the word saves you a lot of sort of, you know, it saves you a lot of compute and so on and so forth, because the but in fact, almost all the time with the space before it.
+
+01:16:42:26 - 01:17:37:29
+Unbekannt
+That's why they attach the space to the word itself and not that deep learning deep and the actually so deep and deep or different think that is deep that is so clearly seen in case it took on an approximation. Yep. Boom. And so ultimately what goes in have a place like right so look at that on the mat and you can see here uppercase the then which just do another so uppercase does with the space is three three lowercase girl there's two things to do and then that's distinct from just the code in space is a different thing.
+
+01:17:38:05 - 01:17:49:23
+Unbekannt
+So these are all the points. Now let's try something. That's right, Jane.
+
+01:17:49:25 - 01:18:16:19
+Unbekannt
+So Jane is one token, which is great. And as one of the tokens, let's see it on the start. My name wasn't worthy enough to be its own token. Okay. But strangely enough, this is the for this. So if I want drama and lowercase is its own token, I've no idea what they were scraping. which website?
+

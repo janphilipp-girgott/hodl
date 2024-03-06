@@ -1,0 +1,745 @@
+Gabriel Isaac Afriat
+00:06:55
+Hi, everyone. Thanks for joining.
+I think we're gonna start in a few minutes.
+Alright, Hi, everyone. Thanks for joining today's recitation.
+I think we're gonna start now let me share my screen.
+I just uploaded the to the slides, and in the slides there should be a link to a collab notebook
+today's recitation is a bit long, so I don't know if we'll have time to do everything. But I'll try my best and but please don't hesitate to interrupt and ask questions. If you have any.
+Every can we record the recitation? It is possible it should be
+recording right now. Okay, thank you. Let me double check. Yeah, it is recording
+
+Juan Pablo Santos
+00:10:56
+great thanks.
+
+Gabriel Isaac Afriat
+00:10:58
+Thanks for asking me just to make sure. So today's presentation will be about transformers.
+We'll talk a little bit about foundation models as well.
+so what is the motivation behind transformers?
+And
+so our initial goal. Is to start from words and transform them to embeddings that can be used for other tasks. So, for example, classification, language, generation, in class we thought about also slot filling.
+So if you have a a sentence, and you want to assign each word with a particular slot, so easy does it correspond, for example, to the city where you're leaving from? Does it corresponds to an airport? Does it correspond to the city where you arrive.
+So that's last meeting. There are lots of tasks that you may want to tackle with text and but in order to tackle all of these tasks. You need to transform tasks text into embeddings.
+We've seen some techniques in class. So glove bag of words.
+These techniques work to some extent, so they generate meaningful embeddings for the words.
+However, there is something that is missing, and it is contexts.
+So transformers they come into place here in order to
+create embedding that are meaningful for the words, better so, that are meaningful to take into account the context. So, for example, if you have 2 sentences like this. So everybody was not talking to me or not. Everybody was talking to me
+here. Not so. The sentences are very different. The indeed
+and the context is important.
+I can give you another example. So, for example, if you say the pie was not good or the pie was good here the embedding for good should be different in one case.
+You wouldn't
+one the embedding to associate something positive in the other one. Maybe something negative. However. If you just apply glove good will be the same embedding in both sentences. With transformers. It shouldn't be
+so here you on this graph so you can see you start from some words to generate embeddings.
+In glove. You will have that W. 4 is the same as W. 5. So the meeting for good will be the same.
+but which transformers W. 4, and the and v. 5. Sorry will be different.
+So the idea is, you start from non contextual word embeddings.
+You want to output some contextual water embeddings to do that. You can use a transformer
+and in particular, the main id in the trans summer code that we've seen in class
+is the idea of self attention.
+So
+the idea of attention is you want to us? When you look at the embedding of a word you want to
+have this embedding, maybe look at other words.
+and you want to determine which port you should be looking at. So.
+for example, if you consider the sentence, the animal didn't cross the street because it was too tired. It's a bit complicated to give an embedding to it. So that's why
+so for glove it would be pretty hard. But here, with the attention mechanism, you're gonna be able to
+create an embedding a contextual embedding for it
+by looking at other words in the sentences in the sentence.
+So here, for example, you want the attention mechanism to look at
+the animal right? This is what it means. so how does it work? The idea is
+So for each. Words. So, for example, thinking machine work.
+you have an embedding that you start with.
+So, for example, in the transformer encoder architecture that we've seen in class. This would be weights that you randomly initialize. Then, from this embedding, you're going to create some queries.
+So this query, so for each work you generate query, the query means, what should I be looking at? Basically.
+then, for each one you create a key that should correspond to what does the word mean? Like?
+what what is meaningful about this word? And then you can create a value
+which is just gonna change the kernel bidding to another one. So
+let's look at the
+at this example. So maybe let's focus first on the key and query, so for each one you created a key, you created a query, and then. by doing a dot product between each key and each query you can determine whether
+the link should be high, or whether there's no like very high link between the 2 words.
+so you want probabilities. So you do a softmax, and in the original paper so they divide by the square root of Dk, which is embedding dimension. So here will be 3, but it was 8. That would be
+sorry. In the original paper I think they use another dimension, and so probably 64. I assume he was 8 here.
+So th doesn't make sense. So you start from set attention. Basically, you look at the sentence for each se word in the sentence, you create a query, you create a key, and then you match the query. The it behind the query is, What should they be looking at the key should be, what does the word represent? And then you do using dot products between each key in each query, you can create attention scores.
+Does this gonna help you determine for each web web
+attention. Should how much should I pay attention to the other words in this sentence.
+oops. Sorry. So now we have keys, queries. We have created some attention scores.
+What we're gonna do then is so I actually seen in class? Oh, there's a question. Yeah.
+
+Angel
+00:17:57
+yeah. So can you give a bit more of an intuitive explanation of what attention actually is attention and self attention.
+
+Gabriel Isaac Afriat
+00:18:10
+so here. so attention is more general than self-attention. Attention is the idea that for given words you want to determine
+how much you should be looking at other words.
+So, for example, let's say you had. So here in this class, we focused a lot on transformers. But maybe an ancestor of the transformer architecture would be more simpler architecture would be like, for example, an Rnn. And you could imagine, for example, doing some translation. So let's say, you want to translate French to English.
+I'm saying French, because I think that's probably the only language where I could actually make a good translation from both languages. But let's say you said, for example.
+a a
+I like Pasta, and you want to translate that to French pat. So
+if you so the attention idea is
+So you gonna pass. I like pass down to your Rnn.
+but then, if you just have an area, and then you're Gonna have the the ideas you want the Ireland to then predict the French. So Jean M. Le Pat.
+and but at the given stage. You!
+You may want to remember the previous words. So the words in the that were in English, so the attention is going to help you focus on the previous words.
+in the context of self attention. So it's a
+It is more as it is not. Attention is more broad than self attention. So you have a sentence, and you want for all the words in the sentence to create attention scores
+to help you, when you create the contextual embedding of a given word.
+determine how much you should be looking at the other words.
+I don't know if it was clear. Sorry the example of translation was maybe confusing. I don't know. This. Does it make sense the attention? Mechanism is just there to help you determine what other words in the sentence should be looking at. And
+in the case of translation, maybe when you want to translate
+the next word in the sentence you want to determine. You want, maybe, to help your system.
+no
+how much it should pay attention to the words that you had in in French like, for example, when you
+translate. But
+you want to know that you should be looking at Pasta.
+although in your Rn. Architecture is just like, you know, from one stage to another. So you maybe want to look at the past in this example for set attention. Everything is kind of connected. And you just want for give to create the contextual beginning of the world. You want to know to what extent you should pay attention to the other. Words in your sentence.
+entity. Yeah.
+
+Angel
+00:21:07
+okay, it makes sense.
+
+Gabriel Isaac Afriat
+00:21:09
+Thank you. You're welcome. so
+so this. So once you have
+So here we have created our attention scores.
+Once you have your attendance scores so s. 1, 6 s. 2, 6, etc. Then you create the contextual embedding using these scores.
+So I think the first version you've seen in class is the version where there's no value matrix ad.
+so here we just add another we add more weight to our transformer. So to ourselves, attention block. So we want maybe to change the original embeddings to other embeddings by just multiplying them with a matrix AV,
+just to make it more
+powerful, we want to give more freedom.
+yeah, to the potential ways we want to. We want to have. So we'll apply another transformation. So here, sorry for the change of notation is here. This is a, this is called a QAK. This is the same as here, like. So
+by trainable parameters we mean here.
+we we talking about the matrices that we use. So here, Ak, A, Q and 80. So W. Here they are. Not the trainable parameters of your transformer block. They are just the input and billings of the transformer block.
+So now,
+yeah, the the thing is when you have a given.
+when you have the given set of matrices. So Q and WV.
+so that gives you one attention head. But maybe you want multiple attention heads. Maybe in some context, you want the attention to be looking at some particular area. But maybe you want another attention. Sorry. Another. Yeah. That should head where the attention mechanism is, gonna look at other areas, create other embeddings. So just to make it more
+powerful, you can add multiple attention heads.
+But then there's
+the question of
+So for each. So here you started from Thinking and machine. Then
+you mapped Thinking and machine to new embeddings. So, for example, here. We started from an embedding of size. 4. Now we get an embedding of size, 3
+by multiplying by a queue
+by WV.
+But if you have multiple attention heads, then you have
+such embeddings. Let's say
+8 times here we have 8 attention heads! So it means that for each word
+you have 8 times, and I'm badging a size. 3.
+What you can do is concatenate them.
+So now you have for each word.
+you have an 8 by 3 matrix.
+So for each intervention, head, basically, you have. and a bedding of size. 3.
+then so the idea, then is you want to map that into? Not a matrix, but an embedding again. But you don't want to make fix something that's not very that's going to make it complicated. So what we do is we apply a projection.
+So
+for each word.
+So you had 8 embeddings s. 3. And then you're gonna project that into just an embedding of size.
+4. Here
+by using the matrix WO,
+so now you have initially had 2 words
+of for each one you had on a meeting of size. 4. And then you end up with for each one and a meeting of size. 4 again.
+And what's good about this whole architecture is you started from 2 words embedding size 4. You end up with 2 words embedding size 4. So you can just the input and the output that I mentioned are the same. You can just
+repeat the operation, add another
+center attention, blog and repeat the process and have meaningful context. Embeddings.
+Yep, Sasha.
+
+Sasha Julia Lioutikova
+00:25:55
+this is probably a stupid question. But on slide like 12, a couple, a couple of slides back you should. The formula for W. Hat 6 equals. I think it's
+before this one. Yes,
+so it seems like there's still like that dot product between words like one and 6 here words I and 6
+here to capture the relationship of the meaning between those 2 words. So I had a question about what the a matrices, captures, so do they capture like
+in a sentence like the first word is typically related to the third word, or like, is it more based on the meaning of the words, or like.
+how like, how does the a matrices? How do the a matrices kind of capture. meaning, and relationship
+between the different words like, is it based on meaning versus like position in the sentence? Basically.
+
+Gabriel Isaac Afriat
+00:26:55
+So that's a good question.
+so I think so. Here we haven't tackled the positional embedding layer yet that's coming after at this point it's mostly about meaning and context.
+so the idea behind it's
+I think it's harder to understand in the context of self attention. It's maybe
+more direct in the context of just attention in the ancestor of the transomer architecture in the
+basic Rnn in in the context of maybe less intuitive but the idea is the queue, ma matrix. So the query matrix a queue.
+It's gonna take us input an embedding.
+and it's gonna map it to a query. So for a given word. the
+product Aq, times, W, 6, for example, is, gonna create a query for what? W W. 6.
+And the idea of the query is. when you do the attention mechanism, the query is, gonna should tell you.
+To what other words I should be looking at.
+so
+maybe let me rephrase it.
+So HK. So the key matrix and Hq, they take as input the word embeddings and they map it to the same embedding dimension. So Aka is gonna map, the input embedding to a key
+to the key embedding space. So it's going to generate the key. The key is, what does the word mean? The query is, what should I be looking at.
+And then you do the scalar product and the scales product should tell you whether the query matches the key.
+
+Sasha Julia Lioutikova
+00:28:45
+Yeah, I think that makes sense. So basically, it's like transforming the meaning of the word into a different like dimensionality space, not dimensionality, because it's the same dimension. But it's like a different coordinate space, and then find the relationship between those words right?
+
+Gabriel Isaac Afriat
+00:29:01
+It's not necessarily the same dimension. So, for example, in this example here
+we started dimension, so 4 features.
+and we map that into a dimension. So our 3 3 features.
+So by multiplying by the W. 0, Wk. And W. Sorry by W. 0 and the WK. And WQ.
+We mapped embeddings of size 4 to embedding of size. 3.
+
+Sasha Julia Lioutikova
+00:29:33
+Okay, that makes sense. Thank you. You're welcome, and then so when you have the embedding of size 3. So you have a query, a key, and then you do the dot product.
+
+Gabriel Isaac Afriat
+00:29:42
+Here
+we said that the value embeddings were of size 3 or so, but it's not necessary. You have
+so W. 0 and wk, they should map the include embittings to the meeting of the same size, because then you do the dot product
+
+Sasha Julia Lioutikova
+00:30:00
+but then the value W. 0 V
+
+Gabriel Isaac Afriat
+00:30:04
+can map the original embedding to any
+size. Because, yeah, that there's nothing that is annoying at this point. Then you're gonna map it with the projection matrix to the original meeting
+size.
+
+Sasha Julia Lioutikova
+00:30:19
+Okay, that makes sense. Thank you.
+
+Gabriel Isaac Afriat
+00:30:23
+Alright.
+who signed this.
+So now we've tackled the self-tension mechanism which helps create contextual embeddings.
+There is one thing that is missing, and as Sasha mentioned, there is the idea of a position. So here we
+try to
+use attention mechanism to map, to try to understand for a given well, what should the other? What otherwise should I be looking at? But we don't take into account the position, Adam at this point. So we are gonna create position embeddings
+for each
+position. So in the sentence, position 0, 1, 2, 3, we are gonna start from initial embeddings
+that are randomly initialized. And we're just gonna add the position embeddings with the original embeddings.
+So that's the idea between behind position and calling,
+So everything is trainable. And yeah, we but the
+the position embeddings. They only depend on the position.
+So let's say, for example, you start from embeddings of size. 10.
+so you're going to create for each word in your vocabulary. You're going to randomly initialize a weight of size 10 that is only depending. That only depends on the weight, on the word.
+So
+the word like we'll have one embedding the word pasta, you have another embedding. So these are the word embeddings, and then the position embeddings. So for position 0, you have an embedding of size. 10 for position 3. You have an embedding of size. 10.
+When you have a sentence
+for each word, you have but an word a minute. and the word is at the given position. So version 0, you have an embedding, you just sum the 2.
+Yeah. So
+this is basically what?
+I was trying to expand here. So we have a collab?
+yeah, Brian.
+
+Bryan Ken-Chin Chao
+00:33:05
+hey? How is a positional embedding. deciding? Is it?
+Is? Is it arbitrary? Is it random like? We just throw a number and say.
+for any given sentence of this length, then it will be this positional betting. How do you decide a number for that.
+
+Gabriel Isaac Afriat
+00:33:28
+Oh, I see so initially. Everything is random.
+You start by randomly, randomly initializing your position embeddings and randomly initializing your word embeddings.
+And
+then when you train your neural net, your transformer architecture
+hopefully, you're gonna learn good position, embeddings and one embeddings. But initially, you don't
+know what the number should be? A priority
+doesn't make sense.
+
+Bryan Ken-Chin Chao
+00:34:08
+Why. why don't you? Why, why can't it be random? Won't that
+how do I say it.
+
+Gabriel Isaac Afriat
+00:34:19
+I think there has been some research done on
+like you could define position embeddings yourself, and
+maybe give
+some ways to words that are close to each other, or something like this around those lines. So you could engineer some position. Embeddings?
+But what is done in practice is you just randomly initialize them. You train them and then you get
+it is working very well.
+But I think you could technically engineer some position. Embeddings. and
+yeah, it has been done. But I think
+instead of going into like complicated position, embeddings
+like, there's the route of set of of engineering your own, or like just random initializing position and meetings. But if you want to initialize them, it's gonna work very well. And that's why he's done in a lot of customer architectures, the state of the art architectures.
+So you have. And we're gonna
+implement some transformer architecture. And you're gonna see that? We just randomly initialize the weights we train them, and then we get very good accuracy.
+Does it real quick.
+
+Jocelyn Anne Foulke
+00:35:49
+Gabriel. Could I ask a follow-up on that
+for the positional embedding? Is it? Is it trying to understand, or is it using the position relative to just the start and end of a sentence? Or is it using the position relative to other words that seem to have significance? Right? So I was thinking about it's like if you have, like. The soft cat sat on the pillow versus the cat sat on the soft pillow like.
+is it using the position relative to certain significant words to understand the words soft, or can you? It kind of give us a little intuition, because it just seems very strange that sort of this randomness about where something is in the sentence should have be able to have so much meaning. If that if that makes sense, that's a little where I'm stuck
+
+Gabriel Isaac Afriat
+00:36:29
+So I think
+the attention mechanism should be able to figure out
+So like if soft is at one place or another. You're gonna have a word embedding. So the wedding meeting is gonna be a different at the given at position 4 position 5.
+right?
+But the position of, I think.
+is just there to say at the given position, what should be the embed like? What should you add? Maybe like that corresponds more to the position in the sentence.
+
+Jocelyn Anne Foulke
+00:37:06
+so so is the is the positional embedding itself. Is that independent of the word embedding. So like, if if it's the second word in the sentence is going to have the same positional embedding, no matter what word it is.
+
+Gabriel Isaac Afriat
+00:37:19
+Yes, exactly. The position I'm meeting only depends on the position in the sentence. Interesting. So II guess in your example. When you sum the 2 you'll have different.
+because the one I mean is gonna be different for soft if it's at the position 4 or 5 I mean the one I'm meeting doesn't depend on the position. But the sum.
+When you look at the what the final and bidding
+acquisition form is gonna be different. Because of the word embedding.
+
+Jocelyn Anne Foulke
+00:37:53
+Okay, okay, thank you.
+
+Gabriel Isaac Afriat
+00:37:55
+You're welcome.
+okay, so not.
+We have a long collab.
+But I think so. We're gonna start now. And please tell me if you have any question. So in this collab, we're gonna look at
+So the prime that you've seen in class already, which is
+slot filling. And in the data come from the 18 data sets.
+so
+I can show you the data set. So consist of queries so the slot feeling you'd like to have.
+and you also have access to the intent
+so the intent here corresponds to a task which is intent prediction and the slot filling correspond to the task of slot filling. You have other. You could do other tasks, but like language modeling. If you want to predict the next word in a sentence,
+there are a lot of different tasks you can do in energy. Here. We're gonna focus on this 2 tasks. So intense prediction and slot filling.
+So you have a query. I want to fly from Boston at 8 38 am. And arrive in Denver for each one in the sentence you want to determine whether it corresponds to one of the slots that you have. So is it from city
+is that the part time
+etc.?
+And you still have access to an intense. So here I want to fly from Boston, etcetera. So the intent is a flight. What is the arrival? Time? The intent is flight time?
+So we can look at the different intents that we have in the data set.
+So here we look at the training set. And we see, we have a lot of intense that correspond to flight, a lot of intense corresponding to air, etc.
+The number of printers we have is 22
+Here we store. One other queries, one another intense one. Are the slots
+in the training set. Same for the test set. So here we can list all of the slots we have.
+And we see, we have 1, 123 different slots.
+So first, we're gonna focus on the intent prediction task.
+We're gonna see, it's really easy task in this problem. We can get a pretty high accuracy. Yes.
+
+Ikechukwu C Ume
+00:40:43
+Hi, so just quick question, is there a reason why you don't have the cause? II
+is there a reason why you don't have the validation sets in this one? Why is it just training and test?
+
+Gabriel Isaac Afriat
+00:40:55
+It's a good question. I think you would have a validation set if we did hyper parameter tuning in this collab we didn't do
+any param hyper parameter is very is just to show you different techniques so we just use the whole training set.
+I agree. In general. we should have a validation set. Yes, Brian.
+is that another question?
+
+Bryan Ken-Chin Chao
+00:41:28
+Sorry? Sorry. Sorry. Sorry. If you scroll back up to the already labeled data. So so for example,
+like, let's take the first sentence.
+the percentage I want to fly from Boston. Right?
+so
+we're saying, the training data already gives us the intent.
+And then
+we've already told them we've already told the the data has already said from these are the labels that have already been
+predetermined. Right? We say, hey?
+So we say, from loc, from city name is Boston to city name is Denver, this kind of stuff? Right? So this is like a already pre trained
+pre, labeled information, correct?
+
+Gabriel Isaac Afriat
+00:42:19
+Yeah, that's correct.
+
+Bryan Ken-Chin Chao
+00:42:20
+Okay? And so so is that why the position doesn't matter, because the positioning embeddings will get
+train over, adjusted over time.
+Will the position embeddings ever get adjusted over time, or they are always there, and so relative to each other, it it doesn't matter.
+
+Gabriel Isaac Afriat
+00:42:44
+So in
+so to answer the first question in our case. We have.
+We have label data.
+So it's supervised learning.
+Right?
+But to answer the second question, I think position embedding could be useful. And we're gonna have an example later.
+In the collab where we use transformer encoder architecture. And we use a position and
+so I mean.
+whether the. So we we see again using transformer architectures compared to the first techniques we're gonna show in the Collab this is non negligible game. So it seems like the encoder architecture. A transformer. Architecture is doing pretty well, and it's helpful whether it comes from the self attention, mechanism, or the position and meeting. I'm not sure to be honest.
+but but I think a priori the idea of position and meeting could be useful in this context as well
+may be like, the position is meaningful. So in this other cell.
+does it answer the question.
+
+Bryan Ken-Chin Chao
+00:44:00
+yeah, well, yeah.
+
+Gabriel Isaac Afriat
+00:44:02
+yeah, I think I see what you mean may be here like.
+and the scenarios are short.
+and maybe, like different positions, could have very like the position. Maybe not that helpful. II think I'm I'm not sure to be honest. And
+maybe we could try and just render the transform architecture without a person a meeting, and see how much it like Kuwait performed. I haven't tried, so I I'm not sure but
+I probably I don't know really like, if
+other question in the meeting was pretty useful in this case or not.
+And and to go back to Iki's question.
+I think
+there. There is no validation set here but in practice for you.
+if you wanted to compare even different architectures
+well, you would need a validation that I think here is just like to show you the different types of methods. And here we look at the test accuracies.
+to like, determine whether this method is better than another. It's just for educational purposes, let's say, but
+it it in general, you would need a very different set actually to compare different architectures.
+So yeah, you're right we should have a validation set. But here we we get it simple. So I we don't have a validation set. But you're right.
+I think. it's mainly to show you the different types of methods. But
+yeah, you technically within the validation setting.
+alright. So
+first method.
+let's see what time is okay, I think we have that first method. So the first problem, sorry is intent prediction. So we have label data for each query
+we have, what is the intent?
+so to solve the problem, we are first, and I'm gonna do a multi-hole encoding of the query.
+So what is the multi-hour encoding? It's just the or so for each word in the sentence, you have a 100 coding.
+What you could do is just some, all of them, and then that would be the we would have the count account encoding so how many times each word appears in the sentence
+he would just say, is, it is one if the word appears in the sentence and 0 otherwise.
+we also used backgrounds
+in this problem.
+because, the vocabulary itself is pretty small.
+So using background is not too expensive. We only have 6,864 words in the vocabulary using backgrounds.
+So let's not do that. And if we look at the vocabulary we have, so
+we have the unknown to from flights, flights from. So you see, we have like 2 words. We also consider 2 consecutive words.
+so
+that means that the including worked
+And we can look at some sentences. So, for example, I want to flag from available, etc.
+so we can look at the vocabulary size. And we can transform this into So
+in the vector space
+so here we have sentences and using our text vectorization as we initialize here saying, we might multi hold and backgrounds, we can transform that into a vector space. So we have, 4,978 sentences. So queries, sorry each of them.
+is a multi hole encoding so of size. 6,864.
+If we look at one example of according we have
+so vectors of this type.
+and of decides.
+If we look at the intent data train. So this is supervised the supervised problem. So we have labels. We know that the first sentence the intent was fly. The second sentence was, fly to flight. Time, etc.
+we're gonna so so here our intents are.
+It is. It is what we want to predict so they can be seen as classes. And so we just do label encoding so we're gonna set flight corresponds to
+plus 0 flight time, and then class one fres class 2, etc.
+So if we look at, for example, one
+so sorry if we look at the the why in our supervised learning task.
+and we look at the first 5 sentences. So these are what this is what we want. We want to predict, we want to say we want to predict 2. So class 2, class 2 plus 8 plus 2 corresponding to flight, I assume, and flight times corresponding to class 8, etcetera.
+So Lisa. Question
+So given the
+how the Y looks like, do you know whether we should use sparse categorical cross entropy or categorical cross entropy.
+It's purely like a coding a question. But
+it's
+sorry, Angel.
+
+Angel
+00:49:33
+can you please repeat?
+
+Gabriel Isaac Afriat
+00:49:35
+Oh, yeah, sure.
+So given how the Y looks like. So this is why right? So this means the first sentence we should predict flights which correspond to class 2. The second sentence we should predict flight the label is again to the classes. Again. 2. Then we should predict flight time. The label is 8.
+So given, how the Y looks like.
+do you think we should use sparse categorical cross entropy as our last function? Or should we use categorical course? Entropy?
+It's mainly a coding question. So I mean, it's all very theoretical. because in the end, like both correspond to cross entropy which is the last function you
+probably want to use in the case of classification.
+but you should always be careful between both.
+because I mean, sometimes you have to use one, sometimes you have to use the other one, depend, and it only depends on
+the type of encoding you used for the wipe.
+So how you decide to represent your targets.
+
+Angel
+00:51:06
+So a categorical entropy was for one foot encoding and the other one isn't sparse.
+Isn't the sparse one for entiters.
+
+Gabriel Isaac Afriat
+00:51:15
+Yes, you're that's 100% correct.
+So he would use sparse categorical cross entropy. Because, we don't have a 100 recording of the labels
+we have label encoding. So
+it is an integer. We just know it is class number 2, class number 8, class number 3. So
+here
+categorical cross entropy wouldn't work. So we need to use sparse categorical cross entropy.
+So now we have to define a model an architecture. So we're gonna use a very simple architecture. And we're gonna see that with this very simple architecture, we can do very well.
+So we can use, for example. Just a tense layer with 64 hidden units. So 64 units in the hidden layer.
+I should say, and we use, and a relaxation function.
+Then we apply some dropout for regularization.
+and then we have a dense layer
+with 24 units in the output layer. So each unit corresponding to one in 10.
+So let me define the model, and if we do summary, we have 440,000 parameters so
+reasonable.
+We train using a demo optimizer which works like very well most of the time. So
+very common optimizer to use, we use such category for cross entropy because our labels are not 1 one. We don't have a 100 connecting of the labels that we have the classes
+and we're gonna keep track of the categorical accuracy so sparse here again, because we have a label encoding.
+So then we can train the neural network.
+We can evaluate it on the test set. And if we do that, we see that we have 94% accuracy
+which looks pretty good we should still, maybe be careful because we have
+The the data is not really balanced. So we have a lot of for example, flight classes in our data set. So it's always important to compare this to the baseline. So here the baseline would be 71 if you were to predict always flight all the time, your model would be 71 accurate.
+So from 71 to 94, it's pretty good. It means we have learned something with the very simple model.
+So intent prediction seems pretty straightforward. The task that is maybe a bit more complicated is slot fillings.
+so it's flat feeling. We want for each sentence. Oh, sorry for each one in the sentence to predict.
+what's category corresponds to? Is it the city. You want to live from the city you want. You're supposed to write in, etc.
+alright. So
+let's start so here
+we have different ways to tackle the problem.
+the maybe the easiest way would be to have as input the word and the sentence.
+So here, let's look at the first sentence
+in order to predict what Boston corresponds to
+you need also, you may want to also have the whole sentence. So we're going to keep the model, both the work they're meeting for Boston and the for the whole sentence. So that would be one input to our model. Then maybe another input would be arrive and the whole sentence.
+So when to create this data set.
+so here we're gonna create the query train and then do word train. So
+let me see.
+Okay, let's show you
+thought I showed it.
+Okay.
+But so basically, he will repeat the sentence as number the number of time we repeat the sentence correspond to the number of words in the sentence.
+so here this one corresponds to I, and then I want to fly from Boston, etc. This one corresponds to once, and I want to fly from Basel. This one corresponds to 2, and then I want etc.
+And then we do the same thing for the next sentence.
+So we create our data set like this.
+We can look at the labels. So what we want to predict here, we want to predict the 0 0 0. And then the sentence, because it's Boston. And the same time we're living from
+then nothing. Then the time, etc.
+So first we're gonna
+use some embeddings for the queries.
+So we're gonna again use the multi-hour encoding
+with that backgrounds. So
+it just says it's the one where the if the word appears in the sentence and is 0. Otherwise.
+then we're gonna use 100 coding for the words. so
+so just why do we have different encodings? Because we have one encoding for the whole sentence. And we have an encoding for the word that comes with the sentence. As input
+so for the worst, we're just gonna use one connected link.
+And for the slots we are going to use just label encoding. And very important. We do not standardize
+the slots.
+Does someone remember why we don't standardize the slots
+by standardization? Does anyone maybe want to first explain what we mean by standardization here?
+
+Nathan Nguyen
+00:57:48
+Is that just making it on the same scale. So subtracting the main diving round the standard deviation.
+
+Gabriel Isaac Afriat
+00:57:54
+So in this context, not really in this context, standardization is whether we want to for each word.
+So there's limitization and and sanitization. I think
+I think that.
+
+Angel
+00:58:13
+Yes, Angela.
+Oh, okay, so
+I so standardization would be kind of taking the word to its original.
+It's proper shape. So if we had the verb played, we would put it in
+in its present form like play.
+Do you mean that?
+And then immunization would be cutting it?
+
+Gabriel Isaac Afriat
+00:58:40
+Yes, exactly, though I was making sure that I was think something would be. That is correct. Standardization is gonna change each word and as you said here in this context, we don't want to change the words
+so it is used in order to reduce the size of the vocabulary, if you want to.
+Many much worse together that have the same roots
+but here we don't want to do that, because
+we want to keep everything we want to keep B the dash here from Luxor.
+So we don't use standardization, and we use label encoding. So we don't say output. Monica was multi hot. Simply because so this is what we want to predict. This is the the class. These are the classes. So we don't need a 100 coding for that. We just want the class.
+so we can look at the vocabulary.
+This is there
+and so now we're gonna create the embeddings for the queries. We're gonna create the embittings for each word, we're gonna create the embeddings for.
+So the labels for the slots
+and
+So if we look, for example, at the query shape we have 56,000, 591 spring queries. So here, something important is
+we created in order that that doesn't. We created. Now, we have a lot of samples. and the reason is so, we have. Each line corresponds to
+a query plus a word.
+So
+if our sentence has 10 words, then we have this sentence, first word, the sentence, second word, the sentence, third, word, etc.
+And for each a couple sentence and word. We know what the label is so is it 0? Should it be? Does this make sense?
+Here we have a lot of training samples compared to what we had at the beginning, because we that's what we did. We repeated the sentence. So first element in our training set is the sentence plus the first word. So it's I.
+And we want to predict here a 0.
+Then it's this sentence, press one, and we want to predict a 0 again, because I want one correspond to any slots, and then we have. We're up to, for example, Boston here. So the sentence will be this, plus Boston want to predict from city.
+
+Sasha Julia Lioutikova
+01:00:59
+can you? Can you clarify what you mean by plus? Do you mean like straight up, adding the
+sentence embedding, and the word embedding, or like concatenating them, or just sorry.
+
+Gabriel Isaac Afriat
+01:01:12
+That's a good question. I think. Yeah, by plus, it's not very clear. What I mean is, concatenate.
+
+Sasha Julia Lioutikova
+01:01:20
+Got it? Thank you.
+
+Gabriel Isaac Afriat
+01:01:21
+Yeah. So yeah, here we have 6,864
+features
+I mean, like the size of our embedding. Is this amount for the queries?
+This is the size of our meetings for the words, and then we just concatenate them.
+So then we're gonna use dense layer with looking good the we're gonna use here 128 neurons in this layer.
+Then we use a dropout for regularization, and then we finally use a dense layer? Do you know why? Has 125 outputs here
+
+Bryan Ken-Chin Chao
+01:02:09
+as there's a hundred categories.
+
+Nathan Nguyen
+01:02:13
+they you
+
+Gabriel Isaac Afriat
+01:02:14
+we'll just simple question. But it was just to make sure that
+it was clear. Yeah. So
+we have 125 slots. So
+the architecture looks like this oops.
+So we start from. We have the embeddings for the queries. We have the embeddings for the words we concatenate. Apply some dense layers, and we have the update.
+We can train the network. Sorry. I see I'm running out of time, so I'm going a bit fast. I think I should go with us. But so we see we have, really good accuracy. 94.4.
+However. it's a bit
+maybe we should be a bit careful, because we have a lot of zeros that we like the the slots, you know. Here we reward the model. We consider that it's
+the model did did. Well, if it predicts a 0 and it is indeed a 0. But because we have a lot of zeros, then the model is.
+Of course, gonna be pretty good. So if we remove we don't look at the zeros so basically, I mean
+these things, right? So we have a lot of them. So if the model predicts that very often, maybe it's over 15, and we don't know, really, if we just look at the accuracy for this
+slots?
+Then I believe we have 86.9,
+and that's on the test set. So that an unseen data
+so it's still not bad. So, using a simple architecture, we can do pretty well.
+And here I'll give you some examples.
+you can look at them later, maybe. So I say, I'm running a bit of time, but maybe very quickly.
+So the other alternative is to use transformers
+and using the attention mechanism. So here you have an image. The attention mechanism is just gonna tell you what to look at
+in the image same id with the text. So if you want
+to look at the sentence, that train left the station, maybe
+what is the type of station? Is the radio station etc., you don't know. So attention is gonna the attention mechanism. For when you look at station and you want to create the contextual embedding of station.
+He's going to tell you to look at training.
+So here, when you create the context, emptying of station after the set of attention, you're going to look at the train, the meeting for the train and
+this contextual meeting would be very good, because it has the contextual information.
+So
+we want to set up our settings. The input dimension is going to be 30. We are because our queries are pretty short.
+so here, this is our vocabulary. let me go a bit faster. so here we're going to use the position embedding.
+So we have a position we have 3 inputs. For this we have the length of the query. So here, this is 30. We have the vocabulary size and the embedding size.
+so
+the the position. Embedding layer. Here is gonna both create the position and buildings and the word embeddings. So when you, when I told you, are at the beginning so initially, you randomly initialize the embeddings for the word embeddings and for the position of meetings. So here you're gonna have
+so embedding dimension is 512. So this is gonna create embeddings. a a matrix of size 30 by 5 12
+for the position of meetings. You have 30 positions here.
+because the sentences we said are of size 30.
+So you have 30 positions
+and you have an embedding image on this 512. Then, how many words you have in the vocabulary? I think you have around 800 something.
+So you're gonna have another matrix, which is 800 by effect with
+Then you apply this. So you basically some, the meeting you have for the words and meetings you have for the positions. Then you have a transformer encoder block
+which does the safer attention mechanism
+with 5 heads and the encoder you need 64. So
+this is just So first them, okay, the.
+So it is going to map you the embeddings in this dimension
+before mapping it back to 5 12.
+Then you apply. So once you have basically the con. So this is gonna create the contextual embeddings as we've seen in clouds.
+And you're in the restation. And then you apply some dense layers that take into account the things I seem good the
+contextual embeddings.
+And they're gonna map it to 128 units
+for the hidden layer for this inner layer. And then finally, you want for each word.
+So the the input here, we repeat what the input is. So we have the sentence plus the word. So what we want to predict is the slot. How many slots we have? We have 1 25 slots.
+So if we look at the shape, why do we have a 30? Here is because.
+it's for
+in this transformer. Oh, sorry, I said. There's something I was saying. We they put. Now then, put here is not anymore. The sentence press the word, my bad the input now is the sentence. So we have 30 words.
+and for each well, we predict 1, 25.
+Sorry about
+So that's why we have the output. Dimension is 30 by 125 for each word. We have 125 classes.
+and we have. So in the end, because we apply the softmax, we are gonna have 125 probabilities.
+So here we see, we have a lot of parameters, but main like a lot more than we had in the previous architecture. You can look at the ways just to see whether it makes sense or not. So if we go back to the embedding layer position, you see whether we have indeed 2 matrices, so one corresponds to the one of meetings. So that's the vocabulary size. So for each word we have an embedding of that size web, and then the position I mean. So for each position we have an embedding.
+Then we train the network and if we look at the accuracy right away, we have 97 96.7
+and 92% accuracy just on the slots. So before we had 86.9, so there's a
+a clear game. Yeah. So the transformer architecture is helping.
+Sorry for being so fast for going so fast on these things.
+Maybe one last thing to talk about quickly. Everything will be recorded. So if I go a bit over time and and you have to go sorry about that you?
+I'll I'll post the recording after the restation on canvas.
+But very quickly I'm gonna try to cover birds. So where is the foundation model. So the idea of the foundation model, what is the foundation model? It's a model that has been trained on a lot of data
+so for both has been trained on Miki. Jaja.
+So
+what we are gonna try to do is see whether we can use a pre-trained model here for our task.
+We're gonna use the pre-train model on ours queries.
+And we're gonna so this is gonna help you. This is gonna help us create embeddings without requiring using, like transformer color architectures by ourselves, we'll use a pre trained transformer architecture to create our own meetings and then use these contextual embeddings.
+To do our task.
+So if we look at maybe the the modern
+so here we have.
+Let's go here.
+oh, okay. sorry. Here
+we have a bird feature function that is going to create off
+features using the model. Bert. So here we have the encoder
+of using bird encoder.
+So we created a new data set that is of size
+the time the embedding dimension is 768. So using birds we have now for
+each querying of size 30. We have an embedding of size, 768
+which is a contextual embedding using bird. So then we apply some dense layer we might be to 101,024
+in neurons and then we play a drop out for regularization and then say at the end. so if we do that.
+we have an okay accuracy, I guess, and pretty bad accuracy on the slots.
+And the reason is that maybe using birds as it is, get our embeddings
+is maybe not. The best idea so there was train on some data and maybe the embeddings from that are not the best, you know problem.
+So maybe we want to train or find tune, Bert,
+while solving our problem. So
+maybe we can find you in the meetings that Bert is giving us
+to our problem and get better meetings that are gonna help us solve the problem. So
+here, by default, when you load the encoder from gas.
+so the buried and color from cast it is non-trainable
+so if we look oh, I don't know why I thought I'm trying to put it somewhere in the collapse. But yeah, there. So encoder the trainer, it was false.
+just because the recent color that we're using before was pretty big, and we didn't want to find you in a big model, at least in this call up
+we're gonna just put another birth model that is a bit more that is a bit smaller so that we can train it.
+you know pipeline more easily. So now we make sure that the model is trainable. So if we check, then color encoder trainable is true.
+We're gonna again use 1,024 hidden so units in the hidden layer.
+same architecture as before. And we trade for 28 bucks
+if we train this architecture. So using a smaller version of birds
+you can see that the accuracy has improved immediately.
+So 92.8 84% accuracy. So fine tuning bat is useful. And this context, so using just the pre-train.
+so a pre-trained birds model to create embeddings.
+may not be the best thing to do in our case.
+And then you can apply burnt and see on some examples. So I think here, what is pretty cool is it is able to predict
+that San Diego is. The city you want to go to.
+Although San Diego is not part of the training sets, it is about to generalize.
+We had similar performance or so for the transformer model that we train from scratch. So
+it is pretty good. I'd say that it is about to generalize to unseen cities.
+Another thing you may want to do. To improve the embeddings from Bert is to fine tune Bert with masking so maybe
+we.
+So let's say you didn't have the labels a task could be
+so, or maybe let's not say this way. so Maybe once you you'd like birth to be able to create meaningful embeddings. But
+just using the text data that you have not using the slot filling problem. So you take the text data that you have. You can, general, like randomly put mask somewhere in the text data that you have and try to have birth, predict the words that you removed from your
+from your text data. So I want to fly
+here. The master it's the one missing is from. You can say I want. So you mask from
+here and arrived to Denver. You you can mask some words and then have birth predict those words. So here you'll
+th this is your the whole. That, I said is only this, you don't take into account the slots feeling this, this slots at the moment.
+You can have a Bert between on this, and then you can maybe freeze Bert.
+and use birds as a
+just an encoder again that is, gonna generate embeddings for you
+and have the same architecture as before, so he will use only 1, 256 hidden units maybe want to use more. And we have
+pretty bad accuracy. I say, on this model, it's just as an example. There are lots of. There are few things that out that have been done in this Scola, just for simplification purposes. So, for example, the 256 units here before we use 1,000, and we use only 200 samples in the data set, I think.
+So we use some sampling just to make things faster with bird, because there is a
+pretty big architecture.
+But I think that's basically just to show you the mainline things you may want to consider. If you have a problem that uses text data. So you can
+start from a very basic model.
+like just the sentence in the word. And you want to predict the slot you create your data that I said like this, use just a simple fit for one your network. That's one option. Another option is you start from like
+you randomly initialize a transformer and you train it from scratch.
+That was the second option, and the third option is, maybe you use
+show you the slides again. So the other option is use foundation null models so pre-trained modeling like birds. and you can use the port model to generate, to generate embeddings for your task.
+That can be useful. For example, if you have a lot of training samples to that, I said, is small
+so you can add birds into your pipeline, or you can
+pre-train Barrett again, using your training set and masking stuff.
+So and then you can use bird again. so that basically the
+I'd say the most common things you may want to do for task, for that's like this like slot filling tha does that involve text?
+Alright. Sorry for a
+going a bit over the time?
+So I'm gonna have my office hours now in 51 to 42 dot here room. If you want to come I'd be happy to answer
+more questions about the recitation or about the lectures. thanks a lot for coming
+and see you soon.
+
+Angel
+01:18:25
+But thank you, Gabriel.
+
+Gabriel Isaac Afriat
+01:18:27
+of course. Thank you.

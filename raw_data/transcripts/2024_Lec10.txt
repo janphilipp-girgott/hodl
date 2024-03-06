@@ -1,0 +1,832 @@
+00:00:00:00 - 00:00:08:13
+Unbekannt
+morning and talk to me. Okay, great. Okay, so let's get going. We have another fact lecture.
+
+00:00:08:15 - 00:00:33:00
+Unbekannt
+So if you're going to finish off large language model discussion today, before we get start a quick announcement about the project submissions. Earlier we had indicated that you have to submit a video like a one minute video. We actually decided to make life easy for you and for us so you don't have to submit a video. What do you have to do instead is you will actually have to submit a very brief like 3 to 4 abstract of your product project.
+
+00:00:33:02 - 00:00:49:11
+Unbekannt
+Okay. And Evan is going to create a little assignment for that. So just submit it. And then what we will do is we'll take all the abstracts and create a pull out of it so that when you receive the survey, you can very quickly read everything and say, okay, that's the best one, the second best product. Okay, sounds good.
+
+00:00:49:14 - 00:01:13:00
+Unbekannt
+Good. Right. All right. Okay. So, so let's continue the journey. We started last time. So what are going to do? You know, if you remember in the last class we showed how we can actually build an auto regressive latch language model, a.k.a a castle latch language model using this. No, this idea of awesome and called a Transformer castle encoder.
+
+00:01:13:02 - 00:01:39:21
+Unbekannt
+And then we showed how you can actually take a bunch of sentences and use an excellent prediction and just run it through and boom, you got it. Okay. So that's what we saw last time. I want to point out a sort of an important clarification slash correction, which is that when we work with large language models, unlike when we worked with Bert, for instance, but you work with these kinds of calls and models, actually when the contextual embeddings come out, you don't actually have to use real activations.
+
+00:01:39:21 - 00:02:16:18
+Unbekannt
+Yeah, you can literally just run it through just a single dense layer with linear activations and then force it into a soft cracks and vocoder. So that's how GBP three and all these models are great. And the other thing I want to point out, which may not have been clear, is that what what is coming out of this defense layer, this vector is as long as your vocabulary, because only then when it goes into the soft max, you're going to get probabilities which are as long as you look at it, which means that you get to pick one word or token out of about 5000 logical capitals.
+
+00:02:16:21 - 00:02:40:16
+Unbekannt
+Okay, So, so just I just want to point that out because I think it's easy for us to sort of get a little confused because of this little difference between the way masked language models like books work and course of language performance flexibility is, okay, so now let's continue. But you know how to build immediately. So what about you?
+
+00:02:40:16 - 00:03:09:17
+Unbekannt
+Beauty, ingenuity, too? Like what's up with that? Why is GPT three so famous and not you beauty too, right? So it turns out when you focus on the Jedi stands for Generative Pre-trained Transformer. Now, like Djibouti, three, two, Djibouti, Georgia, Djibouti one are trained in basically the same fashion prediction expert, same fashion, the same sort of transformer stack, except that GPT three was trained on much more data because the underlying transformer stack had many more layers.
+
+00:03:09:19 - 00:03:39:06
+Unbekannt
+Okay, so does a much bigger stack, meaning lots more parameters and therefore you need lots more data to train it well. Okay. So that was really the only difference. The difference was literally one of scale scale of network and scale of data. And unlike Egypt and Djibouti, two, Djibouti three, even though the string basically the same way with the same kind of network, it was one of those situations where more became different.
+
+00:03:39:08 - 00:04:01:19
+Unbekannt
+Okay, There was almost like some sort of phase change that happened between two and three. Unlike Djibouti and Djibouti, two Djibouti three could do amazingly coherent continuations of any starting prompt right? So for example, if you have this little prompt which says the importance of being on Twitter by Jerome Cage, it was a famous humorist. And then you give it this frog, right ending with the word end.
+
+00:04:01:22 - 00:04:23:05
+Unbekannt
+It produces discontinuation, which is really like strikingly good. And if any of you have read Jerome Cage or Roman, if you read this thing, you would be like, Wow, that actually sounds like Jerome Controls, right? So amazing continuations. But the interesting thing here is not so much the contribution, it's the fact that the same prompt you give it a fool or jeopardy it won't do any good won't be very good.
+
+00:04:23:08 - 00:04:47:02
+Unbekannt
+In fact, after the first one, two or three sentences will sort of become sort of incoherent and meandering and start rambling. This thing can keep faking it for a lot longer time, but that's the amazing thing that does. Unexpected speech. Researchers did not expect this. Okay. And but it wasn't good at following your instructions. So, for instance, if you ask it, help me write a short note, introduce myself to my neighbor.
+
+00:04:47:04 - 00:05:04:04
+Unbekannt
+This is the kind of thing you would come up with and you can actually run it yourself. You can actually go to Djibouti three on the playground. I think Djibouti three is still available in the playground. If it is, you can actually start straight on this prompt. You will start getting garbage very quickly. Right. And the reason so for example, here, I'll be there on a short note.
+
+00:05:04:08 - 00:05:32:21
+Unbekannt
+It says, what's a good introduction to a resume? A resume for some reason, as logged on to resume it. I have no idea what it's for. Right. But the reason it's doing stuff like this is because a lot of the training data it was trained on, or basically lots of lists of things. So when you see it, for example, you know, the capital of Paris continue, you come back with the capital, the government of France continue to say the capital of France, as bad as the capital of, you know, Hungary is Budapest and so on.
+
+00:05:32:21 - 00:05:53:22
+Unbekannt
+It just came up with the list. So it's sort of very list driven things that you need to complete, some sort of list. That's what's going on here. And so it's not very good. So it doesn't realize that you're actually asking it to do something specific. So this is the problem when you have an autocomplete thing which doesn't realize what you're asking it, it just thinks that you are not a complete.
+
+00:05:53:25 - 00:06:12:28
+Unbekannt
+So now, in addition to these unhelpful answers, it also produces offensive answers, factually incorrect answers, and so on and so forth. The list of bad things it can do with this one. So why does it do that? Why does it produce unhelpful answers? Well, you know, as you recall, it was only trying to predict the next book. It wasn't explicitly trained to follow instructions.
+
+00:06:13:05 - 00:06:39:24
+Unbekannt
+Right. So it seems, you know, reasonable that if it's simply trying to guess the next word repeatedly, you can't really do anything more like how can it figured out that there's an instruction that it needs to follow, right. Unless the training data and then it was all instructional, which it clearly is not so light bulb idea, right? Let's explicitly train it with instruction data, right?
+
+00:06:39:26 - 00:07:08:03
+Unbekannt
+Let's just train in data. And so open I developed an approach for instruction tuning to do exactly this. And this paper is the paper that sort of was the breakthrough. Okay? This is what actually put Chad Djibouti on the map. So and it's very readable. So I would encourage you to check it out for curious. And so so we had Djibouti, Djibouti two, Djibouti three, you know, just bigger and bigger models trained the same way.
+
+00:07:08:10 - 00:07:29:10
+Unbekannt
+And then we run into the problem that can't handle instructions. So we do instruction. If you want to get to 3.5 also called instruct Djibouti, and then a small tweak after that gives you a charge you do. Okay. And by the way, this step here, there are really two things going on. And this as it was so see, I'm just calling it instruction tuning, just so I don't have to say it's a long thing every single time.
+
+00:07:29:12 - 00:07:50:20
+Unbekannt
+This is not a consistent piece of terminology. So just just be aware of it. That's all. So, all right, first step be got a bunch of people to write high quality answers to questions and they created about 12,500 such question also pairs. So for example let's say this is the question explain the moon landing of six year old in a few sentences.
+
+00:07:50:22 - 00:08:09:10
+Unbekannt
+Believe it or not, if please answer. But that question was another question because it thinks there's a list of questions in this autocomplete. Right. So it comes up with explain the theory. Grabbed the six year old. It's like one of those people when you also because of the question back right so what what they did is they said okay let's get a nice answer to this question.
+
+00:08:09:16 - 00:08:32:28
+Unbekannt
+And here is a human created answer. People under the moon in a big rock walked around. Move. Right. Much better answer the question. And so once you create this 12,500 question on this as training data, we just trained Jupiter three some more using next one prediction as before, no difference. So so here is the input. Explain the moon landing, blah blah, blah blah.
+
+00:08:32:28 - 00:08:52:25
+Unbekannt
+This is the question. And then we have the answer right there. And then you take that answer, move it to the right and just shift it up so that when it finishes sentences, it needs to predict people and then you give it to people, it needs to predict and so on and so forth. Just like we saw before.
+
+00:08:52:27 - 00:09:17:11
+Unbekannt
+The cat sat on the mat, became the cat, sat on the track, sat on the mat on the right shift. Right. That's what makes prediction possible. And Mississippi. So that's what this does. The step one. Okay. Same exact same as before. And once you do that, it turns out this step is called supervised fine tuning. It really helped GPT three Once you saw what was fine tuned, it was much, much better than following instructions.
+
+00:09:17:13 - 00:09:43:03
+Unbekannt
+But there's a small problem with this approach. It takes a lot of money and effort to have humans write high quality answers to thousands of questions, right? It takes a lot of money. So the question is what can you do? Right? What is easier than writing a good answer to a question? Well, okay. All right. How about somebody from the site?
+
+00:09:43:05 - 00:10:04:03
+Unbekannt
+Yeah, just a bit. Perhaps writing a question for an answer. that's actually a good one. Yeah. Yeah, I like that. So give it. And also find. Find a question. And while that is not what I'm going to talk about here, that technique is actually used very heavily in alums. And so this great, very creative mark, thumbs up, thumbs down.
+
+00:10:04:06 - 00:10:24:01
+Unbekannt
+So thumbs up or thumbs down? Thumbs up or thumbs down. Exactly. Because all of us think everyone loves to be a critic. It's much better, easier to be correct and to be a creator. All right. So what do we do? We basically say, let's have blank answers written by somebody else, which begs the question, who's going to write those answers?
+
+00:10:24:03 - 00:10:50:06
+Unbekannt
+And that's where there's a brilliant answer to that question, which is Wikipedia. Wikipedia read it causes of you would just ask Jeopardy three to read the answers. It might be crap, but we don't care because we can write them. So we are simply free to generate several answers to the questions. And how can we generate sort of answers?
+
+00:10:50:06 - 00:11:10:23
+Unbekannt
+Because we can do something. We can do something. The fact that we had these stochastic outputs because of sampling is not a feature, not a bug. Okay? We create lots of different answers to a question. The field of question gets like three answers on just 1 to 3 times. Get three answers out with a nice temperature of like one or 1.1 or something.
+
+00:11:10:23 - 00:11:31:03
+Unbekannt
+So it is nice and random, right? And then we look to see how humans just rank them. Good. A thumbs up thumbs. Don't just rank them from most useful. That is useful. So this step is a step to a section joining so open and collected 33,000 instructions for double digit, three digit answers and how to humans rank them.
+
+00:11:31:06 - 00:11:52:00
+Unbekannt
+And once you do that, once you do this, you can assemble a beautiful training dataset, right? And so basically what we have is that we have an instruction and let's say we have just two answers and B and in practice you can have many, many answers which we rank. But just for simplicity, I'll go with marks, thumbs up, thumbs down sort of answer, which is, let's see, what do you have to answer to the question?
+
+00:11:52:03 - 00:12:12:17
+Unbekannt
+Right. And so I'm the human has said I prefer this to that. That's it. Right? So we have a data set now where that data point, this instruction preferred answer is the other line, so to speak. Yeah. Okay. The thumbs up, thumbs down technique that we're talking to before, is that why one where you can catch a T?
+
+00:12:12:18 - 00:12:29:01
+Unbekannt
+Now we also use thumbs up, thumbs down, using its own answers to train it. Exactly right. Okay. Yeah. So all the models have the thumbs up, thumbs down stuff going on somewhere. They're all collecting data for the step. Got it. Thank you. Yeah, it's sort of the old adage, right? If you're not sure who the product is, you're the product.
+
+00:12:29:03 - 00:13:00:01
+Unbekannt
+So it's one of those things. Yeah. So if we understand correctly, when we see thumbs up, thumbs down, it does mean that checks if it's going to rain on our data. Right. Unless you opt out of it. So if you actually go to the chargeability controls that it's something that controls or something. You can toggle it off. What I think when I last checked, if you toggle it off, you lose your chat history.
+
+00:13:00:04 - 00:13:21:20
+Unbekannt
+So they'll hobble that feature to prevent you from setting it off as much as possible. Yeah. Clever. But you can opt out. And if you use the API as opposed to the web interface, you're automatically opted out. So you have to deliberately opted. And if you use the versions that are available through Microsoft Azure and so on and so forth, there are all kinds of very safe controls and stuff like that.
+
+00:13:21:20 - 00:13:43:24
+Unbekannt
+In fact, I think the Microsoft Corp pilot license that you might be has, I think the default opted out. Okay. So to go here, once you have this data point, you can build something called a reward model. Okay. This is a very clever piece of work. So what you do is you have an instruction, right? You have a preferred answer and you have the other answer.
+
+00:13:43:26 - 00:14:20:02
+Unbekannt
+You feed it to a network. Okay. You're filtering it. There's just a nice language model, right? It's just a language model. And the language model produces a number which measures how good this thing is. How good an answer is this to that particular instruction? So you get to you get a rating here, you're going to rating here. And then what you do is you run it through a little lost function, which essentially encourages the model to give higher numbers because a better answer.
+
+00:14:20:04 - 00:14:39:25
+Unbekannt
+It's the same model. You just run the question and the first answer question of the second answer, you get these two numbers. And then initially, those numbers are just random. But then you tell the model, Hey, this is the preferred thing. Make sure the preferred answers A rating. The R value is higher than the other number because more does better higher as.
+
+00:14:39:27 - 00:15:05:18
+Unbekannt
+Okay. And you can actually since here this thing is just a sigmoid here. Right. It's basically take the difference of these things to us like my take the logarithm and you can actually the misuse of afterwards and I encourage you to do that to check for yourself that if we actually give oops if we actually give a higher number to the better answer, the loss will be lower.
+
+00:15:05:21 - 00:15:34:11
+Unbekannt
+And since we are minimizing loss, but essentially training the network to albeit to try to give higher ratings, the better answers. That's it. So that's the approach. But so you could imagine training, train the model and only the good answers is the idea of having both at the models, actually learning what makes good, right? Exactly. Much like if you want to build a dog cat classifier, you have to show pictures of all.
+
+00:15:34:14 - 00:16:05:21
+Unbekannt
+So I understand the feedback mechanism of thumbs up, thumbs down. But there are a lot of times when the popular response is not the accurate one. So is there a way that they actually have a lever to correct? Good question. I so as it turns out, there are all these companies like open AI. They have like a huge document, 100 to 2 pages long, very, very bulky document which instructs and teaches the labels to rank us how to rank these things.
+
+00:16:05:24 - 00:16:24:15
+Unbekannt
+So they have to follow these very strict guidelines to precisely handle like strange kind of cases and things like that. And that document is on the web. You can dig it up, but it's actually very instructive to read through it. Right. I think they put it out on the Web because they wanted to convince people that they're going to inordinate trouble to make sure the rankings are actually good.
+
+00:16:24:17 - 00:16:46:18
+Unbekannt
+No question. Okay. All right. So switching back to this and how do how do you train this thing? Because you have a network. It's coming up with an answer. You have some way to know if that answer is good or bad. Right. Better answers of lower loss back propagation through the network. Keep updating the bait and boom, you're done.
+
+00:16:46:20 - 00:17:08:03
+Unbekannt
+Okay. And once you do that, this reward model can provide a numerical rating for any any instruction on superior. You just give it instruction. You give it an answer. Right. Could be a copy on. So good answer. Just as you hope interest which means. Right. So in this case, for example, maybe it's going to give you a like a nice number, 1.5, which is, you know, 1.5.
+
+00:17:08:04 - 00:17:35:09
+Unbekannt
+But this there's also but then a better answer comes along with 3.2. Right. What we have done by doing this whole thing, this modeling, is that V essentially had we have learned how humans rank responses because we can only have humans drag responses for some finite number of questions. So what we really want to do is to do this to automate that ranking process so that we can just do it for like tens of thousands of questions really fast.
+
+00:17:35:11 - 00:17:58:12
+Unbekannt
+Right. So we essentially built a model of how humans rank this rate, which is beautiful. A lot of the stuff here is all very self-referential, which I find very elegant. So this can be used to improve Ubuntu even further. So we take the instruction as before we feed it, it gives you some answer and then we feed this instruction and the answer to our newly minted reward model.
+
+00:17:58:15 - 00:18:25:11
+Unbekannt
+It gives us a numerical rating. And then this is the key step. We take this numerical rating and then we use this rating to nudge the internal weights of GPT three in the right direction. By this, nudging uses a technique called reinforcement learning. Right. Which just puts a time you can get into in this lecture. But that's a technique you use to nudge these things in the right direction.
+
+00:18:25:13 - 00:18:53:04
+Unbekannt
+Folks, I love you all to use your laptops to take notes, see if you're checking emails. I think about this, you know, juggling, catching up on homework and so on. I would prefer you don't do it. Remember our class norms. All right. So that's what we do. That's reinforcement learning. We nudge it in the right direction and open.
+
+00:18:53:07 - 00:19:20:13
+Unbekannt
+I did this with 31,000 questions. Okay. Nudge, nudge, nudge, nudge, nudge. And we do that. You get 3.5 solutions. Rigidity. Okay, that's it. And now, by the way, this step here is called reinforcement learning with too much feedback because we use live learning. And since humans rank the answers, we spread to the building of a reward model. We get human feedback.
+
+00:19:20:15 - 00:19:46:10
+Unbekannt
+That's reinforcement learning with people who say, Yeah, yeah, I have a question regarding the type of question that they're using. I can imagine, like maybe there there are very simple questions to answer because I'm thinking now you're going to give it like for example, response, these are spirals or something like that, that is kind of is going to be harder to train if you have a bunch of questions that are having like small interactions.
+
+00:19:46:10 - 00:20:07:13
+Unbekannt
+And then there is the question like, that's a good question. So the quality of the questions in the data set clearly is a big factor because if you have simple simplistic questions, it won't be able to handle complex questions later on. So what I can say this question, so what? So the great so that actually begs the question of whether they get these questions from.
+
+00:20:07:15 - 00:20:30:29
+Unbekannt
+So they actually got it from their API. So people are asking GPT three on the API right before it becomes 3.5. People asking the idea was only available, fully available, commercially available. A lot of people are building products on it already by then. And so they collected all those questions and filtered them for quality. And that was the question said that they use and then they judiciously attitude to human created questions.
+
+00:20:31:01 - 00:20:54:29
+Unbekannt
+But they could do a lot of that because it's expensive. But collecting stuff that somebody else is asking your API already is. Yeah. So this might be more of a philosophical question, but the human bias that's present in the small subset of human laborers that they've chosen gets eventually compounded in this model that we often considers the sorts of objective truth.
+
+00:20:55:01 - 00:21:25:11
+Unbekannt
+Yes. Yeah, that's very true. I think the reward model is probably very faithfully learned all the biases of the human laborers, which is why they have these very complex sort of frameworks and guidelines to try to prevent the bias from happening to mitigate it. So, for example, they might get the same question instead of possible answers to many, many different levels, and only if people pick the same ranking, they might use it so that at least in turn label a bias can be minimized.
+
+00:21:25:13 - 00:21:48:22
+Unbekannt
+Right. But if everybody sort of biased in the same direction, it won't protect you against that. So in gender, there's a whole work that's being done to try to de bias these things and build them without too much bias in them. It's like a whole world unto itself, which we just want to get into. Olivia Depending on the medium that's being returned by these models, would there be more than one reward model?
+
+00:21:48:23 - 00:22:10:03
+Unbekannt
+Because isn't that what Gemini's to be more than a one way reward model? Because isn't this what Gemini's running into issues with right now with their image generation is the bias that they tried to. Yeah. So the Gemini business that's going on, it's unclear what's causing it. It may be in this step. Maybe they were a little overzealous in preventing certain things from happening.
+
+00:22:10:05 - 00:22:28:27
+Unbekannt
+Some of these systems also have they will actually intercept the question that you ask and then wrote it differently based on what they sense is sitting around in the question. So there could be people saying post-processing, a lot of stuff goes on. So unclear to me they're in the pipeline and it could be more than one place. These things could be entering.
+
+00:22:28:29 - 00:22:52:09
+Unbekannt
+So, yes, so here may very well be vetted actually into the situation. But people are people are told if you see any sort of this kind of answer, don't break it. Right. Don't break it. And then it learns that ranking very faithfully and the procedure for Plate Veritas should not be applied. That's not just the other question. I think I still I still don't totally understand why.
+
+00:22:52:10 - 00:23:10:17
+Unbekannt
+So when I asked about a question, even in a lengthy response, it doesn't wander away from the topic that I'm asking about. Right. And so understanding that it's predicting each word, it's sort of taking a random walk from one word to the next in some sense, but each word it utters, yeah, now becomes part of the input, the next what it updates, right?
+
+00:23:10:22 - 00:23:35:13
+Unbekannt
+So it's not truly random in that sense. So the next step is not independent of the previous step. Right. Depends on what? It depends on the journey so far. So it's going to try to be very consistent with the journey so far. Okay. Does bit does this part with sort of fine tuning it on these question and answer such, does this play some role in it being able to constrain itself and not meander away or.
+
+00:23:35:16 - 00:23:58:09
+Unbekannt
+I don't think so. I think this is more to make sure that, you know, it does the beat generation to produce the right answer. Now, one of the things that is possible is that when I'm with let's say I'm a ranker and I'm looking at a few different answers and I have to figure out if the answer is helpful, if it is accurate, if it is, you know, nontoxic, right, things like that.
+
+00:23:58:12 - 00:24:15:09
+Unbekannt
+And part of the rubric for evaluating these answers could be that coherence. Right? Right. So it could also be that they are they are saying short coherent answers are better than long, coherent answers. But once you are just for length, maybe coherence is more important. Right. There could be any number of these things. So it could play a role.
+
+00:24:15:09 - 00:24:43:03
+Unbekannt
+It should just sort of one small follow up. So in other words, when it's when it's learning from these question and answer pairs, it's able to look at the whole response and learn something about the whole response rather than just one word at a time. Right. And so that entire question is indirect. Yeah, right, Right. Yeah. On a related note, when it's generating a new word on a topic, does the attention pertain to the entire prior text or can you have like traveling attention?
+
+00:24:43:05 - 00:25:03:04
+Unbekannt
+So like last five word attention last time, were you on the short list for attention? You can. You can. It's called sliding window attention. It can be done. They typically tend to do it not so much because they want to focus more on the the recent words, but more because it actually makes it very compute efficient. That's why they do it.
+
+00:25:03:11 - 00:25:27:12
+Unbekannt
+So it's called sliding window attention. You can go with it. So normally it's full attention. Normally is for default, this full attention. Okay. So that's what they did. And when they did that and by the way, as I think you pointed out, that's exactly what's going on. You're training a reward model for these thumbs up or thumbs down on the questions and so if you give a the same question to Jeopardy!
+
+00:25:27:19 - 00:25:50:13
+Unbekannt
+3.5, it's actually very amazing answer. Okay. Like night and day difference is amazingly good answer. And so and then to go from 3.5 to charge a bit, they basically followed the exact same playbook. Except that because they wanted to have a chat bot, meaning something that could carry on a question on the question on the bed, as opposed to just a single question and answer.
+
+00:25:50:19 - 00:26:14:06
+Unbekannt
+They want a question, answer question, answer that conversation. They trained it on conversations. That's it. It's a training. It's an instruction answer data. They trained it on instruction. Answer instruction, answer and section answer. A sequence of such things which are strung into a conversation. That's it. That is the only difference. To go from 3.5, which LGBT and then no charge ability.
+
+00:26:14:08 - 00:26:33:06
+Unbekannt
+Given you do that, it's giving you a much nicer response. And then you can ask a follow on question. Can you make it more formal? What is the alliance response? Because nobody knows about conversations. It's been trained on conversation. So that's it. So that's the whole that that's how they approach LGBT, right? And all the things we are seeing later on are all sort of continuations of this sort of approach.
+
+00:26:33:08 - 00:26:51:18
+Unbekannt
+So but for a couple of quick questions, so you've got a question, then we'll go to you and then to you. Yeah. So does that make a difference if a new question, bad question on Zapier or a new training data comes only in the building of the model or leader in the building of the model at 7 billion windows.
+
+00:26:51:23 - 00:27:16:25
+Unbekannt
+Does that make you mean the order of the question? Does it matter? So I might have like let's say 5000 o images to start with. Now, after my model is trained and develop, now I have a new use case that has come in. But that makes a difference if I set it in now. So if you have a new use case for which you want essentially adopted the model, there's a whole set of techniques you use which is going to be the next section, but it's not.
+
+00:27:16:27 - 00:27:32:10
+Unbekannt
+Yeah, because what do you have out of the box is just a generally good. Chadwick ignores about a lot of stuff that has been trained on, you know, those 30 billion sentences. It can answer a lot of questions reasonably well using common sense and world knowledge. But any specific use case like medical and so on and so forth, they cannot not.
+
+00:27:32:12 - 00:27:54:24
+Unbekannt
+So you need to adapt it to your particular unique situation. And that's coming. All right. Yes, but what determines if a whole conversation is ranked positively versus just the specific answer for in your in your question is if the first answer doesn't get a positive response. But then after the follow up, the second one does is that does that indicate.
+
+00:27:54:24 - 00:28:19:23
+Unbekannt
+Exactly. So if you're a human and you read the transcript of an exchange between two people and I'm giving you two exchanges which all start with the same question, you'll be able to assess which one is a better transcript. But basically what's going to give us something different? Yeah, yeah, yeah. So I was wondering, when you ask your question, very often it sounds kinda robotic, like you could tell that something was written by speech and not by an actual person.
+
+00:28:19:25 - 00:28:45:02
+Unbekannt
+Do you think that comes from the reinforcement learning part or where do you think it comes from in this function? It's a good question. I don't know, because I know that part of the evaluation, the ranking rubric, our use is, is to favor responses which sound more human than general waffling. So if anything, I'm hoping that we reinforce only, but actually make it sound more human because the writers are prioritizing.
+
+00:28:45:05 - 00:29:06:28
+Unbekannt
+So if if it still comes up with robotic stuff, you know, it's something else that's going maybe I mean, maybe the lot of text on the Internet is not literature, it's just people writing some crap. But probably that. Yeah. How much of this instruction, tuning or conversation tuning is happening in real time within a conversation? So none of it.
+
+00:29:07:00 - 00:29:26:11
+Unbekannt
+None of it. So as you kind of give feedback to the model, it's just basically regenerating like, I don't like that answer. Come up with something else, know it's not doing it in real time. Basically, what are the signals you're giving it to be these thumbs up, thumbs down business that gets added to the training logs and the periodically will retraining.
+
+00:29:26:13 - 00:29:42:05
+Unbekannt
+Okay. So by the way, this is such a shooting in a nutshell. And I want to point that out. And you don't have to read the whole thing. But just to quickly point out, this was when we had to have human involvement. Right. The first step, writing a lot of responses to these questions and then ranking the answers.
+
+00:29:42:07 - 00:30:01:02
+Unbekannt
+So these two are still human sort of labor intensive. Now, it turns out you can actually use helper elements to automate this, to write the software open, edit at the beginning of each attribute. But now you can do it this way because there are lots of really good labs available for you to automate many of these things. We don't have time, but if you're curious, I had a little blog post on this.
+
+00:30:01:03 - 00:30:24:03
+Unbekannt
+Check it out. Okay, so now we come to the question of, well, if you want to take a basic LLN LGBT tree and make it useful and respond to instructions, we have seen that we had to adopt it with high quality instruction on some data, right? Using super weights, fine tuning and reinforcement learning for human feedback. That's what made it actually useful and became judge speed.
+
+00:30:24:05 - 00:30:48:04
+Unbekannt
+By the same token, this holds true more generally. If you want to take a large language model, make it useful for a medical use case, a legal use case, some of that narrow business use case you have to adapt it with business domain specific data. Okay. And so let's look at techniques for doing so. All right. So adaptation is sort of the rough name for the process of taking a base large language model and making it tailoring it for your particular use case.
+
+00:30:48:07 - 00:31:10:13
+Unbekannt
+And so there's sort of this ladder of things you can do, right? And you got to look at every one of them. So you can do this thing called zero short prompting, which is just you initially ask nicely clearly what you want and maybe just give it to you. Okay. And this is sort of the use case you could all use to do this, but you can also do something called few short prompting that you ask at something.
+
+00:31:10:13 - 00:31:26:14
+Unbekannt
+And you also give a few examples of the kind of things you want, and that helps a great deal. And then there's a thing called retrieval log registration and find jotting, and you look at all of them and then explain all these things as we go along. Okay, so let's start with zero short prompting, but I don't mean the word short here.
+
+00:31:26:14 - 00:31:49:03
+Unbekannt
+It's a synonym, for example, so zero example prompt that you would literally ask in the prompt what you want without giving given a single example. Okay. And so let's say you want to look at product reviews and build a detector to figure out if the product review contains not sentiment, that's kind of boring, whether it contains some description of a particular product defect or not.
+
+00:31:49:06 - 00:32:09:09
+Unbekannt
+Okay. And so you have something actually off Wayfair with apologies to whoever it says here. The color of the back of the chair does not leave enough room to sit comfortably. Okay. Sounds like a kind of a defect ish kind of thing. Right. So in so back in the day, you would have collected all these reviews and built a special purpose LP based classifier to figure out the fact.
+
+00:32:09:09 - 00:32:26:04
+Unbekannt
+Yes or no. Yeah, you can literally feed this thing into typically three and ask it. Tell me if a product defect is being described in this product review and then go with the back end of Google and then it comes out because yeah, that's a problem. Defect. Okay, So this is like a question you get on something, okay?
+
+00:32:26:10 - 00:32:45:16
+Unbekannt
+And it actually looks remarkably well. And the better models, the bigger models tend to be much better than the smaller, simpler models for doing zero sharp. Okay. All right. Now, you are not going to live to a specific task. Obviously, you need to carefully design the problem. But as you folks know, this is called prompt engineering, and you're not going to spend much time on proper engineering.
+
+00:32:45:18 - 00:33:04:29
+Unbekannt
+Except I just wanna give a simple example. So if you actually asked this question, what is the good of the sentence, very often it give the wrong answer is a very strange way you get this question right. So very simple question. So if the first one of the sentences is right, sometimes it gets it right, but we often get it wrong.
+
+00:33:05:06 - 00:33:23:21
+Unbekannt
+Okay, But now you can do a little prompt engineering and you'll always get it right. So for example, you can say, I'll give you a sentence first list all the words that are in the sentence. Then tell me the fifth thought. Okay, here's a sentence, blah, blah, blah. You get it right? So it's an example of you can help it along with being very, very prescriptive as to what you wanted to do and break down all the steps.
+
+00:33:23:27 - 00:33:45:28
+Unbekannt
+Don't make a guess. This does a great job. Okay, So anyway, I'm going to knock some of other tricks people have figured out over the last couple of years for for a long time. This is pretty hard that you say. Let's think step by step. You tell it, give it a question. Say, let's think, though, step by step likes to give a better shot at giving you a good answer by an accurate on So back Now this kind of thing is actually all the victim into the lives.
+
+00:33:46:00 - 00:34:04:04
+Unbekannt
+So when you ask a question should you beauty your question your prompt gets appended to what's called the system prompt and the whole thing goes off to the left. You never see the system prompt, and the system prompt is like Judge Liberty. Think step by step, take your time, don't blurt out an answer, stuff like that. Okay? And the system, you can just go Good.
+
+00:34:04:04 - 00:34:26:05
+Unbekannt
+This is system promise. I've been jailbroken. You can find it on the back. So. All right. And this was funny. This came out maybe like a month or two ago. It says, if I really take a deep breath and work on the problem, step by step, looks better. Let's say look on it step by step. And then more recently, I literally just two nights ago about it, if you tell it, if you have a matter of reasoning question, you tell it.
+
+00:34:26:07 - 00:34:49:14
+Unbekannt
+You are an officer on the Starship Enterprise. No, solve this problem for me. I would like to get it right. Go figure. So once I read some more, that works fine. Yeah. What I will do if you solve this. Correct. And then I want to listen and answer us. I cannot do that. And what about what other of us have a trade on Gemini?
+
+00:34:49:17 - 00:35:05:23
+Unbekannt
+Hasn't he read one of the people? So? So I am both right. But not all. Yeah. Guys, you beat us. It was to solve the right. You solve this? Yeah. Very good. Excellent. One of things just on that. Right. Let's have some fun. You can say I'm going to give you a thousand bucks if you solve this. It sounds great.
+
+00:35:05:25 - 00:35:25:03
+Unbekannt
+So this person apparently kept using the step, and at one point it says, You keep promising me tips, you never give me the tip. So I'm not going to solve this problem for you. Okay. So under a minute, prompt interesting resources. This one that came out a couple of weeks ago you thought was pretty good. So I just put a link to it here.
+
+00:35:25:06 - 00:35:43:27
+Unbekannt
+So now let's look at few short prompting, but you give it a few examples. So here, let's say we want to build a grammar corrector. Okay, so what you can do is you can actually give it examples of poor English, good English, you can see it import English. Each of the people very good English. I eight The public varies and similarly three examples.
+
+00:35:43:29 - 00:35:59:11
+Unbekannt
+Right? And then you end the prompt with just the English input. And then the response from Jubilee three is a good English output and it's let's fix that. So this is an example of giving a few examples of what you want and just learns on the fly. What do you what do you have in mind, what your intention is?
+
+00:35:59:17 - 00:36:23:14
+Unbekannt
+Okay, so that's that. Now the ability of learns to learn from just a few examples or even know examples. And just with the clear instruction, this thing is called in context learning. And that was something that you pretty do what you could not do. That was new in Djibouti three and what they call an emergent capability, right? It is completely unanticipated by the people who built it.
+
+00:36:23:16 - 00:36:50:25
+Unbekannt
+And. All right, so that's that. Now let's look at the retrieval. Augmented generation. By the way, this thing is also called indexing sometimes. So so the idea of it's called Rag Rag, The idea of rag is actually very simple. So let's say that, you know, if you want to ask a question to a chat bot, but we want the chat bot to leverage proprietary data that we might have, Maybe it's a customer call support sort of in a call center kind of operation under this massive Q database content database.
+
+00:36:50:28 - 00:37:11:16
+Unbekannt
+And you want to give that for Q to the chat bot along with your question so that you can leverage their for Q to answer the question for you as opposed to like what are the things it has learned previously in general training, right? So can't we just include the entire you, the whole data, set it up front and center, then maybe we just take out question everything we have potentially.
+
+00:37:11:16 - 00:37:38:22
+Unbekannt
+Remember the question, everything we have in the dataset database. Just attach it to the question. The whole thing becomes a prompt, feed it in and say, Hey, find out for me, Can you just do that? Theoretically, it stops us. That's the reason you can do it, is because this pesky thing called the context window. So for any alarm, the prompt plus the output, right the length cannot exceed a predefined limit.
+
+00:37:38:26 - 00:38:00:07
+Unbekannt
+That's called the context window number. The max sequence length we had in earlier models that was the size of the sentence that could be fed in. Right. Basically that is the size of the sentence for any of these things. It's called the context window. There are only so many tokens that can accommodate and since what comes in is what comes out, it is for both the input and output together.
+
+00:38:00:09 - 00:38:13:20
+Unbekannt
+Okay, that's called the context window. Okay. And and, and furthermore, when you have a conversation with one of these chat bots, the entire conversation is filled in every single time.
+
+00:38:13:22 - 00:38:35:11
+Unbekannt
+That's how what actually remembers the call, what's going on earlier in the conversation. It doesn't have any memory per say each time you ask a question to enter through the sphere. Okay, so initially you say, what's the square root of 17? It gives you an answer initially only in the red stuff. Then the next question you ask is the first question to answer the second question, All of them are for the then all these are fed.
+
+00:38:35:14 - 00:38:58:20
+Unbekannt
+So with the conversation, you're consuming more and more of the context window as you go along. Okay, So can you imagine taking a whole a fake you asking the question and saying, well, I didn't mean that I wanted something else and before you know it, boom, you're blowing up the context, mean it's going to come back and give you an order if you finish the length that you can put it together ahead or does it take specific windows of it?
+
+00:38:58:22 - 00:39:24:16
+Unbekannt
+Yeah. So there is a whole research cottage industry around When you think is longer than the context window, what do you pick? So the simplest case is you have a moving window, right? If you just look at the last of the tokens, but are some cleverer schemes where you can actually take the first stuff that is outside the window that doesn't fit into the window and use an either a lamp to summarize it for you until you attach it to your current prompt.
+
+00:39:24:18 - 00:39:42:19
+Unbekannt
+I don't think it's great. Okay, so for all these reasons, we need to pick and choose what we can send are particular question. So what we do is since we got into the whole thing, we first retrieve the relevant content from the database. What I think you and then send it to the lamb along with the question we have.
+
+00:39:42:21 - 00:40:15:10
+Unbekannt
+Okay. So retrieval, augmented sequence generation, that's what's going to make sense. And so pictorially, basically what we do is let's say that this is our external set of documents. We take this are think of it for Q and then we take the Q, and imagine for each question and answer. We take each question and answer the Q, and then we just be treated as its own little unit of text, and then we actually calculate the contextual embedding for each of those question on room.
+
+00:40:15:12 - 00:40:50:04
+Unbekannt
+But if you know how a contextual embeddings right, that's like the piece of cake at this point, right? Equals 100 condition embedded running through something like eBook, you're done right? You're going to get security. So you could call embeddings for all the things that are in your essay. Q And now when a new question comes in, right, what you do is you take that question and you calculate a contraction and waiting for that to and then what you do is you then look to see which of the elements you have, which of those chunks are the most similar to your question.
+
+00:40:50:06 - 00:41:10:26
+Unbekannt
+Okay. And then you grab the ones that are the most similar and then package into the prompt. And Senator, maybe you have 10,000 questions, but you can only accommodate five of them in your prime because the context is very small. So you pick the five. What do you think is the most relevant content to your particular question? And then you fill it up.
+
+00:41:10:29 - 00:41:31:09
+Unbekannt
+That's idea that is retrieval augmented generation. Yeah. For London. So does this tie in? For example, if I were to prompt and say, help me work on my startup pitch, but do it in the voice of Steve Jobs, is it then kind of going out there and reducing the subset of of data to things that have been written by Steve Jobs?
+
+00:41:31:09 - 00:41:50:00
+Unbekannt
+And then it's kind of generating his response based on not as a default, not as a default typically, because a lot of Steve Jobs stuff on the bill is just using that because it's all part of explaining data. But this is tends to be more useful for very targeted applications. But you don't expect to know the answer because it is not in the public interest.
+
+00:41:50:02 - 00:42:08:05
+Unbekannt
+It's your proprietary data and you wanted to use that for this. How you do it? Yeah. How do you write? It? Sounds like you could Mr. did permission which is a bunch of things that information not true when you have a meeting like that but there will be some loss. There will be a loss because the you have to figure out how to chunk it right.
+
+00:42:08:08 - 00:42:32:20
+Unbekannt
+Maybe you have a 300 page PDF and then maybe you look for each section and make it a chunk. Maybe you look for each paragraph, make it a chunk again. There is a whole empirical sort of cottage industry of techniques for doing these things better or worse, depending on the use case and so on and so forth. But the conceptual ideas chunk and embed chunking is done by the user, not by the fact they're going to do it ourselves and the collaborate Now, yeah.
+
+00:42:32:22 - 00:42:58:22
+Unbekannt
+Getting to give more weightage to a particular chunk. So in the default implementation, no, but, but in some sense by picking the five most relevant chunks from 10,000 chunks, you're giving it, giving the other, you know, 10,000 minus five chunks, a bit of zero. And these are way of one. So in some sense you're reading. Yeah. I'm just curious how much structure you have to have with an external documents or a hospital or something.
+
+00:42:58:25 - 00:43:15:15
+Unbekannt
+Do you have to do a bunch of like labeling, processing pretty. So you just need to make sure it's going to be relatively clean, but you will see in the column that it can be kind of crappy and it still works. Yeah, because it has so much crap on it and it has been trained on already to look so.
+
+00:43:15:17 - 00:43:35:05
+Unbekannt
+All right, so let's look at the column, by the way, that people are going to generation is, in my opinion, the most prevalent business application of any lems that I've seen up to this update, up to date and there's a huge ecosystem of tools at Windows and it's one of six.
+
+00:43:35:08 - 00:44:05:11
+Unbekannt
+All right. All right. I'm going to skip the because it's still connected. Okay. So I'm going to skip through the Web show. So you have to install the open AI library and this thing called tick tock. But you can get to the bit. I want to it started before class because it takes some time. So just make sure all these things that you feel that you need for this so important.
+
+00:44:05:11 - 00:44:24:05
+Unbekannt
+Pandas as before and so and you can read through these things because I'm just basically you know I have an open opening, a token that I have to use a key key API key. And I'm not showing you the key. Obviously, you have to remember to delete it before, after the call up. You have to get your own key to make it all work.
+
+00:44:24:07 - 00:44:42:08
+Unbekannt
+But the instructions are here. So if you're going to use Jeopardy 3.5 double to demonstrate it, right, Right. So give it the name of the module and then open. It also has a whole bunch of different models which can be used for you can feed it a sentence or a chunk of text to give you a contextual and bring up like a nice little API.
+
+00:44:42:09 - 00:45:07:04
+Unbekannt
+You don't have to use your own bird and so on and so forth. You can just use the open embeddings, obviously able to be open every time you make a request, but it's really, really cheap. Yeah, that of course might get to this question, but when dealing with proprietary data, because a lot of companies are like we need to invest in our own eLearning because we don't want our data to be going out in this kind of context.
+
+00:45:07:08 - 00:45:28:20
+Unbekannt
+How good is the the cyber security or the compliance and legal stuff? I think each vendor has their own sort of set of rules and contractual commitments that they're willing to sign up for. But if we use the data here, does this go into the public domain or not? But the vendor gets to see it, Okay, Meaning the vendor systems get to see it, but good vendors, employees get to see it if they need to.
+
+00:45:28:20 - 00:45:49:11
+Unbekannt
+Unclear those at all. The I like the legalese sort of integrity you have to worry about. The other thing you can do is you can actually just download an open source of them and do it all within your own premises. that's totally possible to do, right. In fact, I probably won't have time today. I have a whole section on how do you actually do a fine tuning with an open source realm, which I'll do a video, right.
+
+00:45:49:11 - 00:46:12:17
+Unbekannt
+If you don't have time. Okay. So, so B and so there's model this embedding error two is the name of the open air model that actually gives you contextual embedding. So I'm going to use that. So so first thing we want to show the use case here is that we have taken a whole bunch. We want to ask the NLM, we want to create a chat board which can answer questions about the 2022, like random questions you might have about the Olympics.
+
+00:46:12:19 - 00:46:37:13
+Unbekannt
+So so let's first ask it this question. We get asked about the 2020 Summer Olympics. Okay, let's look very and then this is the the API request we have to make and you can read through it. I link to the documentation. Okay. That's how it works. And then it says that Barshim of Qatar and Tamberi of Italy both won the gold and you can actually fact check this is actually accurate.
+
+00:46:37:13 - 00:46:58:13
+Unbekannt
+It's correct. So now let's change the clarity and ask it about the 2022 Winter Olympics. Okay. And why 22 versus 20? That became clear in just a moment. So which athletes won the gold in curling in the 22 Olympics? And it says the gold medal in curling was won by the Swedish men's team and the South Korean women's team.
+
+00:46:58:15 - 00:47:25:07
+Unbekannt
+Okay. Turns out if you fact check this, it turns out that Sweden won the men's gold. Yes, South Korean participated. Great Britain actually won the women's. So it got it wrong. So it sounds like Jubilee 3.52, but could use some help. You know, one of the things we can do is so the thing is, the reason why the people didn't know about this is because its training cutoff date was September 2021.
+
+00:47:25:10 - 00:47:49:18
+Unbekannt
+So as far as it's concerned, the 22 Olympics haven't happened yet. Yet it can't really give you the wrong answer as it is often prone to do so. And this is, by the way, it's called hallucination, but it gives you a very eloquent, confident, wrong answer. And so what are some folks have said about another business school that should remain nameless, often in error, but never in doubt?
+
+00:47:49:21 - 00:48:11:22
+Unbekannt
+So of All right, back to this. So one simple thing we can try right off the bat, this little 3.5 turbo. You can I was going to say, I don't know if it doesn't know, rather than just make stuff up. Right. And how do you do it? It's very simple. You say in your prompt, answer the question as truthfully as possible, and if you're unsure of the answer, say, sorry, I don't know.
+
+00:48:11:25 - 00:48:35:18
+Unbekannt
+Okay, now give us a question. Okay. This is a very so let's run it through. Sorry, I don't know. It's not bad. So. So it worked. It's sort of trying to be humble and honest and, you know, self-aware and things like that. So it's a big more like a slow dance. All right. So now the reason, as I mentioned earlier, there's a you could check the cutoff date and you can see it's 2021.
+
+00:48:35:20 - 00:49:02:07
+Unbekannt
+Actually, you know what? I just don't. So all these cutoff dates are trading data, right? So 3.4 turbo, that's what we are using about 2021. That's all right. So now what we can do is to do we can obviously provide relevant data on the prompt itself, sort of because leading up to right here and by the way, the extra information we provide in the prompt to help it answer the question is called context, and that's sort of the lingo for it.
+
+00:49:02:09 - 00:49:21:13
+Unbekannt
+So we can do it again first, do it manually. So first we'll use the Wikipedia article for 2022 Winter Olympics and we tell it explicitly to make use of this context because telling things explicitly always seems to help. So this is the thing we cut and pasted here write Wikipedia article on curling and it's like a pretty long article.
+
+00:49:21:18 - 00:49:40:20
+Unbekannt
+It's got all kinds of stuff and it's not even all that cleanly formatted right? It's kind of it's very strange. Look at that. So don't answer your question, Spencer. It can be, you know, in pretty bad shape. It's not news, but. Okay, so now use the low article on the Olympics to answer the second question. If you don't know.
+
+00:49:40:23 - 00:49:57:11
+Unbekannt
+So you don't know. Okay, So that's what you have. That's the betting. And by the way, before the senator do the 11, this is the actual carry. That's going to be something I'm putting out because look at how long the phrase use article below. And here the article where both of those goals all thing right. And it keeps on going on.
+
+00:49:57:11 - 00:50:21:21
+Unbekannt
+And finally I say which teams won the gold? So okay, so let's run it. Hey, look at that. The men's school in Great Britain, it got it right pretty good, right? I mean, it had to pass all the crap to get and find the nuggets. Right? So nicely done now. But maybe it wasn't super hard because we literally gave it the answers, so let's make it a bit harder.
+
+00:50:21:23 - 00:50:43:11
+Unbekannt
+So I noticed that this person, Oscar Erickson, won two gold in the event gold medals at the event. So let's ask if any athlete won multiple medals that requires a little bit of abstraction. Right. So all right. Same cutie that any athlete to win multiple medals and calling the question has changed. Everything hasn't changed in it. Let's see what happens.
+
+00:50:43:14 - 00:51:06:28
+Unbekannt
+Yes, Oscar Erickson won multiple medals. And Connie, you want to go to the men's event and the bronze in the mixed doubles. It's pretty cool, right? Take that Google. So, all right, now we come to retrieval generation. But instead of doing it manually, obviously because it doesn't scale, people do it automatically. And so the thing you have to remember, as I mentioned just a few minutes ago, is that there is a context window for every alarm and for Djibouti find it.
+
+00:51:06:28 - 00:51:43:07
+Unbekannt
+See in the context of those 600, 300, 16,000 feet, if they don't, that is the length of the input. And so we can see that, by the way, a Jeopardy force context window is, I think, up to one 28,000 tokens. And Djibouti. So Google, Gemini, 1.5 crore, they really need to work on that things Google, Gemini, 1.5. Draw the context which 1 million okay And in research they have 10 million talks so crazy times all that means is that you can upload in that video and ask questions whatever So all right to come back to this.
+
+00:51:43:07 - 00:52:08:08
+Unbekannt
+So what we'll do is we'll only grab the data from the Wikipedia articles, the all the articles about the Olympics that are relevant draw a question by using pre-trained embeddings. So again, this is the thing we talked about earlier, right? This is the picture we saw in class. And the only thing I want to point out is that if you have a particularly empathy for the question and a particular embedding for a chunk of text that you have in your database, you have to figure out how similar, how related they are.
+
+00:52:08:10 - 00:52:32:10
+Unbekannt
+And for that, you can use what DOT product or something slightly almost as a dot product, which is more easier for us to work with the cosine similarity, know we have 10% similarity previously have and plus we're just going to school sense of like how similar or different. So that's what we're going to do. All right. So the same pictures we saw in class.
+
+00:52:32:13 - 00:52:46:29
+Unbekannt
+So the first we what we do is we need to break up the dataset into sections and then take each section and then run it through the embedding thing. But fortunately for us, I have code here, which actually does it for you manually. You can play around with it later, but Openai has already given us the chunk get us.
+
+00:52:47:04 - 00:53:07:14
+Unbekannt
+So I'm just use that because just easy for us. And I had downloaded already. It takes 5 minutes to download, downloaded this thing and I stuck it in that particular dataframe. Yeah. So let's print out five randomly chosen chunks so you can see here, right? This is the first chunk. Somebody else, somebody else. Let's just look at all this crazy stuff you write.
+
+00:53:07:18 - 00:53:31:28
+Unbekannt
+The formatting is off, but these are all basically paragraphs and sections just grab straight from Wikipedia with no cleavage. Okay, Now we define a simple function to basically send in any arbitrary piece of text into the embedding model and get the contextual embedding vector out right. And there's a function that does that. Okay. Using an embedded model, we send a text, gives you something.
+
+00:53:32:01 - 00:53:41:19
+Unbekannt
+So let's try it on that. Audience Amazing. You're going to go back this piece.
+
+00:53:41:27 - 00:54:06:26
+Unbekannt
+come on, tell me now. All right. How long is it looking? 36. So. what I say is incredible. Like what? It was amazing. Hopefully the tool doesn't be kind of similar in terms of cosine. Okay, So and so to calculate the cosine distance, I use this particular function from site by you just calculates the cosine and I hit it.
+
+00:54:06:29 - 00:54:27:05
+Unbekannt
+So .993 for maximum is 1.94 means that they're very, very similar. Just I'm quoting because I mean is there an incredible are obviously synonyms. Okay. So now given a dataframe with a column of text chunks in it, we can use this function on every one of these things to calculate them. Right. And you have a function here that basically does it for you.
+
+00:54:27:05 - 00:54:41:11
+Unbekannt
+I'm not going to run it because it takes a long time so you can run it later on. Just be prepared and go get a cup of coffee and stuff and it doesn't but once but happily for us, Open has actually already done this step for us. So if you don't have time so it's already available in this dataframe.
+
+00:54:41:11 - 00:55:03:27
+Unbekannt
+So if you actually look at this and you can see here there is a text and then there's an embedding that's sitting right there right next to it. Okay. And these embeddings are whatever, 15 how long is it 1536 for 1536 long vectors. Okay. All right. So we have this.
+
+00:55:04:00 - 00:55:24:23
+Unbekannt
+Okay, so now that we have this thing, whenever we get a question, we calculate the questions embedding. I think somebody isolated cosine similarity with all the embeddings sitting at the still frame. Okay, So to do that, we're going to define a couple of helper functions here. We can bring through the python later to understand this is basic python manipulations that are going on.
+
+00:55:24:26 - 00:55:54:01
+Unbekannt
+And so let's just test this function. So basically we have a little function called strings rank building relatedness, where you give it any input question or text, and then it's going to give you the top five most related chunks of pixels out of. Jennifer Okay. So just so coding the things that pulls back it, but in most calling and models and so on.
+
+00:55:54:03 - 00:56:13:03
+Unbekannt
+So this one has a cosine similarity of 0.88 and Baker one and that's good. So somebody. Meadows somebody, somebody it's all pretty good, right? Even the fifth one has a cosine similarity of 26. Seven is pretty high, so it's doing the right things. Good speech picked up, calling all members in four Texans, picked up the right things from it.
+
+00:56:13:06 - 00:56:31:21
+Unbekannt
+Now let's see what we can do with the original question. So here's a head that I'm going to use in the prompt. I'm going to say use the below articles to answer the question, Answer the questions truthfully as possible. And if you're unsure of the answer, see, I'm sorry, I don't know as before. Okay, that's a prompt. And now here's the thing.
+
+00:56:31:22 - 00:56:47:06
+Unbekannt
+You don't want to exceed the context window, right? So we want to need to count the tokens we send again and the likely number of tokens we're going to get back so that we don't exceed the budget. So we use this package or token package for this and then it just helps you count the tokens and you can read through.
+
+00:56:47:06 - 00:57:08:29
+Unbekannt
+This is just again, some basic python for counting tokens. And now what we do is this. This is where we actually assemble the prompt. We start with the header, right? We have the header which says, you know, we look for and all of that. Then we say it is a question that I'm going to ask you, and then you go in there and keep grabbing Wikipedia articles too.
+
+00:57:08:29 - 00:57:32:27
+Unbekannt
+The number of tokens in your prompt is is exceeding your token budget and then you stop being a both exceed the budget. You stop because you can't exceed the budget. And that's that's the whole thing. So here is just to ticktock down from this function. Now it turns out as you saw it, we can go up as like 1600 something tokens in the context window.
+
+00:57:32:29 - 00:57:55:11
+Unbekannt
+I'm just using three 3700. That's my budget. Partly because just to show you how to use this thing and also because it's charging my credit card. But every token that I've using. All right. So I'm just being careful, which I just buy the token. Beautiful. This is one image. So back here. So let's ask the question which at Leeds won the gold medal curling at the Olympics.
+
+00:57:55:13 - 00:58:19:14
+Unbekannt
+Give us the dataframe that you should use here, us the Jeopardy model and don't exceed 3700 tokens. Okay, That's the credit on the prompt. It's going to compose the prompt now and this is the full prompt. Okay. That's just for the record, that's really long time. Use the article also, that's a discussion, a little bit of a vote that has all these things right.
+
+00:58:19:15 - 00:59:00:16
+Unbekannt
+It's got added a whole bunch of paragraphs on the Wikipedia. You just let me finally answer the question, which at least with the four. Okay. All right, now let's just ask it for think of this, just a little function to a said sorry, Dave Young. And now we are finally ready to ask the question because crossed All right calling that stuff actually in the mixed doubles the team consisting of the men's tournament and interesting it has actually ignored the Great Britain people completely and I think it was right last night it didn't.
+
+00:59:00:18 - 00:59:26:03
+Unbekannt
+Welcome to Stochastic city so you can try it when you try it will actually give you the thing. And so let's ask another question about the 2016 Winter Olympics, which, by the way, didn't happen over Norway, two Olympics in 2016. So this looks like I don't know. All right, now let's change the header so that we don't say be truthful.
+
+00:59:26:05 - 00:59:58:02
+Unbekannt
+So we will remove the need for it to be truthful. Let's see what happens. Okay. Right. This leads to the goal. no. We're telling you about the 2022 Olympics search. Answer an irrelevant question accurately. Okay? If you remove the need for it to to be true. So I guess the moral of the story is that first of all, you can use idrive to grab stuff from last databases and it's pretty heavily use in between, number one.
+
+00:59:58:03 - 01:00:20:24
+Unbekannt
+Number two, you have to be careful about these token budgets and so on and so forth. And small wording changes in the prompt can actually dramatically alter behavior, which makes it very difficult in enterprise settings to look on this. Okay, So a lot of care has to go into it, you know, and you have seen examples of, for example, Air Canada had a chat board which actually gave the wrong advice to a customer, the customer.
+
+01:00:20:24 - 01:00:38:00
+Unbekannt
+So again, in Ireland, a court ruled in favor of the passenger and then they pulled the chatbot off the website. Right. So we've got to be very careful, I think without a human in the loop checking these answers, it's kind of dangerous in my opinion, at this current state. Hopefully it'll get better, but you have to be so not a potential budget to be careful.
+
+01:00:38:02 - 01:00:53:25
+Unbekannt
+All right. So this is what we have and you can actually take this thing here and use it. You can actually think like a thousand page medium that you might have or something and then chunk it and users approach. And I've done it for a whole bunch of different things. It actually works really well, but most of the time it will make errors.
+
+01:00:53:27 - 01:01:15:29
+Unbekannt
+Most of the time it actually works really well. Okay. So yeah, so just a quick question. When, when activity for now lets you upload like a PDF that's a hundred pages long, is it chunking that or is it actually ingesting all the video, upload something because you paid for Turbo has one 28,000 tokens, which means it can accommodate a whole long batch of documents.
+
+01:01:15:29 - 01:01:31:17
+Unbekannt
+So we applaud that. It's not doing any chunking. The chunking you're talking about, you have to do the numbers even though you're doing it. So what is the a little bit concerned? It's only seen the prompt exits and the problem says, hey, here's a bunch of information, here's a question. Answer the call me using this question. That's it.
+
+01:01:31:19 - 01:01:55:24
+Unbekannt
+Now, when you ask these things the question, Tom, which is later than it's training data, you will see. Gibney For doing a Bing search and things like that. But what's actually going on? There's a there's a preprocessing step and a program which is doing a big search, gathering a bunch of Bing results, taking the top few results, chunking and building, backing it up from Silicon 24.
+
+01:01:55:29 - 01:02:21:24
+Unbekannt
+And you don't know what's this going on under the hood, but that's actually so good. It's actually thinking and saying things such as what's going on under the of question and somebody, you know, sorry. Yeah. I didn't push it up formatting. So it seems to be able to understand and ignore irrelevant formatting even when there's a colloquial table.
+
+01:02:21:24 - 01:02:45:11
+Unbekannt
+It's not like really defined tables. And also when it outputs formats, it's able to do it really soon, cleanly. Is that something that's it's figuring out through neural network, which is something that's kind of being programed in the header somewhere with the standard instruction. There's no explicit programing going on. It's typically because a lot of the question on SAP is that it was used for supervise fine tuning and instruction and reinforcement learning, right?
+
+01:02:45:11 - 01:03:11:26
+Unbekannt
+The better answers with the same sort of badly formatted in for the better answers are just rewarded right? That's what's going on. But on a related note, one thing that's very useful is that you can actually ask them to send you give you the answer by using certain formats like markdown and Jason and things like that, and by forcing it to adhere to a certain well-defined format, you actually increase the chance of it actually getting the right answer in the first place.
+
+01:03:11:28 - 01:03:40:14
+Unbekannt
+Again, this like a whole tangent. You're going to go into it, but this is all the things that are prompting you. All right. So that's what we have here. Back to the PowerPoint so so that's welcome to generation. And we finally come to fine tuning. So fine tuning. It's been up to this point all the things we have seen don't alter the internals of the editor.
+
+01:03:40:17 - 01:04:02:26
+Unbekannt
+You have not missed it under the rate of change somewhat at all. You're just using it as a black box, right? With fine tuning actually will train it further, meaning the rates are going to change. Okay, so now remember we take something like a causal BD, right? And then and this I haven't fixed this that it's not really clear as I mentioned earlier.
+
+01:04:02:28 - 01:04:25:23
+Unbekannt
+Okay, just remove that. And then if you have domain specific input output examples like input and output, you can just train it like this. Okay, input. And then the shifted output and that will update these weights right on the screens. So this is basically fine tuning exactly like we saw with Bert and so on. And even at the resonant, the same sort of thing.
+
+01:04:25:28 - 01:04:51:06
+Unbekannt
+Okay, that is fine tuning. Now before we discuss the mechanics of how to do it, I want to show you a quick example of the usefulness of fine tuning. So so imagine for a sec that we want to generate synthetic product produce from product descriptions. So we are building some product which can simulate customer behavior, e-commerce, and for that we need to be able to generate the kinds of reviews that customers might come up with.
+
+01:04:51:12 - 01:05:10:06
+Unbekannt
+Right. And reading a lot of reviews as. Re Time consuming. So what you but what you can do is you can get a whole bunch of product descriptions right from the Internet. So let's say you ask an alum, Hey, write a positive product review this information here part of and it comes up with this timeless, authentic, iconic right.
+
+01:05:10:08 - 01:05:33:13
+Unbekannt
+Seriously the price review is actually right Stuff like this. No, this looks like marketing copy. This looks like marketing copy because there's a whole bunch of marketing documented. So it's not good. It doesn't feel like it to be so authentic. Right. Here's another example for Urban Outfitters. And it says, Look, the boxy and cropped silhouette is flattering on all body types.
+
+01:05:33:19 - 01:06:09:16
+Unbekannt
+Come on. Okay, so it's not going to work. So what we do is we fine tune the alala, we can take an alarm and we can fine tune it with instruction, product description, and product review examples. Okay, that's sort of good. Okay, so for instance, we can take something like this and we zoom into this. So here, right, a posture review for the following product and then you can have a look does the description is the input and output is the best use of it.
+
+01:06:09:16 - 01:06:36:06
+Unbekannt
+My husband's favorite if it well right this a feel like product reviews so you just have to get a few hundred of these product review examples. Okay. Just a few hundred and you may not even need that much. And once you do that, once you do that, you basically do useful fine tuning like I showed earlier, you know, instruction, input, output, and then you take that open, shifted a bit and make it the actual label actual output point.
+
+01:06:36:06 - 01:06:52:09
+Unbekannt
+You're trying to invite you to tune a bunch of times gradient descent which gets updated of you have a new element, a bit relevant. And when you do that now for the same things, here's what you get right. Review. These are the best genes I've ever owned. I'm one of them. Some details. I've been getting them for a few weeks.
+
+01:06:52:10 - 01:07:08:29
+Unbekannt
+It's to look brand new. It looks much better. Doesn't look like marketing. This is completely fake, but they are come up with it after the fine tuning and then we say a horrible review because we want to be balanced. These are the worst jeans I've ever worn. There are two right here and then I'm going to return them and try a 30.
+
+01:07:08:29 - 01:07:47:19
+Unbekannt
+But I'm not optimistic. I'm going to leave a few. Okay, So that is so these are real reviews. So just by taking a few hundred examples and fine tuning, it completely changes the behavior that you want for your particular use case. That's the key thing. So for me, the biggest sort of benefit here is that while it took billions of sentences of retaining the original film and then it took tens of thousands of examples to supervise fine tuning an auto lecture and so on and so forth for you for it to make it work for your narrow business use case only had to spend a couple of hundred examples, but it's amazing.
+
+01:07:47:19 - 01:08:13:19
+Unbekannt
+Imagine that you had to, you know, collect like 30,000 examples to make it. Nobody is going to do these things. Stories work, but a couple of hundred, anybody can do that. So so far for the fine tuning business. Yeah, you're not about being able to you know, in industries where you you don't want to put some of this stuff on internet download in t pre-trained model on being able to do this on your own.
+
+01:08:13:21 - 01:08:36:21
+Unbekannt
+Would you still need talking about computing power? Some of the computers we have now CPU's that are now possibly are are you able to do some of these very small use cases on those types of devices. Perfect machine. I mean, you're going to get to that because the short answer it's hard. Yeah just a few hundred examples. But actually trying to fine tune these big models on consumer grade hardware is actually not easy.
+
+01:08:36:23 - 01:09:00:22
+Unbekannt
+So you have to make certain tricks and simplifications, which is the next topic is fine tuning, always supervised like you need those pairs or could you do it if the company has less data so you can? The thing is, it depends on whether you want to make a generally smart about the company's sort of business details, in which case you could just take a whole bunch of text and just do an excellent prediction.
+
+01:09:00:24 - 01:09:25:27
+Unbekannt
+It's going to get smarter what generally thinks, but it doesn't mean it's going to specifically follow your instructions on your particular business problem. So if you wanted to follow instructions, you need support. Okay. So, all right, this is a great reviews. So for small alarms like Jupiter to fine tuning isn't difficult to go to your question. You can actually do this with small models like, for example, Google had this new single German, which came out recently.
+
+01:09:25:27 - 01:09:44:18
+Unbekannt
+It's a small electro parameters of something, a bit of a but the smallest one. And those things will typically fit into thinking. Those things will typically fit into like one GPU and you can find to use a large abuse just to be clear, they will actually fit into one thing. But if you want to use a larger model, it won't fit.
+
+01:09:44:20 - 01:10:02:28
+Unbekannt
+So to make this work, you have to do other things and that's what we're going to talk about now. So this there's a family of models called Llama Llama two. These are open source analysis and they are widely useful. Find joy, right? Because you can just download the model and just do whatever you want with it, right? It's open.
+
+01:10:03:00 - 01:10:20:26
+Unbekannt
+I mean, it's not strictly open because there are some, you know, footnote considerations you got to worry about. But for most it's open enough, in my opinion. And so what we are let's see how hard it is to build the biggest model in this family, which is the llama to model with 70 billion parameters. Okay, 70 billion parameters.
+
+01:10:20:28 - 01:10:41:09
+Unbekannt
+So first of all, the model is gigantic. So 70 billion parameters, each parameter is, let's say, be stored up and to base a parameter right. And then each of these parameters actually we will need a multiplier on each parameter to store various details about how the optimization is done. Okay, let me know. We won't get into the details here.
+
+01:10:41:14 - 01:11:01:09
+Unbekannt
+But the one thing I do want to point out is that this 3 to 4 should really be 1 to 6, right? So I didn't have a chance to change it this morning. But but the point is that it's going to be a huge model, right? So even with this number, it's going to be like four and 560 gigabytes just to call the model in memory and manipulate it.
+
+01:11:01:11 - 01:11:20:00
+Unbekannt
+And so if you use a GPIO, like an 800 chip in your image, hundreds of you which are all Nvidia attributes, each of these things typically has 80 gigabytes of RAM memory. So we need between six and seven to accommodate this thing 6 to 7 GPIO just to accommodate the same. So that's the first problem. The model is bit just to hold it and work with it.
+
+01:11:20:03 - 01:11:44:09
+Unbekannt
+It also gives the second problem. Larmour two was trained on 2 trillion tokens of next 2 trillion tokens of text, so these GPUs can process about 400 tokens. But you have a second way process. I mean the forward pass through the network. Okay. And so if you actually use seven users on this thing, it's going to take you 8000 days, right?
+
+01:11:44:12 - 01:12:00:27
+Unbekannt
+Let's say you want to do it in about a month. You need 24, 20,000. Who doesn't? 40 And you use this cost up to two and a half dollars, but you put out this crazy 4 million, okay? And you'd expect the actual cost to be a lot higher than this because it's very optimistic. It all seems to just do one faster, do it.
+
+01:12:00:28 - 01:12:18:22
+Unbekannt
+All right. And in general, you make some mistakes. I'll do it a bunch, and so on and so forth. So this overly optimistic estimate and that is 4 million. So you need lots of GPUs and you'd spent a lot of money for it. Now what can we do with fewer resources? First of all, you you need to reduce the size of the dataset.
+
+01:12:18:25 - 01:12:39:28
+Unbekannt
+The second thing is you want to reduce the memory required so we can ideally do too many fewer GPUs, hopefully with one job literally on color. Okay. And so now we have good news on the data front because as I mentioned earlier, while it takes a lot of data to build these models to fine tune them for your specific data for use case, you may just need a few hundred examples.
+
+01:12:40:01 - 01:12:59:03
+Unbekannt
+Okay, It's no problem at all. So the data for fine tuning is actually not a problem only for building it in the first place. It's a problem. So in fact, there's this famous alpaca fighting genocide. It's 50,000 destruction of the best. And so for that, we're less than the 2 trillion tokens. And that can actually be done in about 20 hours.
+
+01:12:59:06 - 01:13:21:06
+Unbekannt
+You can fine tune in 50,000 example, fine tuning that, so you can function with just 20 hours to model. Could Microsoft's one bit model drastically reduce the amount of compute we need? Yeah, there's a whole bunch of approximations and simplifications. Make all these things fit into smaller GPOs and so on and so forth, and that's one of them.
+
+01:13:21:09 - 01:13:38:26
+Unbekannt
+So so the short answer is, yeah, there are many possibilities. And we have to very carefully look at them because every one of these simplifications, it'll cost you something in terms of accuracy and the ability of the model to do what it needs to do. So it's always a tradeoff. You have to be able so that for what folks are interested, there is this whole field called quantization.
+
+01:13:38:27 - 01:14:04:28
+Unbekannt
+LLN Quantization, Google it and that gives you that's an entry point into the polling. Okay, So now how do we reduce the memory required so that we can process the data using fewer GPUs, ideally just one GPIO. So if you look at what actually consumes memory, you have all these model parameters, let's say, you know, 70 billion parameters time still based, each one for 40 gigabytes leading computations is another 140 to for the gradient and then the optimized is two X.
+
+01:14:05:04 - 01:14:21:00
+Unbekannt
+And as I mentioned earlier, it could be between, you know, 1 to 6 X as opposed to 3 to 4 X, But we'll can just go with these numbers for the moment. And so the thought of is 560 gigabytes, right? If you just naively want to use it. So it turns out you can't do anything about that. It is just for 140.
+
+01:14:21:03 - 01:14:42:24
+Unbekannt
+But by using a critical gradient check, pointing, this whole thing can actually be squashed close to zero. Basically, you say, Hey, I don't mind it running longer, but I don't want to use as much memory. And that trick is going to be the checkpoint thing. We won't go into technical details that can go to zero, but then this thing here optimizes state going, so even this can be squashed very close to zero.
+
+01:14:42:26 - 01:15:02:08
+Unbekannt
+And that's actually was a breakthrough from, you know, maybe a year ago. And so to do that, what we're going to do is to say, look, you know what, there are a whole bunch of ratios, but we're only going to take those matrices inside each attention layer and we're going to only look at those matrices. So you've got to freeze everything else.
+
+01:15:02:11 - 01:15:24:10
+Unbekannt
+So if you're going to take only a small set of parameters and freeze them and update them and see if it's any good, if it actually gets the job done. And so I'm freezing everything. I'm getting them right. And so if you look at the rate matrix, let's say the key metrics in LaMotta, this is an 8000, roughly 8000 by 8000 matrix, which means that there are 64 million parameters inside each of these matrices.
+
+01:15:24:12 - 01:15:53:05
+Unbekannt
+64 million. Okay. So you can if you imagine this matrix a.k.a here and let's say you thought experiment, you do the fine tuning and the numbers have changed, right? As a result of fine tuning, then you can imagine that the resulting matrix is just the original matrix you had. Let's just the changes, right? The changes and we call the changes delta AQ and of course in general this, this change is also going to be a 64 million matrix, right?
+
+01:15:53:05 - 01:16:12:04
+Unbekannt
+8000 by 8000. So the question is, can we make this change matrix smaller and make it smaller? It seems reasonable. A fine tuning will only make small changes to just a few. We still retain the by definition a couple of hundred examples you of by doing a hopefully a few of which are going to change and maybe that won't change a whole lot.
+
+01:16:12:09 - 01:16:34:03
+Unbekannt
+Right. So the key insight here is that maybe we can force this change matrix to be kind of simple and get the job done right and it turns out you can. And what you do is you can think of this matrix as really coming from 210 skinny matrices, which if you multiply them, gets you the right. And I'm not going to get into the mathematical details here.
+
+01:16:34:03 - 01:16:54:24
+Unbekannt
+This is called a low rank approximation, but the point here is that you can take two very small matrices and if you multiply them the right way, you actually can recover the original matrix, right? You can approximate go to the matrix. And this matrix, as it turns out, these two matrices are much smaller because each one is just 8000 times to 16,000.
+
+01:16:54:26 - 01:17:21:06
+Unbekannt
+Right? And so this thing has just 16,001 92 parameters, which is point or 2% of the original 612 million. So this thing is called law anchored operational model, and it's incredibly widely used in the industry. And so what we do is we freeze all the parameters, the initialize, all of these these change matrices to zero, and then we update just those two skinny matrices ratio.
+
+01:17:21:06 - 01:17:40:24
+Unbekannt
+Here. We update only those matrices using gradients. And when you do that, everything to fit into memory. So which means that the whole thing would fit in and you could just use a good use of it. And if you actually use the llamas, the smaller models like 7 billion, 13 billion, it can be fine tuned comfortably on a single GPIO on a single phalanges.
+
+01:17:40:26 - 01:18:20:02
+Unbekannt
+So. All right. 954 Time does not permit, so I will. So I have a column on how to do the fine tuning using this technique. I will do like a video walkthrough tomorrow or the day after and I'm done. Thanks folks. Have a good SUV. The.
+

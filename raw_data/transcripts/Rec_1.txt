@@ -1,0 +1,729 @@
+Gabriel Isaac Afriat
+00:03:39
+Hi, everyone! Thanks for joining me today.
+
+Angel Gantzia
+00:03:45
+Hi, Gabriel!
+
+Gabriel Isaac Afriat
+00:03:46
+Hi! Hi!
+I think we're probably gonna sign in a few minutes to give more time to more people to check.
+Hi, everyone. Thanks for joining me today. And I think we're gonna start in a minute. It's gonna be a bit hard for me to see the chats. so if you have any question, don't hesitate to unmute yourself and
+just ask the question. I'll be happy to
+answer the question, let me share my screen.
+So today's recitation is going to be on convolutional neural networks.
+So what our convolution? We're basically gonna try to look at the different basic blocks in a convolutional neural network
+and try to see, just to look to explain them a bit more and insist on the most important ones. There are other stuff happening. And
+but but we're going to focus on the main but importing blocks today.
+so the first burning block is the convolution operation.
+So what is the convolutional layer
+so? And why do you? Why do we do that?
+So when you have table? Data, you can use a dense layer so something that you can see here where? So let's say this, imagine this is your input then to get one neuron, you would connect the neuron to all of the inputs, all of the features you have.
+Because there's no there's no and easy structure. In your data.
+However, when you have an image, you have a lot of structure, and something you may want to do is use this structure in order to get information and get some feature maps or embedding. So you must. You probably have already had this this notion.
+and you can use the structure to get this feature maps.
+And one way to do it is to use the kernel and the convolutional operation. So how does it work?
+Imagine you have a kernel here. This is an example of a kernel.
+and so, 3 by 3 kernel. you just apply the kernel on the image.
+and you move the kernel
+
+Unbekannter Sprecher
+00:10:58
+across the image, you get a number. And so
+
+Gabriel Isaac Afriat
+00:11:01
+you use the structure of the image in order to get your representation.
+So something that is important is to know is will be pretty hard to build your own kernels. So something that is done in practice is you have weights that you initialize.
+and you try to learn the best ways, the best kernel during the training process.
+So
+in practice, you don't know a priori what the canals are going to be, but these canals tend to
+learn how to learn like some shapes, some edges.
+and that you don't know a prairie, but that are important for your task. and you can
+look at them once your training is done. Now let's check whether these scanners make sense and
+what feature maps. You get
+before I go to the next slide.
+So do you know what the stride and the padding is? Does someone want to try to explain what stride and padding are.
+
+Jocelyn Anne Foulke
+00:12:26
+Can you repeat the question?
+
+Gabriel Isaac Afriat
+00:12:28
+Oh, yeah, sure.
+So here we have a kernel, and II think 2 hyper parameters that you can play with is the stridenting.
+And and I was wondering if someone wanted to try to explain what stride and padding were.
+Do you want to give it a try? Otherwise I can try to. I can explain. I can try.
+Okay.
+
+Rolando Amin de la Cruz
+00:12:54
+yeah. I think Stride has to do with how big the steps you're taking with your filter are across the the image, and then, I think padding involves adding zeros around the image to allow for the filter to extend beyond the boundaries of the image.
+
+Gabriel Isaac Afriat
+00:13:11
+Yes, exactly.
+So you said it.
+So
+here, we add padding. To help with the if you want to keep, for example, the same dimension, or if you want to also extract the information on the edges without padding, you may lose some of the information. So we can add.
+basically, we just add zeroes put around the image. And we can add here we just add one additional
+and row and column, and like, we just add more zeros, but only one. They are zeros, basically.
+But we can add more.
+And the stride is by how much we move the kernel across the image.
+so the bigger the stride and
+the less
+the feature, the the smaller feature map after the convolutional operation.
+And the more padding we add, the bigger of automatic is gonna be
+So
+yeah, just a little example.
+to understand more. What the canon is doing and how it can be interesting in order to learn some shapes. So, for example, imagine you have a canon which looks like this.
+So line zeroes, and we have a high value of 13 which follows this shape.
+So if we apply this kernel
+on an image which looks like this. So
+and you see this edge of the mouse?
+so we're going to get a very large number in this example. 6,600.
+So this canal is going to be good at detecting these type of edges. However, if you take the same kernel and you apply it to this part of the image.
+So this part of the image, we see that the big values are on the lower left side.
+Then we multiply the canal, and we just get a value of 0.
+So
+basically, one canner is going to be good at detecting some shape in the image. And that's why. So you need more canals to detect different types of edges and different shapes.
+So yeah, that that is, and a quick example.
+What happens if you have a color image. So in that case you have 3 channels.
+So in what you're doing, this case is when you have a care note
+that canal will have. So you have one filter per channel, so your canal will be multi-dimensional.
+and I can show you on this example. So let's say, you have this
+this matrix for the red, this matrix for the green, this matrix for the blue.
+So then, one kernel is going to have 3 filters per channel.
+You're going to apply the red kernel on the red image, the green kernel on the green
+image and the blue canal on the blue image.
+You will get a number. So here 7, 5, and 7, and then you just sum them. You add them up
+and you get 19. So that's going to be one canoe.
+That's gonna that is going to take your image, which has 3 channels and going to turn it into a feature map with only one channel.
+What if you want 32 channels in your feature map? Then you have 32 times this, 3 by 3 by 3 kernel.
+Please tell me if you have any question. I think
+this is maybe the little tricky part in the kind of operation like.
+The canal is multi-dimensional. We all say that we have a 3 times 3 channel, but it's actually a 3 by 3. By the number of input channel you have.
+
+Jocelyn Anne Foulke
+00:17:18
+Gabriel. Can I ask a question? So when you're training a model are you? Typically in assuming you have color images as your training data set, are you typically training both for color. You know, the 3 layer kernels and black and white kernels from a black and white version of that image. The reason I'm asking is because it seems based on this
+kernel that you showed. It seems like you could miss
+something that is sort of like a gradient between light and dark, but is not necessarily a gradient between like red and green. Do you know what I mean? Does that make any sense?
+
+Gabriel Isaac Afriat
+00:17:53
+So in practice. I don't think people
+
+Unbekannter Sprecher
+00:17:58
+try to play with black and white images and the color version of the image as well.
+
+Gabriel Isaac Afriat
+00:18:04
+so normally.
+if you give it if you give the the color image
+directly at input, and you don't look at the black and white image. So I know it's a black box. But hopefully, if there is some information that is important in the brightness of the image, the Kenosh.
+the 3D. Canon.
+should be able to figure it out. So you hope that it's gonna figure it out.
+so the brightness here?
+So if, for example, you have a channel which looks at the 3 channels. It can
+compute the bright like the it has this, the it has more information than just the black and white image.
+
+Jocelyn Anne Foulke
+00:18:50
+Okay.
+
+Gabriel Isaac Afriat
+00:18:51
+so it should be able to figure it out. A. And if you have more channels, then maybe you have. It can happen, for example, that your red the red channel is never used because it's not useful. Maybe so, the Channel should learn that some scholars may be more important than others.
+And
+
+Jocelyn Anne Foulke
+00:19:10
+thank you.
+
+Gabriel Isaac Afriat
+00:19:11
+You're welcome.
+So here we've looked at one of the main building blocks to the convolution operation. so the convolution operation is good at finding some features extracting the features from the image and using the structure of the image.
+However, your dimensionality. So the your image, the image that you start with
+is high, dimensional. And so, for example, if you have
+100 by 100 pixels, then that 10,000 features that's a lot of features, and you want to reduce the dimensionality.
+
+Unbekannter Sprecher
+00:19:54
+Something you can use for that is called pooling.
+
+Gabriel Isaac Afriat
+00:19:57
+There are 2 main versions of polling that you can use.
+The most common are so average pooling and Max pooling
+
+Unbekannter Sprecher
+00:20:07
+so here I can show this example is Max pulling.
+
+Gabriel Isaac Afriat
+00:20:12
+So your plan and
+the same canal. Let's say so. Here, you don't have weights. There's no, there are no ways to train or to learn. You just apply. You. Just look at a window of the image. Yeah, 2 by 2 window.
+And you look at what is the maximum value
+for Max pooling, and you would do the average for average pooling.
+So here the maximum value is 8. Here it's 6 here, it's 9, and here it's 9, and that's where that's how you get this output. And you reduce the dimensionality here by a lot, by 2 I mean
+by 4, because after the images. so the Max Pollini is good because it depresses the dimensionality. But it's also a way to highlight, relevant features, important features.
+And it's a way to regularize by reducing the dimensionality aspect.
+so now we've looked at the convolution operation. We've looked at pooling.
+So here the next step is flattening. So before we apply on the dense layers that we know we have to flatten the image
+oops. So
+here we just start from a 3 to the input and just end up with a ones input that can be used for the next for the dense layer. So the dense layer basically is a matrix multiplication followed by some non activate nonlinear activation function.
+So this matrix needs a one d, input so that's why we do the flatmate.
+So that's basically for the main building blocks of the cnn. So once you flatten, you apply a fully connected layer.
+So just when I
+what we you've seen before. So you multiply by a matrix followed by a relu activation, another matrix, maybe another activation function. And at the end.
+And you have 3 outputs.
+you want probability. So you apply a softmax activation function.
+And as he's going to give you the probability of the different classes, for example, probability of horse zebra dog
+and then, yeah, basically, you're done. That's whole months convolutional neural network work. There's a lot more that people have added to make it work better. But that's the main building blocks that we've seen now.
+So, please, I mean, if you have any question otherwise, there's this whole colab that you can find on canvas, and we'll try to look. At it!
+
+Koumudi Mantha
+00:22:53
+Thank you, Priya. I had a question about how you combine all the different matrices that you have different dimensions into one flat in there.
+I understand how to get the flat layer from a single matrix.
+
+Gabriel Isaac Afriat
+00:23:10
+So there are different ways to proceed with the flattening.
+But when you have multiple channels. One way is just you flatten each of the dimension. You put them together.
+I don't know exactly how
+like what the default is. But there are different options that you can use when you do the planning.
+and the idea here is when you flatten, you lose the social information. But that's but you need to do that at some point. You need to flatten the image to apply the classifier.
+
+Koumudi Mantha
+00:23:43
+Okay? So when you say we have different methods to do that. Would it look look like
+taking an average of all the different layers, or maybe just summing them up or taking the maximum
+new candidates.
+
+Gabriel Isaac Afriat
+00:24:02
+So so there are different architectures out there, and the different architectures do some like they did
+sometimes do different things. One thing you can do is keep the different channels you have, and then flatten that
+so you would flatten, for example, each channel and have the concatenation of the flattening of each channel.
+Something else you can do is apply
+a max pooling, or I don't know another convolution operation to have only a 2D. Image with only one channel before you do the flattening.
+So I think that different ways to deal with this, and I don't think there's a bit
+best way. But yeah, you can definitely do
+one or the other
+
+Koumudi Mantha
+00:24:53
+sorry. One. Last question is this also like a hyper parameter that people try, try different methods on, and come up with the best method?
+Or is there some default that the industry just follows that we don't know of?
+
+Gabriel Isaac Afriat
+00:25:09
+So I'd say, so th the finding the best architecture is an area of research. It's called architecture search, I believe. And
+so a lot of research has been done, and
+so moving from, for example, Alexnet, in the 90 s. To when there was Vtg. Resnet 50.
+All of these architectures. So there. There has been research that has been done. And
+if your problem you think maybe it can be no problem. You may want to maybe choose an an existing architecture that works well already.
+With some pre-trained weights and apply some transfer learning, for example. So that's what we're gonna see in the recitation today in the Collab.
+If you want to build your own architecture for me, for example, your problem is not too complicated. and you have a lot of data. In that case.
+I think you could try both. I don't think there's
+I mean, you can do some architecture search. So try different architecture. And that can be seen as a hyper parameter that you tune. You just basically try one architecture. You train it on the training set. You look at the validation metric, you try another architecture. You look at the validation metric, and then you decide which one is the best
+you can do that. Or
+yeah, or you can just stick with one architecture. That
+you think is good. But but yeah, you can definitely tune the architecture a bit.
+
+Koumudi Mantha
+00:26:47
+Okay, understood. Thank you.
+
+Gabriel Isaac Afriat
+00:26:49
+You're welcome.
+alright.
+So
+in the rest of the recitation, what we can do is look at the collab. It should be on canvas in under the recitation, one
+in the recitation, one folder. It's in the main page of canvas.
+And
+so this recession is going to focus on transfer learning.
+so we're going to use datasets composed of
+handbags and shoes.
+So the the first part of the code is the data preprocessing. So here we just create different folders. So train
+validation and tests. And in each of them we copy some images.
+You can look at it in if you want. But
+yeah, the idea is just to create the data sets something that you may have heard about in other courses is called cross validation.
+And so very often this is used for methods that are easy to train.
+For example, linear aggression. When it comes to deep learning in general people. You cannot really train one model per
+like 5 times for 5 cross for croolidation, for example, or 10 times that would be even worse. That is too slow and too time-consuming. So what people do is they just use
+and one validation set.
+So that's why. Here we have one training set, one validation set and one test set. The training sets
+has 97 files. So 97 images. We have a very tiny data set. The validation set has 50 images, and the test set 38.
+And for each of the 3 sets we have 2 classes. So it's a binary classification problem.
+Something that is always good to do when you have
+Any classification task, especially with images, is to look at them
+and see first if the problem looks easy for a human. And
+if they are like what the image look like, are they?
+yeah, can you? Does it look horrible? Or
+and also something. That you may want to consider is data augmentation. Do you think that your data is diverse enough? Or do you think you will need to do some data augmentation. And it's not just for the the for the pre processing task. That's already important to look at the data.
+so here the data looks pretty good.
+I mean, we don't have lot of data, but the data itself is pretty clean.
+And so yeah, before I forget to the these steps here in Keras is just to. So it loads data from a directory. So here we created a train validation and test
+and create a dataset.
+so train data set validation data set and test data set
+in order to both tool. So we have different steps that we need to do when we have images, we have to read the Gpeg file, we have to convert it to a tensor. We have to resize it to a standard size that the model can read, and we have to group them into batches when we do the stochastic gradient descent.
+So here this is, gonna be useful because it can do all of it using keras. So here we specify that we want the images to be 224 by 224, and we want the batch size to be 32
+So here, as we talked about, just before we can either start from an existing architecture or build our own.
+We are going to first start with our own architecture, and then we'll look at some existing ones.
+and so that the way you write an architecture in chaos, there are different ways. So here I present in one way. So we start by defining the input the shape of the input.
+then the images. And so here they are. You have 3 channels. So this the image is one, and by 2420 by 24, and 3 channels for the 3 colors, red, green, and blue.
+the each pixel has a value that is ranging from 0 to 255.
+Something that is good to do always when you have data is to normalize it or standardize it. So here we normalize it. We divide by the maximum value 255, so that all our inputs are between 0 and one.
+Then we apply some convolutional layers. And here we specify a canon size of 2 by 2.
+
+Unbekannter Sprecher
+00:32:00
+And here we specify that the outputs, the feature map
+
+Gabriel Isaac Afriat
+00:32:04
+should have 32 channels.
+We can also specify the activation function that we want after we apply the convolution operation.
+and we can also give it a name. Can someone?
+I think the answer is just below. But don't look at the answer. Can someone try to
+figure out what is the total number of parameters in this convolution of a convolution layer?
+And you don't have to do the math. You can just say
+the multiplication that you think is correct.
+Does someone want to give it a try?
+Don't worry if you're wrong. And
+
+Angel Gantzia
+00:32:57
+okay, I could go, I guess.
+Yeah. Is it?
+32 by 3,
+bye.
+a
+224 by 224.
+That's where in the last bit I'm kind of.
+that's true.
+
+Gabriel Isaac Afriat
+00:33:20
+And
+so you are. So that is not exact. But you are close. So
+indeed. Here. The output channel is 32, so we'll have the 32.
+The input channel is 3, so we'll have the 3. But then it's not 224 by 224. It's times 2 times 2.
+
+Unbekannter Sprecher
+00:33:45
+So that's called the kernel.
+
+Gabriel Isaac Afriat
+00:33:47
+So the idea is, we have a 2 by 2 channel. So 2 by 2,
+then the input
+
+Unbekannter Sprecher
+00:33:53
+has 3 channels. So it's 2 by 2 by 3,
+
+Gabriel Isaac Afriat
+00:33:56
+and that's going to be one canal.
+But then we have 32 of them to have the 32 channels in the output feature map.
+Does this make sense?
+
+Angel Gantzia
+00:34:09
+Yeah, def thank you.
+
+Gabriel Isaac Afriat
+00:34:11
+Okay. And one last thing
+So we also have a bias
+term. And this is also a parameter that is trainable that we need to learn. So once we apply the camera. We also add a bias
+for each of the output channel.
+so the total
+number is 2 by 2,
+by 3,
+by 32 plus 32.
+
+Jocelyn Anne Foulke
+00:34:40
+Gabriel, could you explain one more time? What sort of how many images we have? And then how
+sort of walk us back through that calculation connecting it to what's actually happening.
+
+Gabriel Isaac Afriat
+00:34:50
+of course. And network.
+I think maybe I can just show again this
+So here we miss just the bias in this example. But so let's say we have. 3. We have 3 channels in the input. image.
+So in that case, let's say. we want a okay, let's stick with this example. I think it's going to be easier. So here we say, we have a 3 by 3 kernel.
+and let's forget about the output dimension for the moment. So let's say we want the output dimension to be only one, for example.
+So
+one canal operation. If you want a 3 by 3 canal. It's gonna acquire 3 by 3
+parameters for one channel per channel.
+So here we have 3 by 3
+times 3, because we have 3 channels.
+but that's without the bias. So
+using only so if we had no bias, then we'll have 27 parameters, 3 by 3 by 3, plus the bias is going to be 28. And the bias, basically, we just add the same number everywhere here.
+So let's say, the bear is one, we'll have 2014, 16, etc. So
+there will be 27 in the in this example. But here we also specify the output channel.
+And basically the output channel is the number of times we want to repeat this operation.
+So here we did it once, but if we do it 32 times, then we'll have 30. The output will have will be 3. Sorry will be a 2D. Image, but with 32 channels
+also, we just tag them together.
+and in this case we would have the total number of parameters would be 3 by 3.
+by 3, for one times 32 plus 32
+for the biases.
+does it? Is it more clear now.
+this is a nice day to ask questions. I can go back to the image. Sure.
+
+Koumudi Mantha
+00:37:05
+Could you please explain? What's the use of a bias? And how does that look like.
+
+Gabriel Isaac Afriat
+00:37:12
+yeah, of course.
+So
+I think maybe the
+first way to look at the bias. The easiest way to look at the bath is in the dense layer case.
+So in the dense layer case let me see if I can
+oops.
+So if you don't have a bias and you have a dense layer, the operation you do is Wx, basically. So you have a weight matrix, you multiply it by an input
+and then you can also
+have some activation function. The issue with this is.
+What if
+all your predictions I mean the thing you want to predict. Imagine the
+and it's not centered around 0. In that case
+you may want to add a bias here. And so that's
+the bias that I mean, that just moves everything you want to predict around the mean, which is the bias.
+
+Koumudi Mantha
+00:38:27
+Can't we do that operation, using an extra hidden layer after we flatten the convolution layer.
+
+Gabriel Isaac Afriat
+00:38:36
+Yes. Oh, an extra layer.
+you mean just the bias layer.
+
+Koumudi Mantha
+00:38:42
+Yeah. I mean, when we had a hidden layer
+layer of neurons, we do add a bias.
+So why can't we like? Why doesn't that take care of the bias over here.
+
+Gabriel Isaac Afriat
+00:38:55
+Oh, I see what she means.
+So that's in this something that some people do. In some architecture there are no biases in every, in the whole architecture except at the end.
+that's an option.
+and the default, I think in Keras is to always have the bias term. I think you can specify you. Can. You can tell Kara that you don't want the bias.
+I'm a bit more familiar with Python, so I need to double check this information, but I think you can. And
+yes, so so you can decide to not have biases inside your architecture, but only have it at the end, and that would also
+work. probably fine. I think this is just a different architecture. Choice again.
+
+Koumudi Mantha
+00:39:40
+Okay, got it. Thank you.
+
+Gabriel Isaac Afriat
+00:39:42
+You're welcome.
+so yes. First layer. So here we said we had 3 by 2 by 2 by 32 parameters.
+And
+does someone want to try to compute the number of parameters in the second convolution layer.
+
+Pavena Vongkhammi
+00:40:16
+I guess.
+2 by 2, by 32 by 32 plus 32.
+
+Gabriel Isaac Afriat
+00:40:24
+Yes, exactly
+so. Well done. That's correct. So here the input has now 32 parameters. Sorry, 32 channels.
+So one canoe
+will be 2 by 2 by 32.
+But then we want 32 channels in the output feature map. So we multiply again by 32 and one bias per output channel plus 32.
+That is correct.
+We also add some pooling layers here and here to reduce the dimensionality.
+Then we add a flattening layer.
+again, the idea is to flatten the image
+as to have it as an
+as an input for the dense layers that follows.
+So here we specify the number of neurons we want in the dense layer. And we can also specify the activation function we want just after applying the dense layer. So we apply Relu here.
+and finally the outputs. So the output. In this case we are doing binary classification. So we have 2 options. We could have 2 outputs here, one for each class.
+But that's
+not necessary. If we have the probability of one class, we can deduct the probability of the other class very easily.
+And so that's why we apply a sigmoid. If this was, if we had a 2 here, we would do a softmax
+
+Unbekannter Sprecher
+00:41:55
+and then we just
+
+Gabriel Isaac Afriat
+00:41:57
+tell Kara us that this is the model. So the model takes the input and returns the outputs.
+Do you have a summary of the model by just doing Mother dot summary.
+and this will give you very useful information. So it tells you what are the number of parameters per layer
+so that can tell you. For example, if you have too many parameters, maybe you want to reduce some layers the size of some layers. It tells you where which layers are problematic
+and also tells you how many parameters are trainable and non-trainable.
+So sometime, what you may want to do in transfer learning, and we'll see that later. Very soon
+is. You may want to free some layers, and I have only a few layers trainable, so that will tell you how many parameters are trainable here, and how many are non-tradible.
+So we've already done the math.
+I invite you to look also at the number of parameters in the dense layers is a bit, I think, easier and more intuitive than in the convolution. So
+and let's look at this if you want.
+So now we have a model something you may want to do is look at the layers.
+Oh, sorry. So there were some questions.
+Is there a graphical, and can I check?
+Can I check? What is a non-trainable parameter? O,
+so for this question you can look at the layers, so
+I don't want to rewrite the whole notebook. Then it's good. Everything is already computed that If you look at one layer you can look at whether the layer is trainable or not.
+And so in chaos and in Taitos. It's not very easy to have some parameters within a layer to be trainable, and the others to not be trainable. What you can decide, however, is whether the whole layer is trainable or not.
+and if you select a layer and you do dot train. Trainable, I believe
+like this. This will tell you whether the layer is trainable or not, and that means all the weights in the layer are trainable, or all the weights in the layer not trainable.
+and there is a way to have a graphical representation.
+I think this was in another collab. I need to double check because I am more familiar in Pythosh, and I know in Kara's it's possible to also look at the model. But I forgot the
+I can look it up online and get back to you after the Restation
+and for London.
+So you can look at the layers with this code. You can also look at the weights that you have.
+So here we can access the dense layer.
+and by saying, then, slayer dot waits. you can access the weights.
+So here we can see. That's the way matrix. And that's the bias term initially, 0 everywhere.
+so one way to get the weights of the canal is to do. Sorry to get the weight is you can do adult weights and 0. So 0 is the weight term. And that's the bias term. You can also do dot kernel adult biased.
+This code is just gonna give you access to the first neuron to right? So the first new one
+so here you can have access to the weights from a convolution layer.
+And so in the convolution layer.
+So here you precise that you want the waste and not the bias and
+you have 32 channels in the output filter. So here we're just in the output feature map. So maybe you want to look at only the weights corresponding to the first feature map.
+This feature map takes us input 3 channels. red, green, and blue. So here you can specify whether you want to have access to the red, the green, or the blue. and then you can look at the kernels
+this way.
+And that's that may be interesting to look at them and see what shapes they try to identify.
+And yeah, whether that makes sense or not.
+So yeah, to answer one of the questions that was asked in the chat follows trainable parameters. So by doing one of the trainable you can tell whether you want everything to be trainable or not.
+Model dot layers gives you access to all the layers in the network.
+and then you can look whether all the.
+whether each layer is renewable or not. and we can manually free some layers manually and phrase them.
+So here we can decide that we want the everything starts at 0. So we want the third layer and the fifth layer to be trained. To be frozen sorry. and here they appear as not trainable.
+and you can do model summary to look at the number of parameters
+and the number of trainable parameters here, and the number of non-trainable parameters will appear as well. So this is a
+what matters the most I'd say during the training. So. and
+the idea is, if you don't have too many too much data. Maybe you don't want to train too many parameters, because that's going to be a hard task
+to do.
+But here we started from scratch. But so all the weights are randomly initialized. So it's it's a bit tricky.
+To not train everything. You have to train everything. So that's why we go back to everything is trainable here.
+Alright. So in the next part, now, we're gonna look at transfer learning.
+So the idea in transfer learning is if you don't have a lot of data here, we definitely don't have another data. We just have a hundred samples in the training set. Something you can do is use an existing architecture that has been shown already on
+
+Unbekannter Sprecher
+00:48:35
+some data. So here we look at 15 which has been shown on Imagenet.
+
+Gabriel Isaac Afriat
+00:48:41
+So imagine it contains more than a million data. So data points, so it's a big data set
+and
+by using these weights, we hope that we can reuse everything that has been cleared on. and this 1 million images for our task.
+And maybe we want to fine tune. So we in this case, we want to fine tune this model on our specific task.
+So how do we do that? So this is the resonant 50 architecture
+we specify here that we don't want the top layer, so the top layer imagine, has 1,000 classes, but in our case we only have 2.
+So we want to change the classifier at the end
+do not output
+so a vector with 10 values. But we want to
+only one value, or whether this is a shoe or a bag
+to hand by
+So what we're going to do is we're going to take the data set and we're going to run resnet 15 on it.
+But without the classifier. So this is going to give us for each image in our data set and embedding.
+And so because we basically, we took resnet, and we stopped here at the last layer without the classifier.
+So we, this resnet is just a truncated resnet. So we just have the embedding layer, which is the second to last layer in the regular resnet 50.
+So for each input image in our training set, we're gonna have an embedding
+that is given from resnet 50,
+and then we're going to add a classifier
+so here we noticed that the embedding
+shape is 90. So we have 97 images. And then the amazing shape is 7 times 7 times 2,048. so we're gonna create a classifier which checks as input
+images of this shape.
+Then we flatten, we apply a dense layer, some dropout for regularization. and an then player, which returns only one output, whether this is a
+
+Unbekannter Sprecher
+00:51:01
+shoe or a handbag.
+
+Gabriel Isaac Afriat
+00:51:03
+And then we define the model within the input and the output.
+Oh, yeah. So that's the plot model function if you want to look at it
+and and model dot summary to give you the number of parameters.
+So here we have quite a lot of parameters, because the embedding from resonate 15 is quite big.
+But we can learn
+we can train this model
+on collapse. So that is still manageable.
+So here we're going to specify our loss.
+and we have only one output. So this is binary cross entropy. If we had more than one output. So, for example, if we had 3 classes, then we wouldn't be able to only have one here, we would have 3.
+In this case we will use categorical chrysanthropy or sparse categorical cross entropy depending on whether our evils
+100 encoded or not. You can look at the documentation or you can ask me, or and
+and the other Ta, or professor of Arias, or Professor Ramakrishnan, if you have any question, but in this case this is only one output. So we use binary Cos entropy.
+You can specify the optimizer as Tom
+the aden is very popular because he works. He works quite well.
+In many different case scenarios
+for many different types of problems. It works quite well, and the idea is to have an adaptive learning rate.
+But if you wanted to just apply stochastic gradient descent. You can just say Htt here.
+and you can also specify which metrics you want to keep track of while you train the network. Yeah, we say, we want to keep track of the accuracy.
+And so that's important to keep track of some metric, just to see whether your network is overfitting
+on the data. Or maybe it could be the opposite could be under fitting.
+So yeah, that's important to keep track of some metric.
+And then you can just fit the network by doing model that feeds. You specify the training, set, the training labels, the number of epochs you want to train the network. How many epochs you want! How many epochs you want to train the network and the validation data
+that is going to be used to keep track of the metric you specified.
+So here we train the network, and you can see the training loss appears first. Then you have the training, accuracy.
+the validation, loss, and the validation accuracy.
+So as we can see here that this classifier that we're training is doing
+very good.
+it's you may be worried that it's overfitting because the training accuracy is 100%, and the loss seems to be 0.
+So initially, it looks like overfitting. But on the validation data. It also does very well.
+And so it just seems like we are able to classify shoes and handbag all the time, and we're not overfitting. You can also look at at the history. So the validation accuracy.
+basically, that's just showing the values that appear here. They are stored in this in the history of history
+
+Unbekannter Sprecher
+00:54:16
+a
+
+Gabriel Isaac Afriat
+00:54:18
+object. And you can also plot. That's always important when you train a neural network to plot the loss and the accuracy. So that's where this function becomes handy.
+We also evaluate the model on the test label. And we see that we have also 100% accuracy in the test set. So it means that we have done a.
+We have a really good model here. So using retin 50 that has been strained on 1 million images
+and then applying it to our problem was definitely very useful.
+You can play around with this code. So this code is, gonna use your camera, and you can put in front of your camera of your webcam a shoe or handbag, and immediately the model should be able to detect whether this is a shoe or a handbag. So here this
+worked well and detected it was a shoe.
+alright. So here we have studied from resonant 15.
+We have removed the last layer.
+Apply the model which has given us an embedding that we use for the classifier that we train
+but in some. So you know, in this problem, this is perfect. This works
+perfectly. You cannot do better here. But in other problems, if you have more data, for example, so that may become harder.
+to just use a classifier at the end. That may not be enough. And something you can try we want to try is to add more to train
+a bit more than the network. So here resent 50. What if we we train a few extra layers in the network.
+so this can. If you do that, then you would have embeddings that are maybe more adapted to your problem, and that can improve performance.
+And so in this case, this is just for you to know, because we don't need to improve the performance. But in your problem that you may consider you may want to improve the performance using this type of approaches.
+So first of all, how many layers in resonant 15 you have 175 layers. So that's a lot of layers. Initially they are all trainable. We
+in in practice. People don't train all of the layers in their base architecture when they do trust for learning
+what they do is and what we're gonna do here is we only train the last layers
+just to make it more tractable, and not have too many parameters to change. and especially in our case, we have only a few number of samples. So
+that is definitely over Paradise. And yeah, that is gonna be too hard to train a network with millions of parameters on only 100 images.
+so we are only going to try to train the last layers of our resnet. 50 architecture. So we start again. We initialize our model with the pre-trained ways
+we freeze.
+So here we start by saying everything is unfrozen. and we're going to freeze everything but the last 10 layers. Sorry the comments, said the opposite. I made a mistake. But
+in the end we are gonna if you look at this, the leg out of trainable here.
+you can see that everything is frozen except the last 10 layers.
+and if you look at the last 10 layers you can see that you have some convolutional layers. You have some bash normalization activation function. So the activations function are not trainable. So
+whether it's true or false, it doesn't make any difference. But
+yeah, so basically, we are going to train. Most important is these convolutional layers that we are not train training.
+So we can define the network in this case. By defining the inputs, applying the resonant 50 pre-processing. Also, that's something important that I maybe should insist more in the previous case, too.
+when you deal with existing architecture. especially in chaos. So these architectures have been trained on imagenets.
+but so there has been some pre-processing that has been applied to the images and images. And so Retina 15 is used to see this type of images with this type of pre-processing. So you have to use the same preprocessing. And in Paris you can just
+use this. So Kara's at applications at resnant fifty-process input
+so that your data set will have the same preprocessing as the one used to find the resonant 50 architecture on Imagenet.
+So, for example, if present 50 has been used has been trained.
+and images that are only between for which the values are between 0 and one. Then you don't want to apply your present 50 on images that are between 0 and 2 55. You want to apply the same preprocessing, basically.
+So here we apply the network after the pre-processing.
+we flatten the image. and we?
+apply some dense layers. So 256, we decide that we want 256 neurons in this hidden layer. Then we apply some dropouts
+and one dense layer for the outputs.
+We define the model as follows, and here we can see that we have more trainable parameters than in the previous case, because now we train some layers from the original model. Resent.
+We can compile the model again. Same loss, binary chrysanthropy, because here we have a binary classification problem. We use Addam because it works quite well in a lot of different settings, and we recall the accuracy. So we set the accuracy during the training.
+we fit the model again for 10 epochs, and we specify the validation data.
+So as you can see here, the training accuracy, as before goes, is very good. 100% training accuracy.
+The loss is also
+quite good. I mean, 10 to the power minus 8.
+Yeah, it was 10 to the power minus 36 at the ninth airport. So it seems like on the training set. We do
+quite well, however, if we look at the validation, loss and the validation accuracy, this is not as good as before
+when we apply the model on the test set, so here. We apply it just to see but you shouldn't. The performance on the test set shouldn't let us.
+I'll let you do any. We shouldn't use a test set
+to decide the hyperparameter. So here is just for us to know. But that's not gonna indicate whether we should keep this model or the other one, we should use the validation loss to decide
+which architecture to pick.
+But here the test 10 is quite good, 94.7. So around 95% accuracy. But that's worse than before. Before we had a current person on the test set.
+So the idea here is in our in this case, where we only have 100 samples training more layers from Resnet 15 is maybe too challenging. And it's
+maybe not the best idea. Yeah. So
+when you
+so here we if you look at the training but trainable parameters, we have, like, I think, 30, 30 million parameters. And before we had.
+also a lot of parameters, I think 20 million or so.
+so when
+it's quite surprising, I mean, it was doing very well before, and adding more parameters was not necessary. And it's it can be even harmful sometimes to have something too complex when we don't even have enough data.
+Yes. So basically, that's the idea. Here, you don't want to try something too complex
+if your problem is easy.
+it doesn't need so many parameters. So yeah, I think, basically, that's it for today's recitation. If you have any questions, please ask me. Otherwise, I also do my office hours
+at 3 or 5 in E. 51.
+So you can also ask me questions. There.
+
+Juan Pablo Santos
+01:02:48
+Gabriel. A short question
+to upload homeboard number one. We upload the call up, or Pdf version of the call out.
+
+Gabriel Isaac Afriat
+01:02:57
+This is a good question. I think I need to ask the teaching I mean the professors to make sure.
+But let me get back to you your email and ask the professor. Yeah.
+of course.
+
+Stephanie Sha
+01:03:30
+I have a quick question in terms of the homework assignment. So
+in in terms of the transfer learning question, I think it's question, for how long do we expect the code to run?
+
+Gabriel Isaac Afriat
+01:03:48
+The question for
+
+Stephanie Sha
+01:03:50
+yeah, cause it is running for like a couple of hours on my end. I'm not sure if is this supposed to be that long, or is, is it? Like I'm doing something not correct?
+
+Gabriel Isaac Afriat
+01:04:03
+So I am not sure. How much time you took on my end. I can double check. Are you using co-ab, or are you using your own? Yes, I am using colab, though. So
+
+Stephanie Sha
+01:04:15
+I know that we were asked to subscribe to the Google Collap pro. But even after that, I think, after running like the first question, and the second question is already telling me that the limit has been like maxed out. So it has to run without the Gpu, and it's now taking at least like 5 h on my end to run for question for, and I'm not sure if
+it is supposed to be the case, or is it
+
+Gabriel Isaac Afriat
+01:04:40
+it seems quite a lot, I think. if you want to come to office hours. Maybe I can also check. If I'm
+maybe you have too many parameters, or something like this that could explain why this is so slow.
+But yeah, I can. Also.
+I'm I'm gonna double check on my end. How much time it took, cause I'm not sure I just let it run. So I I'm not sure. Yeah. Cause yeah, question for what I understand is just like we run the code and we read the output. We don't even modify anything from the code. So
+
+Stephanie Sha
+01:05:17
+yeah, I think I'm just running it as as is.
+
+Gabriel Isaac Afriat
+01:05:21
+Okay, let let me double check, and I'll get back to you. You can send me an email. So so I don't forget. And you can talk to office hours also, if if I if I think this is too long. Then maybe I can send you an email. You can come to office hours and we can get it.
+
+Stephanie Sha
+01:05:34
+Okay, sounds sounds good. Yep, thank you.
+
+Gabriel Isaac Afriat
+01:05:37
+Alright.
+Any other question.
+Alright! Well, thanks everyone for coming today, and
+this come to office hours at. I saw that 3 or 5, if you have any other question.
+
+Angel Gantzia
+01:06:14
+Thank you.
+
+Gabriel Isaac Afriat
+01:06:15
+Thank you.
