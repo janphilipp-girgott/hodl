@@ -1,0 +1,780 @@
+00:00:00:00 - 00:00:10:17
+Unbekannt
+everyone. Yeah. Like, come back from. I hope you all had a nice holiday weekend.
+
+00:00:10:20 - 00:00:46:13
+Unbekannt
+I hope you didn't spend too much time on the homework and actually got some rest and recreation. Okay, so today we start the, the natural language processing sequence. And so just to give you a quick idea, we are going to start with what's called vector ization and then the bag of words model. And then we'll spend a fair amount of time on a collab and then on Wednesday we talk about these things called Embeddings, which you've come to appreciate over the next couple of weeks from like the sort of the core atomic unit of all modern natural language processing and for that matter, vision processing as well.
+
+00:00:46:15 - 00:01:07:27
+Unbekannt
+And then we will following week will do transformers to lectures on transformers. We'll get into the theory and then we'll get a whole bunch of applications and then lectures. Nine and ten will be all elements, all about elements. So it's going to be a lot of fun. This is one of my favorite segments of the class. Of course, truth be told, every segment of the class is my favorite, so don't judge me.
+
+00:01:07:29 - 00:01:28:25
+Unbekannt
+All right, so let's get going. So why why natural language processing? You know, these are in some sense, the things I have on the slide here are sort of obvious, but I think it's actually worth remembering them, reminding ourselves of how important text is for everything we do. obviously human knowledge is mostly encoded as text. The internet is mostly text.
+
+00:01:29:00 - 00:01:51:14
+Unbekannt
+At least this was true till the advent of tech talk and YouTube and human communication is mostly text and culture production, you know, movies, books, arts and so on. But so much of it is so text heavy and so in some sense text forms, not just a big chunk of all the media that's out there, but it also happens to be the way in which we think and communicate and so on and so forth.
+
+00:01:51:14 - 00:02:20:11
+Unbekannt
+So it's sort of a primacy is, in my opinion, sort of unparalleled in how we think about the world. And so the tantalizing possibility is that imagine if we had an AI system which could just read and and could understand all this text. Right? And so you can imagine such a system reading all of PubMed, reading all the medical literature, and then coming back and saying, you know, for this particular disease, you know, this particular sort of protein is actually the malfunctioning protein.
+
+00:02:20:14 - 00:02:37:00
+Unbekannt
+And for that, that small molecule is going to dock into the protein and cure the disease. And you didn't know this. It came back and told you that. Wouldn't it be unbelievable? So my feeling is that such things are going to happen. It's just that it's not going to happen soon enough for my lifetime. But perhaps it'll happen in yours, Right?
+
+00:02:37:01 - 00:02:57:12
+Unbekannt
+Okay. So let's continue. So NLP is in action all around us. You know, according to Google, apparently Google autocomplete, which uses a fair bit of an LP, saves 200 years of typing time. Apparently every day. I actually thought it was a you know, this I wasn't very impressed with this number, frankly, because billions of searches are being done every day.
+
+00:02:57:18 - 00:03:19:23
+Unbekannt
+And I'm like, well, you know what it is. So anyway, but I think the more important point is that it made mobile possible, if you would. If you didn't have autocomplete, people would not be, you know, typing and picking on their keyboards. It's going to be much worse. Europe had a hugely dampening effect on e-commerce, for instance. So this humble little autocomplete has incredible, incredible impact on the world economy.
+
+00:03:19:25 - 00:03:42:08
+Unbekannt
+And the other thing which I heard about, I'm not sure of 100% true, but it's an interesting example. Apparently the very first iPhone keyboard that came out right, the soft keyboard, not the hard keyboard. They had some very basic and, you know, sort of weird continuation prediction going on. And so if you if you start typing to an edge, obviously it's going to guess the E is going to come next.
+
+00:03:42:10 - 00:04:02:05
+Unbekannt
+Right. So that part is or or there's nothing new there. But apparently the E letter in the keyboard will become slightly bigger. So when your finger goes towards that, it has a better shot of actually connecting with it. Right. So these kinds of things are used to change the UI in real time in a whole bunch of applications, and you just don't even realize it.
+
+00:04:02:08 - 00:04:20:17
+Unbekannt
+All right. So and of course, we all know about elements of the this point, so I asked you to write a limerick about the beauty and part of deep learning yesterday. And it says, In a world where data flows like a stream, deep learning is more than a dream. Sifts through the noise with an elegant voice unveiling insights that lead.
+
+00:04:20:19 - 00:04:39:29
+Unbekannt
+All right. All right. So let's get back to work. So an LP has extraordinary potential for making product, service and services much, much smarter. And what I want to point out here is that, you know, even if you focus on this very, very simple sort of formalism, right? A bunch of text comes in, a bunch of text goes out, that's it.
+
+00:04:40:02 - 00:05:00:12
+Unbekannt
+If you take that very simple text and text out formalism, this little humble little thing has just an enormous, enormous range of applicability. Right? So obviously you can send a bunch of text in an Oscar to classify it, right for, you know, sentiment routing for customer support. You can try to figure out the intent of what the person is asking and such.
+
+00:05:00:14 - 00:05:24:01
+Unbekannt
+You can filter it, you can content filter to make sure there's no toxic abusive stuff going on. I mean, the possibilities for just text classification are numerous. Okay. But that's that's sort of a use case if you're all kind of familiar of it. Right. So no surprise there, no text extraction we may be less familiar with here. And the idea is that you can actually look at a lot of unstructured textual data and extract all sorts of interesting entities from it.
+
+00:05:24:04 - 00:05:48:04
+Unbekannt
+Right. Hedge fund hedge funds use it heavily, heavily. They will extract also the company information from news articles and then obviously doctor's notes. There are a whole bunch of and it'll be startups that will take the doctors the doctor patient conversation, transcribe it, and then extract disease codes, diagnosis codes, medication codes and things like that. Right? So the possibilities for this are enormous, of course, text summarization and we all have been doing it thanks to tragedy.
+
+00:05:48:11 - 00:06:12:04
+Unbekannt
+Right. Take Thackston And any kind of somebody that comes up with the text is just text out, okay. And then text generation. Of course we can take text and do marketing, copy sales, emails, market somebody so and so forth and including troublingly for educators, college application assist, write code generation is a more subtle example of text out because code is just text, right?
+
+00:06:12:09 - 00:06:37:00
+Unbekannt
+So text and text it also covers text in court out. Okay. And question on settings. So you can take a bunch of text, you can take a whole bunch of documents, you can add a bit of text to it, which is your question and set this whole thing at the end of the day is just text, set it in and then you can have and you can use it to answer questions and therefore create chat boards for all sorts of interesting applications.
+
+00:06:37:02 - 00:07:00:06
+Unbekannt
+And, you know, if you look at this example call centers, that's that is where a lot of money is being spent right now to build this call center chat boards for text and text or question answering. And so just if you drill into this, right, if you imagine taking all the call center transcripts and that internal product documentation, service documentation, if use, etc., stick it in, you can start to answer these kinds of questions.
+
+00:07:00:08 - 00:07:19:27
+Unbekannt
+Okay. Yesterday, what are the top reasons why customers were upset with us? What interventions made by the agent actually worked? What did not work right? What characterizes the best agents from the rest? How should we grade this particular agents interaction to the particular customer? How should you how should we change the call center script? How should we coach the agent in real time?
+
+00:07:19:29 - 00:07:47:00
+Unbekannt
+Every one of these applications is amenable to this very humble text and text model. And so and of course, the potential for is now everybody knows this potential because of the advent of large language models. By the way, Google released something called Google Jiminy 1.5 Pro a couple of days ago. And it's incredible. Incredible, right. And anyway, we'll get back to that later.
+
+00:07:47:00 - 00:08:14:24
+Unbekannt
+But the point is that the kind of potential we have is just amazing even for text and text up. Okay. And as you would imagine, yes, that this is all like we are calling it language. This is all primarily English, right? There are lots of multilingual models as well. There are multilingual models. By that I mean models which are specialized to other languages, non-English languages and models which are truly multilingual like polyglot models as well.
+
+00:08:14:24 - 00:08:39:19
+Unbekannt
+And both of them are available right now and many, many modern and alums are actually trained from the get go to be multilingual in a bunch of the what I call highly source languages, languages which are spoken by lots of people. But actually it's funny you should ask the question because this Google Gemini model that I just described, they actually so there is a language called Color Among which is spoken by 200 people in the world.
+
+00:08:39:21 - 00:09:04:01
+Unbekannt
+And so a researcher had created a one book, which is sort of like a grammar manual for Caliban, right, because there are no other written works in that language. And so what they did is they took a whole bunch of English dialog and this book figured into Google Gemini, 1.4, 1.5 and translated into a column on a human level proficiency.
+
+00:09:04:04 - 00:09:36:18
+Unbekannt
+It had never seen it before. So that's an example of this. Yes. So the question is the question text is all the things you want to translate from English to column on the document. See, it is just one document singular. The grammar book, the manual, and then what comes of the translation. So these models, even when they are not explicitly trained on a different language, if you give them enough of sort of grammar manuals and stuff like that, they do a pretty decent job from the get go with no train.
+
+00:09:36:20 - 00:10:00:02
+Unbekannt
+It's kind of a shocker. Two years ago people were like, That's impossible. All right, so go back to this. All right. And as the folks you know may already know and maybe you're, in fact, participating in this gold rush already, you know, lots of people are creating lots of really cool companies to take some of these ideas and actually create really interesting products and services out of them.
+
+00:10:00:04 - 00:10:30:09
+Unbekannt
+So if you're not doing it and if you've been thinking about entrepreneurial stuff, it's a lot of advice. Take the plunge. Since dismissed. Right? So and as you could imagine, enterprise vendors are rushing to add a little bit to all their products Salesforce, Einstein, Topaz, Einstein, Jeep, Microsoft has copilot. I mean, the list goes on. Everybody. Everybody's like scrambling and really trying hard to infuse some magic into whatever they're doing.
+
+00:10:30:11 - 00:10:55:26
+Unbekannt
+Okay? Some of it is real. A lot of it is not. Okay. So let's go to like the arc of energy progress. How did we get to this kind of crazy times that we live in? So if you look at natural language processing, basically efforts to take language, to analyze language, and you could do predictions with language and so on and so forth, the first phase of it was just hand-crafted rules based on linguistics.
+
+00:10:55:29 - 00:11:16:02
+Unbekannt
+So these are all linguists who really understand the grammar of a language, and then they would use a deep knowledge of linguistics to figure out all these rules by which you can process and analyze natural language, text. And then this other thing came along, which was a statistical machine learning approach, which basically said, never mind all that complicated knowledge of linguistics and grammar.
+
+00:11:16:09 - 00:11:34:27
+Unbekannt
+Why don't we simply count things? Let's count the number of times these will call code. No, let's go down. Let's count this basically just count a lot. Okay? And let's see if it does right. If it does for predicting things for, let's say, for classifying text and so on. And shockingly, those methods ended up being really good. They ended up being really good.
+
+00:11:34:27 - 00:12:02:18
+Unbekannt
+And in fact, they actually were better than the lovingly hand-curated, linguistically driven rules. Okay, so much so. There's a famous quote which says every time, if I had a linguist, the performance of the speech recognizer goes up, right? Obviously made in jest, but there's a kernel of truth to it. So that was that's, that's, that's variable. And then deep learning happened in 2012 roughly.
+
+00:12:02:20 - 00:12:25:25
+Unbekannt
+And then we had these things called recurrent neural networks, which are based on B planning, which actually moved the ball forward. And then in 2017, something called the transformer was invented in 2017 and the transformer replaced everything else across the board. So you're just going to leapfrog directly into transformers and we will not spend any time on recurring neural networks.
+
+00:12:25:27 - 00:13:00:14
+Unbekannt
+And that is not to say that they're sort of dead. There's this a very interesting work which actually strengthens ultrawide recurrent neural networks to make it work for these kinds of modern, intelligent kinds of tasks. But it's still very early days. Okay, so for now, but just focus on Transformers. Okay. So the very high level view of the problem here is that like most things in deep learning, it's basically a fancy regression, but it's a variable X that comes in, it goes through go to this very complicated function along with this W, which is the weights and then all pops in output, right?
+
+00:13:00:21 - 00:13:18:02
+Unbekannt
+That's just the view that you've always had. And so in this case, X happens to be that's why it can be text, it could be labels, it could be numbers, could be anything else. The W is the weights and the function is a deep neural network, right? This at this point, when you look at the slide, it should be like blindingly obvious.
+
+00:13:18:04 - 00:13:38:19
+Unbekannt
+So now the key question here is how do you actually represent X? That's the key question for pictures. For images we saw that we just took the pixel values, which you have light intensity numbers between zero and five when you could just use that directly. But then when a sentence comes in like I love deep learning, like, what do you do?
+
+00:13:38:21 - 00:13:58:21
+Unbekannt
+because remember, we have to numerical everything that's coming in. So that's the key. And this actually is a very subtle question, very important question, and we'll focus on that today. And then next week, when we look at Transformers and we look at what neural network architecture is best suited to process the sort of text inputs that are coming in, right?
+
+00:13:58:27 - 00:14:25:26
+Unbekannt
+Those are the two big questions we're going to look at. All right. So processing basics, if you're going to follow this very standard process, this is the process by which we take any any text that comes in and we look at it through these four steps and this process called fixed factorization. And as the name suggests, that we're essentially thinking text and creating vectors of numbers of text victimization.
+
+00:14:25:28 - 00:14:45:10
+Unbekannt
+And you go through each of these processes, one after the other. So I just find it very useful to just have this acronym in my head, like DST. I'll just keep that in mind. It may be helpful. All right. So B, what we do is the setup here is that we have a whole bunch of documents, right? We call it the training corpus.
+
+00:14:45:18 - 00:15:04:08
+Unbekannt
+We have a whole bunch of text documents, text data. And as far as we are concerned, you can just imagine it as just lists of long passages. Okay, What is a novel? Just a long passage rate of text. So whether it's a novel or a sentence doesn't really matter. You just think of them as a big list of strings, a big list of text.
+
+00:15:04:10 - 00:15:35:11
+Unbekannt
+Okay, that's a training corpus. And what we do is we take this training corpus and we run it through and we apply standardization and tokenisation, which I will describe to this entire training corpus upfront. Okay, So we first do this and, and standardization is basically the default for most applications tends to be this, which is the first capitalization and make everything lowercase and then mutable punctuation and accents and so on and so forth.
+
+00:15:35:18 - 00:15:55:18
+Unbekannt
+Okay, that's the first thing we do. I'll talk about why we do it in just a moment. But the mechanics of it are we do this first, then we look at words like a the eighth and so on and so forth, basically filler words. Right. Which we need to actually make complete sentences. But they may not have any value in predicting things.
+
+00:15:55:20 - 00:16:15:05
+Unbekannt
+So we remove them and they are called stop words. And then finally we take words are very similar, which have sort of a same kind of stem, more root. And then we just map it to like a common representation, like eight eaten eating, eaten, all these things. It just becomes, let's say, eat. And we do that sometimes. So this we almost always do this.
+
+00:16:15:05 - 00:16:40:27
+Unbekannt
+We often do. And this we do it sometimes. Okay, now why do we do any of these things? Just tell Jocelyn. I think we want to try to recognize the simple thing of the word, right, whether it's eaten or eat. But the essential thing is the eat part, right? So we want to try to sort of abstract from it the more essential thing, right?
+
+00:16:40:27 - 00:17:03:27
+Unbekannt
+So why do we need to abstract? I guess you're absolutely correct. Between abstract, why is there a benefit to doing this abstraction? How about somebody from this side of the room? yes, I know because have so many variations. So I want to reduce like great works that we have. Why is it a good idea to reduce the library the size of the library?
+
+00:17:03:29 - 00:17:43:27
+Unbekannt
+Because of computation, because of the amount of competition needed? So that is part of the answer. There's another part of the answer which is, all right, let's swing to the right. Rolando, because it facilitates comparison between different sets of you if you are able to standardize it. But okay, so I will go with that. But I think the key thing we want is the key thing to realize here is that you want the model, much like when you when we talk about computer vision, we said, look, if it's a vertical line, I want to be able to detect it wherever it happens.
+
+00:17:44:00 - 00:18:06:03
+Unbekannt
+I don't want the model to think that the vertical line on the left side is different from the vertical end, the right side, and then later realize they are the same thing because you don't have wasted valuable capacity learning things which actually happened to be the same because it didn't know it was a thing. So here if you, for example, take a word and lowercase it clearly the case of it, whether it's uppercase or lowercase, most of that is not going to matter.
+
+00:18:06:10 - 00:18:25:16
+Unbekannt
+But anything you want to predict. So you're essentially telling the model, you know, the lowercase version, uppercase version, they are not different. They are actually the same. The easiest way to tell the model they are the same is just make everything lowercase. So that is the key idea. Okay. And similarly, if you look at stop words, the reason is that the stopwatch may not help you predict anything.
+
+00:18:25:23 - 00:18:42:03
+Unbekannt
+Whether a word and the showed up in a movie review probably does not affect the sentiment of the review and therefore, let's do a movie. So that's a slightly different reason. Stemming is the same reason as the first one, which is that all these words kind of mean the same thing. They don't have to be super precise about it.
+
+00:18:42:08 - 00:19:06:06
+Unbekannt
+And so let's just like pull them under the same thing. Now, these are all the standard things we do that are totally not, you know, important exceptions to all these things. Okay. And we'll come back to the acceptance a bit later. But that is a standard thing. We do make sense. All right. So if you look at something like this, the sentence here, right.
+
+00:19:06:08 - 00:19:31:11
+Unbekannt
+All are. What do you picture when you think of travel to Mexico, Blah, bubble, bubble. And then you can see here this is a standardized version. Like everything has become lowercase, like the H has become small h the punctuation has disappeared. That's part of standardization. And then travel. And you can see here that Mexico has become small, sipping has become sips things think has become things, and so on and so forth.
+
+00:19:31:13 - 00:20:01:14
+Unbekannt
+So that's an example of standardization at work. Okay, The next thing we do is something very important and it's called tokenization. So what we do typically is that, okay, now we have standardize everything. We have a bunch of words. We need to split them into what are called tokens. So the most common default is to just think of a word as a token, meaning we just split on the whitespace, right?
+
+00:20:01:18 - 00:20:24:26
+Unbekannt
+You take each string and wherever that is whitespace, meaning actual spaces, carriage returns and things like that, but we just split on them and just create words out of it. So. So for instance, if you have this standardized sentence here, you just split it after every word and you get this thing right. So each of these is know what token.
+
+00:20:24:29 - 00:20:51:28
+Unbekannt
+Now this has some disadvantages. What are some disadvantages of just splitting on on the space between words? You balance. And I think we lose any context because we look at each word separately and so we don't have any password or what happens next. All right. So, for example, the cat sat on the mat. On the mat sat on the cat will have the same, like, set, right?
+
+00:20:51:29 - 00:21:17:20
+Unbekannt
+Yeah. So you lose the order. What are some other issues with it? no, I could use the microphones. Sizes of the tokens are different, so it is difficult to standardize between what's used and for like typically like in case of images, we want to convert each pixel into a particular number. So if the sizes are different, we may not be able to standardize in metaphor computers could recognize.
+
+00:21:17:23 - 00:21:37:21
+Unbekannt
+So we'll come back to that standardization question later. It turns out that happens not to be an issue in this context, but we'll come back to that, Anna, for words that should have to do together like Puerto Vallarta use. I thought that's the one name because you've separated it. Right. Exactly. So there are compound words, right? Like father in law, for instance.
+
+00:21:37:23 - 00:22:01:27
+Unbekannt
+That's not one problem. Another problem is that lots of non-English languages, they actually don't have this notion of a space between words, right? It actually runs one after the other. And it is. The native speakers know from context how to chunk it and break it so well. What do we do then? Right? Because you basically will have one word for the whole passage, one token, the other problem is that there are languages.
+
+00:22:01:29 - 00:22:26:07
+Unbekannt
+German is perhaps the most notable one in which you have very long words. Right. I saw a word, but I think I might have it in the States about this like this long, which means you realize that something amazing is happening, but the rest of the world hasn't woken up to it yet. It's that feeling is the word for that.
+
+00:22:26:09 - 00:22:52:04
+Unbekannt
+Amazing. Right? Anyway, so yeah, some words. Or Japanese, for example, there's a word called Comet Abby. Do people know the meaning of the word community? I don't think it means the transient beauty of sunlight going through fall foliage. There's a word for that. cool. Is that. Anyway, sorry, I love that word. So back to this. So we have this thing here.
+
+00:22:52:06 - 00:23:17:28
+Unbekannt
+So there are all reasons for splitting on the space between words. Not going to work. Okay, so what we will. So what happens is that model large language models so that what we have described so far, despite its shortcomings, is actually really good for lots of MLP use cases. Okay. If you want to classify text as good enough, for instance, but if you want to generate text like I do, it's not going to work.
+
+00:23:18:01 - 00:23:36:24
+Unbekannt
+It's not going to work because, you know, when you ask a question, it comes back with perfect punctuation. Clearly, punctuation was not stripped. It comes out of the particular upper lowercase. Clearly that wasn't stripped. You can actually make up new words and ask it to use the new, but it'll make it a lose it. Therefore, it's not like it can only recognize a finite set.
+
+00:23:36:26 - 00:23:59:06
+Unbekannt
+So there's a very clever scheme called byte bad encoding, which is which is invented to do all those things. And I have slides at the end and if we have time, we'll talk about it. All right. For now, let's continue this thing. So when this is done for every sentence or every passage in a training dataset, we have no have a list of distinct tokens, right?
+
+00:23:59:11 - 00:24:24:18
+Unbekannt
+We have a list of distinct tokens in the simple case wrappers. We all the distinct words that you have seen, right? That's called the vocabulary. Okay? That's all the vocabulary. So now we two, the third and fourth stages in this, in this stage is the indexing. In the encoding stage, we only work with the vocabulary, okay? And so what we do is the first thing, the indexing, we assign a unique integer to each distinct token vocabulary.
+
+00:24:24:21 - 00:24:47:13
+Unbekannt
+So, for instance, let's say that, you know, you took a whole bunch of English literature as your training corpus and you ran it through. You basically would come up with English dictionary, right? So it'll have maybe starting with all the way to zebra a whole bunch of words. And so I'm just putting 50,000 here because it turns out the GPD family use is something like 50,000 tokens.
+
+00:24:47:13 - 00:25:05:26
+Unbekannt
+So I'm just using 50,000 for the actual number of words. In English language. It's much more than that. So let's say that we give a number one through 4000 and then we actually also introduce a special token called UNK, which stands for Unknown. And we'll come back to this later and we give a non the integer zero points.
+
+00:25:05:29 - 00:25:30:08
+Unbekannt
+Okay. So this what this is what we mean by indexing. Take the word the tokens you have identified. This might be an integer. Okay, that's the indexing stuff. Then what we do is we assign a vector to every one of these integers. Okay. And that is the encoding step. We assign a vector to each integer. So you have a bunch of distinct words under each word.
+
+00:25:30:08 - 00:25:47:19
+Unbekannt
+We put an integer on it, and then we take the integer and map it. Yeah. Can you just explain what you use? Mike? Can you please explain what unknown means? Yeah. So. So I'll come back to that for now. Just assume that we have a token called Unknown, and the way we're going to use it will become apparent in a few minutes.
+
+00:25:47:22 - 00:26:20:00
+Unbekannt
+As does it mean there's a base to it that's like a letter or something? It's a, it's a placeholder for something else. Okay. Which you are describing. Okay. So that's what we have. So let's say that we want to assign a vector to each integer vocabulary, and let's assume that we have okay, let's say we have 50,000 possible integers because we have 2000 possible words and we assign a vector so that if you take the vector of two different words, it should look different, right?
+
+00:26:20:02 - 00:26:48:09
+Unbekannt
+Clearly, that's the whole point of mapping from integer to vector. They've got to be different. What is the simplest way to come up with a vector for each each of these tokens? One problem the same as the index. Sorry, the same as the index is just a vector 1111 with the index. So a vector of zeros and ones.
+
+00:26:48:11 - 00:27:17:25
+Unbekannt
+Or it's just a vector with one dimension. God. Well it, it's created, but it's a little cheating, right? Because you're essentially putting a square bracket around the number and saying it's a vector. Good. Right? So you can try one hot encoding, right? You can try one hot encoding. So remember the list of distinct tokens you have. You can just think of them as the distinct levels of a categorical variable.
+
+00:27:17:27 - 00:27:40:22
+Unbekannt
+Right? And you can just use one hot encoding for it. So what you can do is the simple thing is do one hot encoding and the way it is going to work is that if you have, let's say 50,000, 50,000 possible values, the vector is going to be 50,000 long. It's going to have zeros everywhere except in the index value of whatever the token is.
+
+00:27:40:22 - 00:28:02:25
+Unbekannt
+So for instance, since we said ONC is going to be the first first number zero, it has a one here zero zero. The index position has one. Everything is zero. It happens to be the second one. So it happens to be one in the second position, zero value. So this is how we can do the zero one 100.
+
+00:28:02:27 - 00:28:31:23
+Unbekannt
+And so so the dimension of this encoding vector, how long it is, it's basically the number of distinct tokens that you have seen in the training corpus plus one for this thing that you would get to. Okay. So that is a dimensional encoding vector, which is this is called the vocabulary size. Let's go the vocabulary size. All right.
+
+00:28:31:26 - 00:29:00:26
+Unbekannt
+So at this point we have created a vocabulary for the training data training corpus. Every distinct token recovery has been assigned a one hot vector, and we are done with basic preprocessing. So all the text that has come in every token has been mapped to someone hot, one potentially very long, one hot vector. It's any questions on the mechanics of this before we continue on?
+
+00:29:00:29 - 00:29:25:09
+Unbekannt
+Right now, let's see if when you get a new input sentence in a new sentence, freshly arriving and we want to feed it into a deep neural network, how will this process actually apply to the new sentence that's coming in? Okay, so let's assume that we have completed our estimate on the training corpus, and it turns out we found only 99 distinct tokens, 99 distinct words.
+
+00:29:25:09 - 00:29:47:16
+Unbekannt
+And then we add this acting to it. So we got 100. Okay, So these are vocabulary. It starts with A and then goes all the way to zero. But there are really 100 of them in total. Right. And just to be very clear, we didn't bother to do things like stemming and stop word removal and stuff like that, which is why you have words like this showing up in this list.
+
+00:29:47:18 - 00:30:07:17
+Unbekannt
+Okay. All right. So let's say this input string arrives. The cat sat on the mat and then we run it through. So the cat's out on the mat. Go through this thing. Blah, blah, blah, blah, blah, blah, blah, blah, blah. And then the output is going to be a table with a bunch of rows and a bunch of columns.
+
+00:30:07:19 - 00:30:47:05
+Unbekannt
+Any guesses how many rows and how many columns? Okay, just raise your hands. I'll call on you. Right. What's your name for one. yeah. You see, I would guess 100 rows and six columns. All right, we'll take a look. 106 as well as 600 or both. Correct. So. So the way I've done it, the 600 and the.
+
+00:30:47:09 - 00:31:08:23
+Unbekannt
+And that's exactly right. So the idea is that this is your vocabulary, right? So the word the cat sat on the mat. Once you changed the case of it, it becomes like this. So the duh happens to be a one hard vector with a one where there is a the and zero everywhere else. I'm not showing all the zeros because it'll get too cluttered.
+
+00:31:08:26 - 00:31:34:18
+Unbekannt
+Similarly, Cat has a one where the cat position is and zero everybody else and so on and so forth. Does that make sense? So the phrase the cat sat on the mat came in as just one of the six words, and then it became this, you know, 600 entry table. Okay, now what is the best way to feed this table to a deep neural network?
+
+00:31:34:20 - 00:32:03:11
+Unbekannt
+What can we do? Well, it's not a vector, it's a table. If it's a vector, we know what to do. We just read it, and we'll just. Maybe send it to some, you know, hit a layer and declare victory. At that point. Yeah, I need to flatten. You like to flatten it and look, how would you do it, I think is a reasonable answer, by the way.
+
+00:32:03:14 - 00:32:20:24
+Unbekannt
+I think you may just have to, like, take each like each column, take the first one go, and then you go to each word and like, Yeah, So basically you can take all the first columns and then take the second column and attach it under the first column and so on and so forth. Right? So we can totally do that.
+
+00:32:20:24 - 00:32:47:18
+Unbekannt
+And that's very akin to how we work with images. Right? But there is one downside to that. What is the downside? Yes, Skyler, it's pretty long. Like I wonder if instead you could for the first word, it's one for the second word, it's two. And then you maintain the order, but you still keep it just as like one row when it says, yeah.
+
+00:32:47:19 - 00:33:12:00
+Unbekannt
+So one issue. So we come back to what we do about this. But what you're pointing out, it's going to be very long. Yeah, right. Because if each word is a 50,000 long one vector, we're just six words. It becomes a 300,000 long vector. And imagine take the 300,000 long vector and sending it into a 100 Unicode and layer 3000 times 100 parameters to match God learn anything.
+
+00:33:12:02 - 00:33:35:13
+Unbekannt
+So that's one issue. The other issue is that different length texts that are coming in will have different sized inputs. So here the cat's out of the mat has six times 50,000, but maybe the cat's out on the mat on the right, right, right over to the cat becomes even longer. We can't handle variable sized inputs. The inputs already mapped the same length in the network.
+
+00:33:35:15 - 00:33:54:18
+Unbekannt
+That's another problem. And John, so maybe you can count how many you can sum the columns basically and count how many times each word appears since you're losing the spatial relationship anyway. So you. Yeah. So both you and Skyler are on the same sort of trajectory, which is that we need to somehow take this table and make it into a vector.
+
+00:33:54:20 - 00:34:16:08
+Unbekannt
+And many ways, like what you are describing to make it into a vector and turns out so because all the things that we've been discussing so far, debating length issue and so on, so so what we can do is we can aggregate all these things. If you just add them up, just what you described, I believe it's called some encoding.
+
+00:34:16:11 - 00:34:33:25
+Unbekannt
+And if it's sort of I think you just ordered them, meaning if you look at the column and say, is there any one in this column, if there is a any one, I'll put a stick of one other words to zero. It's called multipart encoding. So so if you look at this thing, if we literally just go call them by column and count everything, okay, There's a one here, one here.
+
+00:34:33:27 - 00:34:56:08
+Unbekannt
+wait, there are 2 to 0 zero two that's going to encoding, but the hard encoding just looks for any ones and also puts on make sense. So by the way, there are many ways to take these tables and make them into vectors. These two happen to be very commonly used and they kind of make common sense. Okay.
+
+00:34:56:10 - 00:35:18:25
+Unbekannt
+All right. So this aggregation approach that we just described is called the bag of words model. The bag of words model. And the reason is that, first of all, this bag that we have has words. Either it comes with it if word exists or not, or it counts how many words, how many times the word is appeared right count, which is a multi multiplied, which is some encoding called encoding.
+
+00:35:18:27 - 00:35:40:07
+Unbekannt
+But more importantly, and this goes back to your observation is that we have lost the order of the words. Now, whether the phrase came in was the cat sat on the mat or the mat sat on the cat, the count encoding and the multi card encoding got exactly the same difference because we're just looking for the presence or absence of words.
+
+00:35:40:07 - 00:36:04:22
+Unbekannt
+That's it. We don't care in which order they appear, right? That's a huge limitation. But shockingly, for many applications it doesn't matter. It's good enough. So it's called the bag of words model. All right. So this called the bag of words model. Now, does it have any shortcomings? I already talked about the first shortcoming, which is that it loses sequence reality.
+
+00:36:04:22 - 00:36:27:16
+Unbekannt
+The order we lost this order information, right? We lose the and meaning inherited the order of the words. What are some other issues with it? Of course. Sparsity. What do you mean by that? Because like you have like for example, you have two six little words and then you have so many zeros and then you have just compromise, right?
+
+00:36:27:16 - 00:36:47:04
+Unbekannt
+So there are lots of zeros, not that many ones. So you have it's a very sparse amount of information, but maybe it's carrying around a lot of information to make it all work. No, there are some tricks can see us computer science tricks to handle the sparsity in some clever ways, but it is certainly an issue now, the other issue is that let's say the vocabulary is very long.
+
+00:36:47:06 - 00:37:19:11
+Unbekannt
+Each input sentence, whether it's the collected works of William Shakespeare or the phrase I love you, will have the same length. Input is not the same length input, because ultimately every incoming thing gets to one vectors. Okay, that feels a little suboptimal. Clearly the collected works of literature have a lot more stuff going on in them, right? So that's the problem in particular, very, very small things that come in.
+
+00:37:19:11 - 00:37:43:22
+Unbekannt
+You'll be spending a lot of compute on those long vectors and processing them. Now, you can mitigate some of this by choosing only the most frequent words you don't have to take. You know, I think the English language I read somewhere has roughly 500,000 words or so, but turns out the top 50,000 most frequent words or responsible, just about everything you're going to see over the other 50,000 or what's called the long tail.
+
+00:37:43:24 - 00:38:06:00
+Unbekannt
+They almost never happen that you never see them. So you can be very pragmatic and say, I'm not going to take every little word that I see in my vocabulary I'm going to only take the most frequent words. I'm just going to ignore the rest. It's going ignore the rest. Okay. But if you ignore the rest, let's say there is one word.
+
+00:38:06:02 - 00:38:28:06
+Unbekannt
+Let's take some Shakespeare. What? Hamlet? Nothing. Let's assume that you include the word hamlet from your training corpus. This is deleted because it's not one of the top most frequent things you've seen. And then somebody sends you a text saying, you know, Hamlet was a bad prince. Analyze the sentiment of the sentence. Well, when you see Hamlet, what is the system going to do?
+
+00:38:28:08 - 00:38:47:02
+Unbekannt
+It's going to look at the Hamlet and say, I can't see it in me vocabulary anywhere. And if it can't see the vocabulary, what is the only thing it can do? Replace it with I. So that's where Uncle comes into the picture. It's a window, but it can't see something in the vocabulary in a new input you just replace with uncle.
+
+00:38:47:05 - 00:39:11:12
+Unbekannt
+Which means that if you had ignored Romeo, Juliet and Hamlet in the in the training corpus, all of them are going to be replaced by the same uncle, which means that we can't see them anymore. So is this where hallucination comes into play here, where we it doesn't recognize, it just makes it up in that one interesting question is this where the solution comes up?
+
+00:39:11:14 - 00:39:38:21
+Unbekannt
+Actually, as it turns out, no, as we will see when we talk about Ella lamps later, Ella actually will not have this uncle problem because they use a different tokenization scheme which can handle anything you throw at it, including new stuff we just made up. So we'll come back to that. All right. So that's what we have. And so what we're going to do is, despite its shortcomings, bag of words is actually a really good default for many A.P. tasks.
+
+00:39:38:24 - 00:40:24:28
+Unbekannt
+And in the spirit of do the simple stuff first and do complicated things, only the spirit of doesn't work. We'll use it like a verse model right now. Okay, so we'll switch to a call up and see how it's done. All right. And folksy. Everything okay? Yes. Okay, So let's connect to the GPIO. So what are we going to do?
+
+00:40:25:00 - 00:40:49:15
+Unbekannt
+well, I need to go back to the power point because there's a little bit of a set up here. I had it, which I forgot about. So here the the application we're going to work with, it's kind of a fun application. We're going to try to predict the genre of songs. It's a nice classification use case, so we want to take some arbitrary song and then classified into together hip hop, rock or pop.
+
+00:40:49:17 - 00:41:12:13
+Unbekannt
+Okay. And so, for instance, right, this is the kind of lyric lyrics you're going to see. And as you will see in this data said, the data said just a quick word of caution. The data set does have lyrics which may not be sort of, you know, safe or work, as it were. So I'm not going to be like exploring the lyrics in the collab, but I just wanted to be a better fit.
+
+00:41:12:15 - 00:41:35:19
+Unbekannt
+Okay, so but you're just some data set that we downloaded from somewhere, right? It's got all these lyrics. Okay, So if you're going to try to classify each words that we see into one of three things hip hop, rock or pop, it's a multiclass classification problem. All right. Actually, what are the neural network based classifier we can build for this problem?
+
+00:41:35:22 - 00:42:17:07
+Unbekannt
+I just can do it. Come on, let me just write this. All right, So what is the simplest neural network we can build for this problem? So remember, what is the input? The input is going to be a bunch of song lyrics. It's going to be a really long song for all you know. Right? And we're going to use the Bible verse model.
+
+00:42:17:09 - 00:42:40:04
+Unbekannt
+And let's assume for a moment that we will use multicore encoding, right? Will create a vocabulary from this. From the song we take all the songs, we'll process them, run it through SD, i.e. will do multi hard encoding, which means that every song that comes in will have will be a vector. That's how long it'll be, as long as the correct as well.
+
+00:42:40:05 - 00:43:13:06
+Unbekannt
+Couple of size. Right. So, so maybe what comes in is this phrase since it's supposed to be songs, I'll say something which is probably common to 90% of songs. I love you. Okay, that goes in goes into our SD IEEE process and then this SD process gives us a vector which is x1, x2 all the way to x, v, where V stands for the size of the vocabulary.
+
+00:43:13:08 - 00:43:37:24
+Unbekannt
+Okay, so that's an input layer all the way. So knowing what we know now about deep learning, what can we do next? Elinor Couldn't you or maybe I'm getting ahead, but wouldn't the classifier just be like the baseline, be classify as the most common genre? And then what is the basic credit? I'm just saying I need to come to the baseline a bit later.
+
+00:43:37:26 - 00:43:58:01
+Unbekannt
+But yeah, I'm saying supposing you wanted to build a neural network model for this, how would you set it up? You'd think about the layers that you'd want and what is the simplest thing you can do with the neural network? How many layers? No hidden layers. Well, then it becomes problematic with even neural network, because it could just be.
+
+00:43:58:01 - 00:44:14:11
+Unbekannt
+Let's take a regression. One hidden layer. Yes. Thank you. I'm being a little squishy about this because there are some people would be like, well, even if there's no hidden layers, if you using Ray Lewis and this or that and sigmoid, it's maybe it's a neural network and I don't want to get into that. How many angels on the tip of a pin argument.
+
+00:44:14:14 - 00:44:31:21
+Unbekannt
+So so yeah you didn't want her to layer right in this course video at least one had a layer for it to qualify as a neural network. Okay, so let's have a hidden layer, and we'll have a bunch of Ray Lewis as usual. Okay. Bunch of Ray Lewis. And I'll ignore all the arrows between them. It's kind of a pain.
+
+00:44:31:23 - 00:44:57:03
+Unbekannt
+And then we come to the output layer. And what should the output layer be? How many nodes do we need in the output layer? Three. Right. Hey, Pop, rock. What? Whatever, pop. So and then that layer is called what? What activation function. So soft. Mac's perfect. Love it. Love this class. All right. Three things. Rock, hip hop and pop.
+
+00:44:57:05 - 00:45:18:27
+Unbekannt
+Rock. And this is a soft mix right there. And then it's going to give us three probabilities that add up to one because of the soft Mac. So that's our basic network, right? Perfect. Yeah. Why do you need those probabilities at the end if you just want to identify the most likely genre? The Soft Mac just gives you a way to kind of add them all up to one kind of resident.
+
+00:45:18:27 - 00:45:45:27
+Unbekannt
+Rise it. But why do you need soft, Mick? Why don't you just take the Mac's value and say that it's that. interesting question. Why can't we just reduce the numbers and grab the maximum number? Yeah. So it turns out it's finding the maximum bunch of numbers that function is not very it's not very friendly for differentiation. And ultimately you want to take this output, run it through a loss function like cross entropy, and then be able to run back prop on it.
+
+00:45:45:29 - 00:46:09:29
+Unbekannt
+And so fundamentally back propagation is just differentiation and it requires everything inside of it to have well-behaved gradients. And so this little max function is actually not well behaved and which is why we have a soft version of it, soft Macs, which makes it easy to differentiate so I can tell you more about it off line. But that's sort of the quick synopsis.
+
+00:46:10:01 - 00:46:27:06
+Unbekannt
+So a lot of tricks you will see in the neural network literature are ways to avoid this. The problem of having sort of that, like the obvious choice of function, will not be well behaved for differentiation. That's why you need to go through all these other mechanisms, much like we can just see accuracy. Why don't just maximize accuracy.
+
+00:46:27:06 - 00:46:55:23
+Unbekannt
+So doing this cross entropy business simply. All right, so let's come back here right? So that's what we created on the thing, right? Got to the recovery thing and so on. And I you know, I was playing around with it earlier and so I, I found that, you know, 8 trillion neurons were pretty good to get the job done.
+
+00:46:55:23 - 00:47:22:06
+Unbekannt
+So I'm just going to go with eight reduce internal neurons. So they hit a bear. So I think that brings us to the up. Yeah. So let's switch the cleanup. All right. So that's what we have here. You know, there's a little bit of verbiage here which just describes what I just talked about. So we'll do the usual things and upload everything, import everything we want TensorFlow and cross and the holy trinity of non paper.
+
+00:47:22:09 - 00:47:55:20
+Unbekannt
+Doesn't matter what lab said. The random seed as usual at 42. These are SD IEEE framework here. And the nice thing is that all four of these things, the SD IEEE or beautifully implemented in Kara's, is a single simple layer called the text regularization layer. Okay, which is nice. So we have the textbook translation really right here. And so in our first example, what we'll do is we will use a default standardization, which will just remove punctuation, convert the lowercase, we will use a default tokenisation, which just means split on the space between words.
+
+00:47:55:22 - 00:48:15:13
+Unbekannt
+And then we will set the output to multi heart rate. All the things we talked about can also just do it for you automatically. And so output mode. Multi heart standardize this spread whitespace and boom, you run the textbook translation thing and once you do it, Garrus creates the six radiation layer. With these settings and it's not ready to swing into action.
+
+00:48:15:15 - 00:48:34:21
+Unbekannt
+So what does spring into action actually means? Well, now you need to actually feed it to training corpus so that it can do all the things it's supposed to do and create the vocabulary for you. Right? So, so that thing is called adaptive thirds. So we create a tiny training corpus for us. This is a data set, right?
+
+00:48:34:21 - 00:48:53:29
+Unbekannt
+There's just a bunch of words from some of these lyrics. And then what we'll do is we'll take this layer that we just defined here that we have set up here, and then we will ask this layer to actually create the vocabulary using this adaptive command. Okay, index the vocabulary and it's done. And once it does it, you can actually ask it for the vocabulary.
+
+00:48:54:01 - 00:49:28:23
+Unbekannt
+Okay. This is a vocabulary using the get vocabulary command and so first of all, how long is the acab 17, 17 words, 17 tokens, What are they and see here? And you can see these are all the words and you can see it is stuck in the very beginning. It's sort of the default, by the way, just a little programing tip, if you're not familiar with if you don't have a ton of programing experience, if you want to print these Python objects, like listen, all in a pretty way, one trick that often works is just stick it into a data frame and then print it usually printed in a much better way.
+
+00:49:28:23 - 00:49:50:23
+Unbekannt
+So you can see it like that. So you can see here on arrays, blah, blah, blah, blah, blah. And you can see integer zeros assigned anchor token. By the way, how can we pick the word arrays as the second entry? Why not something like an or why not? Why not E? How come it's not chosen as a second entry?
+
+00:49:50:23 - 00:50:21:09
+Unbekannt
+Why? Why did it pick arrays, do you think? Luna Maybe. Maybe it's ranked like the words that are most influential on the meaning of the sentence to be on the top and it s influential at the bottom. But at this point it doesn't know what we're going to use it for. So it has no way to know what word is useful because we haven't told it, what have you going to use it, But you're kind of on the right track.
+
+00:50:21:09 - 00:50:39:20
+Unbekannt
+So what got us does is it'll calculate, you'll find all these tokens and then it'll actually just sort of be frequency. So the most frequent, as it turns out, in those four sentences we gave, it happened to be the word arrays. Definitely. It is a string up on top. And you can actually confirm this by going to the little data set.
+
+00:50:39:22 - 00:50:59:11
+Unbekannt
+And you can see here arrays, shows appear and those appear twice and that's why it came up on top. Okay. All right. So that's what we have. And and now now that we have populated this, we can run any sentence through it easily. Yeah. It doesn't matter that it's on the top or is just right. It doesn't matter.
+
+00:50:59:13 - 00:51:19:28
+Unbekannt
+It doesn't matter. The reason why it's helpful, Electron, is because suppose you tell us, Hey, don't pick every word you see here. Give me will be the most frequent hundred words. I don't want any more than that. It can easily do that. That's not reason to do it after. So it raises sort of multiple times. Then that's about sort of once like this, so randomize.
+
+00:51:20:00 - 00:51:44:15
+Unbekannt
+But this is just a vocabulary. So basically you give it all the phrases that you'd happen to be just for phrase in our example, and then it finds all the distinct words and you know, it does all that stuff and then it has created a vocabulary at this point that the training corpus you fed, it is forgotten. And the only that has survived this processing is just a vocabulary that's now we have to start applying it to any kind of text we want to use it for.
+
+00:51:44:18 - 00:51:58:24
+Unbekannt
+So here when you come back here, so this is what we have. And so what you can do is you can take any sentence and you can just run it through layer and to make sure that actually is doing the right thing for you. So we'll take the sentence. We will then run it through the textbook translation to it.
+
+00:51:58:24 - 00:52:28:28
+Unbekannt
+But we're just passing that sentence into it and then we can just print it. So nobody's giving you a tensor. This is a multi HUD encoder tensor with all these ones and zeros. So note that this densities 17 units long, which is, which is a good check because AutoCAD is 17 long so it's better matched that. Now recall that the UNC token is it the first location it's that index zero and it says that this encoded sentence does have an unquote.
+
+00:52:29:00 - 00:52:53:10
+Unbekannt
+Okay so what why is that? What is this unquote. Anyone can guess? Well, it turns out to be the word still, I think. Yeah, still is not in our ability, because if the four sentences, which is our training corpus are used to build vocabulary, we had a lot of write and rewrite, but there was no still in it anyway, that's why there an anchor for it.
+
+00:52:53:13 - 00:53:10:28
+Unbekannt
+We can just double check that by asking Python. Is it, is it not? It's not. Okay. Now, in the spirit of making small changes to the code to understand what's going on, which is a very useful tip for folks who don't have a ton of programing knowledge. Let's say that you send the phrase Sloane Hall and come on DMD.
+
+00:53:11:01 - 00:53:39:27
+Unbekannt
+I think you will agree with me that none of these words is in the training corpus right? So what will this what is the multi hot encoded vector for this phrase? Sloane Hartley, DMD three, three, three, five, six, seven, eight one. It's not content coding, it's multicore encoding. It's one zero. It's going to be 100. So you can see here or in this case, remember the vocabulary is 17, right?
+
+00:53:39:27 - 00:53:59:11
+Unbekannt
+So each of these words is going to be a one followed by 16 zeros, and then it's going to be hot, encode them, which means the three ones in the column just become a one. So. So you still have only this one. Okay. All right, good. So now let's see. That's now let's actually get to the the data set.
+
+00:53:59:11 - 00:54:27:10
+Unbekannt
+We have this 90,000 songs. Understand this little thing here. We have grabbed the data and cleaned it up. Cleaned it up, meaning like formatting bytes, not content twice. And then we stuck it in this data frame and we already have divided into train test and validation for your benefit so you don't have to worry about it. So turns out we have 40, almost 49,000 songs in the training set, 16,000 songs in the validation set and 22 or roughly 22,000 in the test.
+
+00:54:27:12 - 00:54:49:26
+Unbekannt
+Okay, A lot of songs, it's a lot. It's a big dataset. So let's just look at the first few. So we'll go like, on get ready. We made a rainy evening analysis through analysis here that I can relate to as a data science person. But yeah, but by the way, this, these things are very useful for exploration of any data frames that we might have.
+
+00:54:50:00 - 00:55:25:02
+Unbekannt
+We call up. It's a call out feature. Just check it out. So that's the first few that the first few rows. Let's look at the last few rows. Okay. All right. You never listened to me as pop Weimar Benzes hip hop, of course. I'm just going to have no idea what it is, so. Okay, Now to go back to the question of, okay, what could be a good baseline model, we need to understand the proportion of these three classes of songs, so we'll do a quick check.
+
+00:55:25:05 - 00:55:44:14
+Unbekannt
+It turns out rock is 55%. So if you had to just guess something this naively, you would just get everything to be wrong and you'd be right 58% of the time. So now, by the way, the target variable, which tells you whether which of these three genres it is, is is a is actually a dummy variable. So we need to one hard encode that.
+
+00:55:44:17 - 00:56:05:25
+Unbekannt
+Right. So we'll just turn that this way using the pandas get dummies function. And when we do that, this is why train which contains a dependent variable and you can see that is one hard encoded non 010010001 and so on and so forth. That's it. So I think the first I forget to rock, hip hop or pop or whatever, it's in some order, we'll get to that later.
+
+00:56:05:25 - 00:56:30:14
+Unbekannt
+So it's one hard and coded as well. So that is as far as the data downloading and setup is concerned Any questions. Yeah, this kind of goes back to the transfer learning concept, but do you always want to build your corpus based off of the vocabulary, your training data, or could you have like a pre compiled like somebody already made like a list of the 50,000 words, most common words?
+
+00:56:30:18 - 00:57:01:26
+Unbekannt
+That's a really good question. Unfortunately, I'm going to pass on it for the moment because with modern large language models, a number of these LP tasks for which you had to sort of roll your own and build your own thing can now be very easily done using large language models without even any further training. Now the price you pay for it is that you have to use a large language model, which means you have to pay somebody an API call and things like that and other issues with it, but will talk a lot about transfer learning for text.
+
+00:57:01:29 - 00:57:31:20
+Unbekannt
+Let me come to a little later in the MLP sequence. So if I forget, please bring it up again. Yeah, I'm quick clarification on the encoding factor. I noticed it was floats, not ints. If it gets incredibly long, wouldn't that eat into compute time? Is there a reason why it floats? Yeah. So Olivia's question is that when I showed you the tensor, the it is actually is written as a continuous number at a float floating point number.
+
+00:57:31:22 - 00:57:54:26
+Unbekannt
+But we know these are one zeros and months, so why can't we why do we have two ways to compute capacity by telling the computer that is all big continuous numbers when it just a01. There are ways to optimize that. But these problems are so small we just don't worry about it. But when we come to something called parametric efficient, fine tuning lecture, maybe ten ish, we will actually exploit that particular fact to make things faster.
+
+00:57:54:28 - 00:58:11:17
+Unbekannt
+Okay, So that's what we have. So we'll, we'll do the back of boats model, by the way. There's a whole bunch of stuff here. Just repeats what I've been telling you in the lecture, so feel free to do it again. But we can ignore it for the moment. And now there is a new thing we are doing here.
+
+00:58:11:20 - 00:58:37:16
+Unbekannt
+So we are basically saying, look, instead of taking every word you see in these 49,000 songs in the training corpus, it's going to be too many words. Just the 5000 most frequent words. Okay. And that's what this Max Dawkins stands for. Okay. And so we tell it. All right, do the thing. Max Dawkins, 5000. So you're not for 2000, 5000, and so do multi heart.
+
+00:58:37:16 - 00:58:57:16
+Unbekannt
+And we are not explicitly saying the standardization and all that stuff because the defaults are what we're going with. Okay, yeah. This is, this is for making it more efficient. Like this is like don't waste your time on this. Thousands of words just and more used and just focus on that to make it more efficient. It make more efficient.
+
+00:58:57:18 - 00:59:25:16
+Unbekannt
+But there is a related and important point, which is that fundamentally the number of tokens you allow this layer to have dictates the size of your vocabulary and the size of your vocabulary dictates the size of the vector that you feed in. So shorter vectors are better than longer vectors. That's the efficiency point. The other point is that the longer the input vector, the more the number of parameters the network has to learn, because the first layer itself is the size of the input times, roughly eight times the size of the hidden layer.
+
+00:59:25:18 - 00:59:49:12
+Unbekannt
+So this thing becomes ten times as long, oftentimes as minute parameters learn. And given a finite amount of data, you know, the more parameters you have, the worse it's going to do. When it actually start using it in the real world, it's going to over effectively. That's why you need to be very careful. Okay. Yeah. So you downloaded the data set, but are you still using the vocabulary with the 17 words or did you brought in?
+
+00:59:49:16 - 01:00:13:25
+Unbekannt
+You know, that is just for fun. Okay. I'm going to actually build vocabulary now. Okay. It's got it. Yeah. Good question. Yeah. So all right, let's do that. So I first, you know, I define this layer, just defined it. All right. Now, we actually built up a calorie by essentially telling you to adapt the layer using essentially the full all for basically 49,000 songs in the creating dataset.
+
+01:00:13:27 - 01:00:37:05
+Unbekannt
+That's a long list of songs as far as Cars is concerned, is looking for a list of strings. So you just give it the list of strings and so forth. We're giving it for 14,000. The same philosophy applies, so we run it. Obviously gonna take a few seconds to do that because it's 49,000 songs. 5 seconds. All right, let's look at the most common 20.
+
+01:00:37:07 - 01:01:04:15
+Unbekannt
+We get the vocabulary from our layer. So once you adapt the layer and as build a vocabulary, the layer is populated with all this information. So you can query it, so you can get the top 20 words unk the most frequent word, no surprise you blah blah blah. Let's look at the last few dagger chatter justified. Moving on right.
+
+01:01:04:18 - 01:01:29:00
+Unbekannt
+And then the so once we have done that, now we can backtrace all the data sets we have using this. And by vectors you mean take every string and create the multicore encoded vector from it. Yeah. Are we doing SDI because we're keeping stuff like v, a, etc.? Yeah. If you're not strictly doing SDI, or to put it differently, the stands typically has lowercase uppercase punctuation stemming support removal.
+
+01:01:29:03 - 01:01:48:21
+Unbekannt
+Here the default and Kira's happens to not do stemming not to stop at the moment. So we're just going with the default. Thanks for the clarification. But in fact, in practice, what I find these days is that don't even bother to stem, don't even bother. Remove the stopwatch. It's going to work. Well, yeah. Okay. So. All right. Okay.
+
+01:01:48:23 - 01:02:16:25
+Unbekannt
+So now each phrase is a vector. How long is this vector? Each song is number vector. How long is that vector? 5000. Correct. Because that is the size of the vocabulary. Correct. It's max tokens long, which is 5000. So if you actually look at. wait, wait, wait. I haven't run this thing yet. All right. It's going through 49,000 is going through another total of 23,000.
+
+01:02:16:27 - 01:02:46:08
+Unbekannt
+So let's run it. Okay. Now we can see with all the training data you have has is a tensor is a table with 40 8991 rows and each row is a 5000 long vector. Okay, good. Now we will try the simple neural network that we wrote up in class. So I now, at this point, this code should be sort of second nature, right?
+
+01:02:46:09 - 01:03:06:17
+Unbekannt
+Is that cool? It's so easy to read the thing, the power of abstraction. So we take it, start input as usual, input layer, we tell it what is the size of each thing that's coming in? The size of each thing is a 50 max tokens long vector. So we tell it, the shape is max tokens, and then we run it through a dense layer with eight rails.
+
+01:03:06:19 - 01:03:31:26
+Unbekannt
+Will Okay, I'm hurrying. So we get the outputs. Then we string the inputs and outputs into a model and then we summarize the model. That's it. So we go here and this has 40,000 parameters and you can see here when you go from the input, the 5000 times eight, that gives you 40,000 plus the eight neurons have a bias coming in.
+
+01:03:31:26 - 01:03:56:11
+Unbekannt
+That's another eight. So you get four 40,008 and we complete it as usual views, Adam as usual. And because now the the output y variable, the white train variable is now itself is actually one hot encode it right 010001 depending on pop rock and so on and so forth. We don't use sparse, categorical cross entropy, we just use plain old categorical cross entropy here.
+
+01:03:56:14 - 01:04:17:18
+Unbekannt
+Okay. And this was explained in lecture last week, so you can revisit it if, if, if it's not familiar, we are going to report accuracy rate. So let's compile it. And we've got a model. So we just run it for any box with a bat size of 32. And because we have validation data already supplied to us, we don't have to tell cars, take the training data and keep 20% off Sitewide validation.
+
+01:04:17:23 - 01:04:49:19
+Unbekannt
+We can literally tell it what validation to use. That's what we're doing here, right? So it's running pretty fast. It's faster than any question so far. Yes. How do you decide to use the microphone this is how do we decide the max to collect? We define the number of 5000 here, but we do not know how many words will be there in the tactics.
+
+01:04:49:22 - 01:05:14:24
+Unbekannt
+So it's a good question how do you decide on the maximum vocabulary? What do you typically do in practice is that you actually you do it without the max tokens and then you see how long the vocabulary is and it actually gets statistics, how frequently the very infrequent words actually show up. And then you'll typically see like a dramatic falloff at some point and you pick that fall off point and then set that to be the max tokens.
+
+01:05:14:26 - 01:05:37:29
+Unbekannt
+All right. So perfect. Let's test it. Accuracy is pretty good, 87% on the training and 70 on the validation will do it on the test. Said, all right. So 2%. So we saw earlier the largest class of the three way is a right but around percent. So the naive model is going to get 50% accuracy and this little neural network model gets you 70%.
+
+01:05:37:29 - 01:05:55:25
+Unbekannt
+72% is pretty nice. Okay, so now let's actually kick it up a notch and make it slightly more capable. So the key thing here is that as has been observed in class already, when you go with a bag of words model, we lose all notion of order. The word order clearly matters and we are kind of ignoring it.
+
+01:05:55:28 - 01:06:16:18
+Unbekannt
+So what we do to get around it is so actually it's actually a really interesting sentence here. Let's say this is a movie review. Kate Winslet's performance as a detective trying to solve a terrible crime in a small pizzeria is anything but disappointing, tricky, tricky thing, right? Because if you look at the words separately, they were terrible and disappointing.
+
+01:06:16:18 - 01:06:38:05
+Unbekannt
+That going to be like negative sentiment, right? But then if you actually know that the word terrible refers to the crime, not to the movie or anything, but the suborning changes the meaning of the word disappointing, you will see. Obviously it's a positive, right? So clearly the words around the word provide valuable clues as to how to interpret that word.
+
+01:06:38:07 - 01:07:01:10
+Unbekannt
+And so what we do is how can we make our mental model a bit more capable of recognizing the context around every word. And the way we do it is something called by Grams. Okay. And what? But for beginners, what we basically do is instead of taking instead of just taking each word, we take each word and we further take every pair of adjacent words.
+
+01:07:01:13 - 01:07:23:27
+Unbekannt
+Those become our tokens. And because we take two adjacent words right by grams, you can take three origin words. Try grams, you get the idea and grams. Okay, so that's the idea by grams. And so so for example, if you had the cat maxed out on the cat sat on the mat, you will have the the cat, cat, cat said that you had the idea, right?
+
+01:07:23:29 - 01:07:47:14
+Unbekannt
+That's what we have. So let's do a little example. And carrots makes it very easy. You literally tell it in grams equals two kilograms. And now from this you immediately should know that n grams equals one is the default. That's why we didn't have to specify. Okay, so you run it and then you look at that on the mat as your training corpus and then you get the vocabulary.
+
+01:07:47:14 - 01:08:04:21
+Unbekannt
+And you can see here it has created all these nice by grams. And so that's it. All right. Now what we do is we'll go back to the songs and we actually tell us to not just take each word, but take all the by grams as well. And hopefully we'll do a better job of figuring out what the sentiment is.
+
+01:08:04:24 - 01:08:23:05
+Unbekannt
+I know because, you know, when you when you when you say, okay, take the top 5000 words, that's great for single Yuri grams, as they're called. But when you how by grams you have 5000 possibilities. The first word, maybe 5000 for the second word. Right. That's a lot of possibilities. 25 million? No, Most of the 25 million possibilities are going to show up in the data.
+
+01:08:23:12 - 01:08:40:16
+Unbekannt
+So you don't need to actually make it much larger, but you should make the vocabulary a bit more than 5000. So here we go with, say, 20,000, right? Otherwise it's the same size multi heart. So let's run it. And now we will run this. Now that the layer has been set up with all the right settings will ask it to create the vocabulary.
+
+01:08:40:19 - 01:09:17:17
+Unbekannt
+Okay. Again, by doing exactly what we did before we had the vocabulary in a few seconds by Grams programs, all of them will get much more compute intensive. That's why you're saying this so. All right, let's look at the first ten words. The first ten words are all just single words. And that's not surprising because a single word is going to be the most more frequent right.
+
+01:09:17:19 - 01:09:49:00
+Unbekannt
+And the letter of the last few, your mom, your God, you shock you. How. All right. Let's just, you know, index the whole all the data. We have the training validation test that's using this vocabulary. So it's perfect. Now we come to a second model where we say the shape, the incoming shape is no 20,000 long, right? Because we increased max tokens from thousand to 20,000.
+
+01:09:49:02 - 01:10:12:12
+Unbekannt
+So each thing is a 20,000 long vector, otherwise it's the same. And now we will use this thing called dropout for the first time, which is a regularization thing that I have referred to earlier that I never really described and I will describe today if we have time. But I'll first run through the whole demo. So just, you know, just you just think of dropout is just another layer you can insert and essentially a great way to prevent overfitting.
+
+01:10:12:17 - 01:10:55:07
+Unbekannt
+So I just routinely will use it and I'll talk more about it. So for now we have this dropout layer of the model, sees the input from the dense layer and then sends it at output layer is unchanged. It's a three way soft max, same model as before. Okay. And now. All right, we'll come back to robot. So Bill, compiler the same as before and then we will we will I would just it for three epochs if you're interested after class later on you can actually try it four more epochs and see if it does better for now in the loss of time and just do it for three rich 72%.
+
+01:10:55:07 - 01:11:15:03
+Unbekannt
+It was the, the single word unique grammar. I think we had. Yes. Ana, if you're rerunning this code with the same number of epochs, do you ever expect the accuracy to change if you were to run this code? Yeah. Your machine. Yeah. You would expect it to be roughly the same. But there are some minor differences due to hardware and device drivers.
+
+01:11:15:03 - 01:11:37:03
+Unbekannt
+And if you rewrite it on your own machine twice, would you expect a change in accuracy? That's actually a very tricky question because it depends on what else I have been doing in that notebook. If I start fresh and do nothing but that, typically I get the same numbers typically. But for somebody that didn't get it exactly the right time, okay, okay.
+
+01:11:37:05 - 01:11:56:09
+Unbekannt
+So we come to this. Let's evaluate our little model. Okay, 75%. So it went from 72 to 75. It's actually a meaningful jump just for using by Grams. Okay. And I ran it only for three epochs. If you run it for ten, maybe it's going to do even better. All right. So that is the beauty of this thing.
+
+01:11:56:09 - 01:12:29:05
+Unbekannt
+Now, let's just actually do a little demo. We'll try to predict some lyrics. Okay I'll try another One Bites the Dust. It's a rock song. I think that's correct. Yes. Okay. Okay, folks, you're done now. You somebody tell me your favorite song, Dancing came from over a lot of us. That's awesome. All right. Okay. Dancing Queen makes.
+
+01:12:29:07 - 01:12:52:25
+Unbekannt
+It's verse one intro. I don't like that. Let's just go to something. We thought all this metadata, right? All right, I'll just take the first page. Okay. So she's.
+
+01:12:52:27 - 01:13:29:08
+Unbekannt
+She's just. You're good, right? You don't model. Let's predict bop just about you. Yeah. All right. So, yeah, so that's basically the model. But we have 5 minutes I want to get back to. You can play around pretty old lyrics and typically happens is that the last two years that I've been doing this particular lecture, I've noticed that the songs are always rock songs for some reason, right?
+
+01:13:29:08 - 01:13:49:07
+Unbekannt
+And so there's a first time I'm getting a pop song from a group that I actually like. So thank you. All right, let's go back to Dropout. So the idea here in Dropout is that, you know, you have all these the input comes in and goes through a hidden layer and so on and so forth. What the dropout to dropout is a layer.
+
+01:13:49:09 - 01:14:10:15
+Unbekannt
+And you put this layer just like use any other layer. And what dropout does is that it takes all the things that are coming into it from the previous layer and randomly decides to replace that number with the zero, that's it. It drops that number and replace it with the zero. Okay. But it doesn't randomly basically you toss a coin and the coin comes up at zero.
+
+01:14:10:19 - 01:14:35:04
+Unbekannt
+It becomes a place that passes through. Okay. And the reason why this is very effective is because you can imagine all the neurons in a particular layer bending over fit to a particular dataset. The overfitting happens because the neurons essentially collude with each other, right? They sort of collude with each other to actually overfitting and predict things in sort of a very accurate way.
+
+01:14:35:06 - 01:15:03:19
+Unbekannt
+So you want to break any sort of collusion between the neurons, Right? I'm obviously using sort of like a, you know, again, theoretically describing it. But the idea is that any kind of spurious correlations in your data neurons can pick it up by being correlated themselves. And so the way to avoid the spurious correlation is by dropping neurons randomly just kill the neurons randomly, which means that no neuron can depend on another neuron being available.
+
+01:15:03:21 - 01:15:29:03
+Unbekannt
+I know it's a bit grim, but that's the basic idea of dropout. And apparently the story goes that the person, the team that invented it, Jeff Hinton, who won the Turing the stuff, not at all, but just for deep learning. He was I don't know if it's true, but he said that apparently he got the idea of and he went to a bank and realized that, you know, very often that bank the folks who are working at that bank branch that he used to go to kept changing.
+
+01:15:29:05 - 01:15:44:18
+Unbekannt
+They were never sort of the same. The people would be transferring in, transferring out. And it was like, can't they just leave these people alone? Why does it keep changing? And then he got the insight that maybe a lot of fraud happens because the person working at the branch colludes with the customer would be changing the staff constantly.
+
+01:15:44:18 - 01:16:10:05
+Unbekannt
+You break the risk of fraud happening and that apparently was the genesis for this idea. That's true. Apocryphal. I have no idea what. It's sort of a fun story. Yes. So instead of random, if we go to the way historical models are built and concepts of multiple inheritance, all of that, would that make it sharper as compared to just The problem is that these letters are massive, right?
+
+01:16:10:07 - 01:16:27:21
+Unbekannt
+And for you to take each layer and look at its correlation with some other layer and so on and so forth. First of all, investigating particularity problem is a problem. The second thing is, okay, what do you do then next, in linear regression, you can do things like principal components analysis to get around it. Here, everything is non-linear.
+
+01:16:27:27 - 01:16:48:18
+Unbekannt
+There is no easy way to solve the problem. So we're like we just solve the problem. One shot is like Robert That's like, All right. So I had some material on something called byte per encoding, which I will, which I will do when we get to elements. And I stuck it in the end because I knew that we probably won't have enough time to cover this anyway.
+
+01:16:48:24 - 01:17:14:09
+Unbekannt
+And that is a very clever tokenization scheme used by, for example, the GPU family, and that allows them to do beautiful punctuation, keep the case intact, and then use words that are just made up and things like that. Okay, so we have to one more minute. I'm happy to. Any questions you might have? Yes. Luna. And so initially when we are picking like the hidden layer, the number of neurons and we picked it to be eight, so so far and all the materials has been given to us.
+
+01:17:14:15 - 01:17:33:10
+Unbekannt
+But initially, how did you pick it? Is it more of a trial and error type of thing or it tends to be trial and error? So that's in fact what I did when I created the columns. So and and you can actually make it a bit more systematic by trying lots of different values. And there is a particular package python package called cross.
+
+01:17:33:13 - 01:17:51:02
+Unbekannt
+So just Google character Duna and it comes with a very nice scallops and if I have a chance, maybe I'll just record a screen, walk through of doing that. But that's not a very efficient way to do these things. But it comes under the broad categories, something called hyper parameter optimization, where the number of neurons, the activation you use, the learning rate, all those things can all be tracked.
+
+01:17:51:02 - 01:18:03:28
+Unbekannt
+You can try lots of variations. And Kardashian is a great way to do it in the context of class, I think here are the questions, you know. All right, I'll give you 30 seconds back. Thank you. See you tomorrow.
+

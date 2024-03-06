@@ -1,6 +1,6 @@
 00:00:00:00 - 00:00:35:57
 Unbekannt
-Yvonne, this is Professor Ramakrishnan. I wanted to take a few minutes to give you a bit of intuition about how max pudding works. It's a very simple but very clever idea. And I wanted to share that. Okay. So let's say we want to build a simple handbags and shoes classifier. Now, unlike the one that we built in class the other day where we used pictures of actual handbags and shoes, for this example, we will imagine that the images are really simple line drawings, sort of cartoonish stick figures, if you will, just to focus on the key ideas.
+this is Professor Ramakrishnan. I wanted to take a few minutes to give you a bit of intuition about how max pudding works. It's a very simple but very clever idea. And I wanted to share that. Okay. So let's say we want to build a simple handbags and shoes classifier. Now, unlike the one that we built in class the other day where we used pictures of actual handbags and shoes, for this example, we will imagine that the images are really simple line drawings, sort of cartoonish stick figures, if you will, just to focus on the key ideas.
 
 00:00:36:01 - 00:00:54:29
 Unbekannt
