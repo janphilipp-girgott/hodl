@@ -688,7 +688,7 @@ All right. So here, let's see what's happening. Okay. It's done a little plot, r
 
 01:10:11:19 - 01:10:35:27
 Unbekannt
-But if you have a small dataset, they could be very helpful. And now we go to what he pointed out. What's your name? Mark Colvin. Mervyn. Mervyn. Mervyn pointed out, Look, why can't we just, you know, optimizers, somebody store, why don't why do we have to treat them as sacred? We're just let's inflict let's just unleash back up on it and see what happens.
+But if you have a small dataset, they could be very helpful. And now we go to what he pointed out. Look, why can't we just, you know, optimizers, somebody store, why don't why do we have to treat them as sacred? We're just let's inflict let's just unleash back up on it and see what happens.
 
 01:10:36:00 - 01:11:01:04
 Unbekannt
