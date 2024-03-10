@@ -1,0 +1,280 @@
+00:00:00:00 - 00:00:29:35
+Unbekannt
+Hello, everyone. This is Professor Ramakrishnan. I would like to walk you through how to fine tune a large language model using custom dataset in this collab. Now, in this column that you see here is actually a highly edited version of a collab notebook that Google had published recently when they released their JAMA family of open source models. And so let me just show you the copyright thing here, because that's important.
+
+00:00:29:40 - 00:00:51:04
+Unbekannt
+All right. So one of your decisions for the copyright. So what we are going to do is we're going to use KORUS to perform fine tuning using the Laura technique that we discussed in class briefly. And in particular, we will do the fine tuning on a base, large language model called Google GEMA. And I'll give you a bit more detail about this in just a minute or so.
+
+00:00:51:08 - 00:01:09:11
+Unbekannt
+And we will use an instruction on a dataset to do the fine tuning. Now, the first thing you have to do is that it's a bit of a involved set up. Fortunately, it's a one time setup and I have the instructions here. So you need to go to Kaggle dot com and you have to create an account if you don't have one already.
+
+00:01:09:16 - 00:01:30:27
+Unbekannt
+Then you have to go to this particular link and then request access and then you'll immediately get access. It's just sort of, you know, subject to form and, you know, and you get the access immediately. And then once you accept the terms and conditions, what you have to do is to go to the account tab of your Kaggle user profile and click on a button, which is create new token.
+
+00:01:30:32 - 00:01:50:08
+Unbekannt
+This will actually download a file whose name is kind of JSON. And then you can actually open that file using any text editor. So for example, if you're in a market, could just use text to open it. If you're an ABC, you can use Notepad. And the reason you do that is because this file has two piece of information.
+
+00:01:50:13 - 00:02:15:09
+Unbekannt
+It has your Kaggle username and it has your kind of API key. And you need these two things into you need to actually take these two things and put them somewhere. So what you want to do is once you have this file open in color, you just click on this key here, right? And then you have to go and enter the Kaggle username and the Kaggle key in these four cells.
+
+00:02:15:14 - 00:02:35:09
+Unbekannt
+And once you do that right, it's going to be available for your model. So you have to copy your user name from the text editor and store it under the name Kaggle username and API key sorted under Kaggle key. And once you do that, it's going to look like this Kogan Key and a bunch of stuff that's been, you know, obfuscated on the user name and so on.
+
+00:02:35:23 - 00:02:52:28
+Unbekannt
+Okay. And all right. So when you're done with this, you know, you're going to see this thing on the left, right? Mean the blue toggle sort of set to blue with the time set to glow, which means a bit available. All right. So if you look at it here, you can see my Kogan Peacock, because the name has all been set and toggle to Blue.
+
+00:02:52:33 - 00:03:14:35
+Unbekannt
+So we're good to go. So this I found this to be slightly cumbersome, this process, but just follow my instructions and hopefully you'll be able to get through it pretty fast. Now, if you do run into issues, you can refer to some detailed inserts from Google here, but hopefully you don't. You wouldn't need that. All right. So once you do that, what you have to do is you have to request 34 GPO.
+
+00:03:14:36 - 00:03:34:12
+Unbekannt
+So you can see here, I wanted to be ready for GPO, and if you haven't done that before, basically have to go click on this down arrow and then select Change, run time on the hardware, select for GPO. Hopefully you will get it because without a GPU, this fine tuning thing is really not going to work. It's going to take forever.
+
+00:03:34:17 - 00:03:58:24
+Unbekannt
+Even with the people GPU, it took me something like 2025 minutes, as you will see shortly. Okay. Once you do that, you just have to run the stuff here. The code here. And basically what's happening here is that, you know, all these all this for a piece of information about the Kaggle credentials, get essentially copied into the right places here, which can then be used to make all the API calls.
+
+00:03:58:29 - 00:04:20:43
+Unbekannt
+Okay. The other thing I do here is once in a while that is a very nice package in Python called P print stands for pretty print. So you just import print and I find that. But I have these cumbersome lists or dictionaries and things like that. It's just doing print. I just to be print and it often will be able to print it in a much nicer, prettier fashion, taking formatting into account.
+
+00:04:20:43 - 00:04:40:48
+Unbekannt
+So I just use it just as a bit of a utility. Okay. And then next we do what we do is, by the way, you will see that I'm actually night shift entering and executing all these cells because I just finished doing all that before I started recording this thing and I don't want to redo it again just in the interest of time.
+
+00:04:40:53 - 00:05:01:15
+Unbekannt
+So because some of these installations take a few minutes and so on and so forth. So here we first install chorus and then chorus an LP. Now Carousel LP is a package that we haven't really used in class before, but as it turns out, it's sort of a nice portal into getting access to a whole bunch of pre-trained models for LP use cases.
+
+00:05:01:20 - 00:05:31:05
+Unbekannt
+So we will use that here. And then also this thing uses Carousel Motion 3.0, which is actually the latest version of Get US the version we were using as was not 3.0, I think it was 2.15 or something, but this is the latest version. And with it you can actually it has a whole bunch of benefits. And one of those benefits is that you can actually use cat as a sort of a frontend to make it run against any one of the most popular backends, which end up being TensorFlow Python.
+
+00:05:31:09 - 00:05:49:48
+Unbekannt
+Both of which you may be familiar with, and something called Ajax, which is a sort of up and coming very interesting and highly efficient backend. So for this tutorial we will just use Ajax. And don't worry about all this gobbledygook here. We just have to have all these things here. It was in the Node book that Google published and I didn't want to mess with it.
+
+00:05:49:53 - 00:06:21:23
+Unbekannt
+I assumed that they tried a bunch of things and this actually works pretty well, so let's not touch it either. Okay? So once we do that, we import chorus. We can put import chorus and LP, and then, all right, now we come to the data set. So that is this really nice dataset called Databricks 15 and only 15 editor said this was compiled by the company Databricks and it has 15,000 really high quality human generated prompt response, very or construction response fit, specifically designed for fine tuning large language models.
+
+00:06:21:28 - 00:06:48:50
+Unbekannt
+Okay, so in this command you can just downloaded from hunting phase. And once you do that, you can just read the file into a dataframe and take a look at a few examples. And this file actually is in a format called JSON L but of course Pandas has a handy Regis on function that you can use. So we had underscored here basically download the file and then, you know, sort of convert it into a dataframe just so you can take a quick look at it.
+
+00:06:48:55 - 00:07:10:41
+Unbekannt
+So once we do that, we can randomly look at, you know, five examples, five randomly chosen example lines from this dataframe. And so here are some of them. So here is an instruction given this paragraph about stainless steel, which of the two CDs contain the most nickel content of instruction, and that is some context that's given to help the L onto this question.
+
+00:07:10:45 - 00:07:29:34
+Unbekannt
+And then this is the right response. The 300 CDs contains the most nickel content. And then there's also this category column, which I think you know, it does a few values like closed question, answering summarization and so on. But don't worry about this because we aren't going to be using this category for them at all. And so here are these examples.
+
+00:07:29:34 - 00:07:47:54
+Unbekannt
+And you'll notice here that in the last two of the five examples, there is no context. You simply ask a question What factors should I consider becoming a dog owner? And then boom, there's a whole bunch of answers. That is the right answer that we want the to sort of learn. And here's another one way to companies collate evidence.
+
+00:07:47:54 - 00:08:18:14
+Unbekannt
+I guess they're meant to be in evidence. And then you get you got you're going to like the right answer or a right answer to this thing. So. So broadly speaking, you have an instruction, you have a response, and then occasionally you also provide additional context. Okay. All right. So that's the dataset. Now, the thing is, what you do for this example is will find tune the alarm using only those examples that actually don't have a context, but are really very simply instruction response pairs.
+
+00:08:18:19 - 00:08:40:30
+Unbekannt
+We will also ignore this whole category, call them, as I mentioned earlier, because we don't want to do dictionary action, we just want to do classification. Sorry, we wanted detection, duration, not classification. So we don't care about this category label. Okay, we'll just ignore it. And then finally we'll just grab a thousand examples. The overall dataset of 15,000 I mentioned earlier, but we'll just grab a thousand of these 15,000 to execute the notebook faster.
+
+00:08:40:34 - 00:09:00:28
+Unbekannt
+Of course, once you are done going through this whole thing, you can alter the notebook and you can actually rerun it. But more training data, if you want to have a higher quality of fine tuning. Okay, Now, so I have some Python code here again, directly taken from this notebook which basically does all these things while it goes through each of these examples.
+
+00:09:00:33 - 00:09:24:15
+Unbekannt
+If it has this context thing, it just skips over it and it doesn't have a complex set of ads that, you know, once it's done, it just grabs the place stubs and examples write them. Okay. So let's look at a few of the chosen thousand examples. I shouldn't have done that. Actually, it's fine. Never mind. Yeah. So we can look at a few examples.
+
+00:09:24:15 - 00:09:50:15
+Unbekannt
+Here is the first one instruction which instruct batch artist painter kind of the clearing response at the next instruction. What makes it a good photograph, response instruction, response. So you can see the data set is very simple instruction, response, instruction, response. That's it. And so there's actually a very nice example of how to set up an instruction tuning that is set for for a question on setting child.
+
+00:09:50:19 - 00:10:09:19
+Unbekannt
+All right, good. So that's what we have. So the data set is ready. We have chosen thousand examples. Now, let me switch gears and let's actually look at the model itself. So now across an LP, I mentioned a sort of a portal which provides access to many Pre-trained models. So let me click on that and then go to the site to give you an idea.
+
+00:10:09:21 - 00:10:25:21
+Unbekannt
+So here are all these models and you can see here there are a whole bunch of models, right? These are all pre-trained models that can be used only in particular, you will see a whole bunch of GPT issues showing up on this list. You have this thing called mistrial, which is kind of famous these days, showing up here.
+
+00:10:25:25 - 00:10:52:06
+Unbekannt
+And then of course we have Gemma and these four models. Here are the four Gemma models released by Google. And so there are a couple of things to keep in mind. There is this 2 billion parameter Gemma model, and then there is a 7 billion parameter Gemma model. And then this model to BBN is basically the 2 billion base large language model, but it has been trained using expert prediction and a whole bunch of sentences.
+
+00:10:52:11 - 00:11:13:45
+Unbekannt
+Now this instruct to be model in contrast has actually already gone through a bunch of instruction fine tuning like we have discussed in class. Similarly for the seven be in the instructor seven B So what we are going to do is we are actually going to take the base model, the base and allow the small business number to be model and then instruction function and using our instruction fine tuning data.
+
+00:11:14:00 - 00:11:39:40
+Unbekannt
+Okay, that's the deal. But there are a whole bunch of models here, and the approach I'm describing in the note book will work for these other models as well. Okay, so let's close out of it. Come back here. So those are the Pre-trained models and we will fine tune the 2 billion parameter. Gemma 11 And by the way, this thing was announced just, I think maybe just a few weeks ago, October 21st by Google.
+
+00:11:39:40 - 00:12:02:13
+Unbekannt
+It it is notable because it was actually the first time, I believe, that Google has introduced ELA alarms that are open, open source. Right. And so a lot of people are trying to do things with it. Okay. So but I want to repeat something very important. This model is a base and it has been trained on lots of, you know, millions of tokens.
+
+00:12:02:17 - 00:12:24:16
+Unbekannt
+Just to put an excellent prediction, it does not gone through any kind of instruction tuning, which means that it has all this capability, but it's a bit wild and a bit raw and we need to tame it. And that's what we are going to do with 21. Okay. So what you do is you just download the model using this command, create an ISP model, Germanic console, a little preset, and you give it this particular name, Gemma, to the end.
+
+00:12:24:20 - 00:12:42:22
+Unbekannt
+And you will recall when we looked at the page, you know, this name was showing up in all this video. So you have to use the right name here to download right model. And once you do that, it downloads it and it gives you a nice summary as well. So once you download this model, this Gemma underscore object is just like a character model that you are not to to work with.
+
+00:12:42:35 - 00:13:07:00
+Unbekannt
+In particular, you know, it has a summary command so you can just ordered somebody and it gives you a little summary of all the stuff that's going on. I just want to highlight a couple of things here. One is that the vocabulary will capsize, right? It's two 4 to 6000. You'll recall from lecture that the Gupta family in Djibouti two and I believe three were how to work out of like 50,000 roughly tokens.
+
+00:13:07:00 - 00:13:31:05
+Unbekannt
+And then four, on the other hand, has a cap of like 100,000 or something like that. But on that range. But Gemma is actually much bigger than what I was to put to 6000. That's interesting. And also it turns out it uses embeddings of size 2048. So the embeddings that flow through the transformer stack the size of 2048 overall it has 2.5 billion trainable parameters.
+
+00:13:31:14 - 00:13:53:09
+Unbekannt
+Okay. That's why it's got to be okay. So that's basically the pre-trained models built on loaded with its weights and everything. And so now before we do any fine tuning just for the base 11, let's just query it with a couple of questions to see how well it does so that we can, once we fine tune it, we can compare it to see if in fact, if, if the answers have gotten any better.
+
+00:13:53:14 - 00:14:11:41
+Unbekannt
+So the notebook uses a couple of prompts. The first prompt basically asks the model for suggestions on what to do on a trip to Europe. So, you know, you had this come on, you just bring the prompt. And what the prompt is basically. Is it just that instruction? What should I do on a trip to Europe response in a column?
+
+00:14:11:41 - 00:14:33:25
+Unbekannt
+That's it. So note that this prompt has an instruction response format, but because the base element has not been instruction tuned, it is not clear that it's actually going to understand this format and actually adhere to the term it managed response. Remember that the base alarm, the foundational alarm is just essentially sort of like a super autocomplete engine.
+
+00:14:33:29 - 00:14:57:52
+Unbekannt
+Okay? It doesn't really know about instructions and so on. So it's unclear how it's going to respond to this thing. Okay. Now before we run it, as it turns out, the notebook uses stop key something you will you will remember that in class we discussed in the section and decoding. We talked about three claims of sampling. Right. The topic sampling, talk B sampling and then temperature based sampling.
+
+00:14:57:56 - 00:15:16:40
+Unbekannt
+And so it turns out in the second book they use Top Gear sampling and they choose sequence five, meaning at every point from those to 50,000 tokens into a candidate. We pick the the those five tokens with the highest probability. Then they re normalize them so that the probabilities out of the one and then we sample from the slide.
+
+00:15:16:50 - 00:15:39:23
+Unbekannt
+Okay. So that's what they're going to do. And then we once the model is generated 206 tokens, we ask it to stop. Okay? So, so we do that by essentially the Top Gear thing. Trends appear in an LP sample as our topic sample equals five, and the C equals two is just a random seed so that, you know, it becomes reproducible and the stuff becomes reproducible.
+
+00:15:39:28 - 00:15:58:35
+Unbekannt
+All right. Once we do that, we apparently have to compile the sample that I think I presume they do it for efficiency reasons. And then we just basically run it using the generate command. So remember using it with Cara's models, we will do a model that predict for it to, you know, actually take an input and come up with a prediction.
+
+00:15:58:39 - 00:16:22:29
+Unbekannt
+But since this a large language model, it's a generation model we use to generate command, dog generate. So I'm just going to learn as the model dog generates the command, then we feed in the prompt and then we tell it, Hey, stop any of these stupid disks. Okay, so you run it and then got the output and as you can see here, when you print the output, it basically has a repeat of the instruction What should I do on a trip?
+
+00:16:22:34 - 00:16:41:18
+Unbekannt
+And then the response is like, it's easy. You just need to follow these steps first. You must book your trip to the travel agency. Then you must choose a country, you know, kind of very generic, sort of bland advice, frankly. And then it doesn't stop there. It goes on with some other sort of somewhat related, but basically kind of stuff.
+
+00:16:41:23 - 00:17:03:55
+Unbekannt
+What are the benefits of a travel agency response, response response, things like that. Okay. So it basically, apart from having some genetic information, it's also listing questions and responses to those questions. And fundamentally, the answer is just don't go ahead and start all that helpful. It's some sort of it's trying to do something, but it's kind of doing some autocomplete kind of stuff.
+
+00:17:04:00 - 00:17:31:11
+Unbekannt
+It's not clear that the answer is actually helpful. It's clearly not following on instructions and adhering to the instruction response format religiously. Okay, That's okay. Well, I'm sure the scope for improvement here, we'll look at another prompt that they also had in the original notebook where they say, explain the process of synthesis photosynthesis in a way that a child could understand and you know, they call it the ELI5, meaning explained like I am five five prompt.
+
+00:17:31:16 - 00:17:49:29
+Unbekannt
+So you run it and this is what it comes back with. Explain the process affordances in a media child cornerstone. Okay, it's repeating it. Then the response is something. I guess we just start bad, but then it goes on with some of the instructions and responses. I don't know for what? Wow. So you can see here you're just auto completing this part on the instruction response pattern.
+
+00:17:49:34 - 00:18:12:32
+Unbekannt
+And it basically stops, I guess, when it hits the stop and limit. Others are probably going for what. So yeah, so just generate a list of these multiple things rather than a single easy to understand response to the original question. So again, clearly a lot of scope for improvement. All right, good. So now let's turn to okay, how do we actually find you on this module?
+
+00:18:12:36 - 00:18:33:45
+Unbekannt
+So as I mentioned earlier, we will fine tune it using this databricks belief of the dataset, in particular the thousand samples chosen from the standard set and we will use. Laura. Now if you look at the code here, so what we do is to switch Laura on, we do Gemma alum dot backbone dot enable. Laura That's the command, right?
+
+00:18:33:45 - 00:18:55:11
+Unbekannt
+And we set rank equals four. Now what is this rank business? So if you remember when we talked in class we had this matrix which if I recall the dimensions like 8192 by 8192, that is the Matrix. And we said, Hey, let's just take this matrix and write it as the product of two sort of, you know, long and narrow matrices.
+
+00:18:55:16 - 00:19:14:36
+Unbekannt
+And so this rank here is the dimension of the narrow site. So it's a very small dimension. It's the dimension of the that we're saying. So if you look at the picture in the in the lecture deck, you'll know what I'm talking about. So now it turns out that if you use a small number for this range, it means you can do the fine tuning really fast.
+
+00:19:14:41 - 00:19:33:47
+Unbekannt
+But, you know, potentially, maybe the effect of the fine tuning won't be that great. Right? But but if you choose a higher rank, it means that you'll probably do a much better job on the fine tuning because, you know, more detail changes to the to those matrices are allowed. But it also means you got more trainable parameters, which means everything's going to take longer.
+
+00:19:33:47 - 00:19:53:10
+Unbekannt
+Is it going to take more memory, you know, blah, blah, blah. So what what I would recommend and this is what this book also recommends, is to start with a small Laura, maybe four. And then if it's not good enough, make it bigger, make it eight, make it 16 and see what happens. Right that way you will always be computationally efficient and you can stop when it's good enough.
+
+00:19:53:15 - 00:20:16:45
+Unbekannt
+All right. So once we do that, get on this command and be summarize the model again. And now you can see the trainable parameters is just 1.36, 1.3 million, 1.4 million as opposed to 2.5 billion. So there's 1.4 million or all of these. Laura Long and narrow matrices that are going to, you know, essentially optimize using as Judy or one of its variations.
+
+00:20:16:50 - 00:20:42:21
+Unbekannt
+Okay. Now training, the model is very familiar at this point because we know how to do it right. We just use a good old compiler fit function certificate as provides now in the notebook that Google provided. They actually, instead of using Adam, which is what we have been using the entire semester, they use a variation about them called Adam W, which is very commonly used in the community for training transform, transform AI based models like these elements.
+
+00:20:42:25 - 00:21:09:55
+Unbekannt
+So we can just do that here. But I would say feel free to, you know, try fine tuning it with Adam. If you're curious. It's just a very simple change in sort of saying optimizers start. Adam W Just to optimize the start item and you'll be fine. And so here what you're saying is that okay, used as Adam W Optimizer and then because you use Adam which has some additional parameters, you need to have this extra instruction for it to not do certain things of this parameters.
+
+00:21:10:00 - 00:21:27:08
+Unbekannt
+However, and this is the important part if you end up trying to run Adam on this, just comment on this line right before you run it and then obviously changes Adam W to Adam or even you can actually go in here and sort of optimize that. You can just open double quotes. Adam Because like we have been doing.
+
+00:21:27:13 - 00:21:59:21
+Unbekannt
+All right, so this is the compile combined as before. We have a lost function, we have an optimizer, we have some metrics they wanted to report. Okay? And then once we do that, we just fit it right. Model works it out in this case and we have given the name Gemma underscore element of the module. It's Gemma and it's got elements and we passed in the data as usual and then we actually run it just for one epoch, meaning we just make one pass through the training data through those thousand examples, and then we actually run one just in batches of one, which means that each batch quote unquote, is this one example.
+
+00:21:59:26 - 00:22:28:11
+Unbekannt
+Okay, So we run it. And actually, as you can see here on the left, it took me 22 minutes to run this thing, which is why I'm actually doing this call up, you know, sort of once I run everything as opposed to actually executing a result. Okay. So once it's done after 22 minutes, let's actually we can go and see if it does actually help at all, if it has helped our based languages adapt to this instruction response format so we can try the euro prompt again.
+
+00:22:28:16 - 00:22:48:53
+Unbekannt
+So here is the euro prompt and we can actually try it. Now, I can actually run this thing because it's ready to go. Let's run it in maybe a minute, a few seconds. And again, we're using this top case sampler. We are going to pick the top five tokens at every iteration and we will stop and it reaches a length up to 56.
+
+00:22:48:58 - 00:23:10:59
+Unbekannt
+So let's see what the responses are. All right. Rating rating. And, you know, as you can see here, that all right, it's back. So. Okay, does it fine. What should I do on a trip to Europe? And here is a response. I think there would be a lot of fun to be had in Europe. And the first thing I would do would be to visit the Eiffel Tower and then head to the Louvre and then go to Venice, blah, blah, blah.
+
+00:23:10:59 - 00:23:46:18
+Unbekannt
+So, you know, you may disagree on the particular sequence of places to visit in Europe, but I think we can agree that the output is definitely way more coherent than before. It's just a one big paragraph of useful information and also ideas very nicely to this whole instruction response format, the use of the fine tuning data. So the model has actually learned that when you're asking a question as an instruction, it should respond very crisply with just one sort of coherent sort of compact, you know, bunch of text that tries to address the question.
+
+00:23:46:23 - 00:24:01:14
+Unbekannt
+We're just nice. So let's see what happens with the next prompt. They explain like I'm five for the synthesis prompt and so you run it. I won't run it in the interest of time. So it says, explain it for us. What it does is it says yeah, it is a possible response. Convert light energy into chemical energy, blah blah, blah blah blah.
+
+00:24:01:23 - 00:24:22:40
+Unbekannt
+Okay, so all right, so this also looks actually quite good. The output is definitely much more coherent. It's definitely, you know, somewhat accessible to a child. And also importantly, it maintains or sort of follows quite closely the instruction response format that we were hoping that we would actually learn to follow from the data set. Okay. So clearly much better.
+
+00:24:22:44 - 00:24:40:31
+Unbekannt
+So it sounds like from what we have seen so far, it does appear that the fine tuning has helped the German based large language model sort of figured out how to respond to these kinds of questions. Now we can actually make it much better, and the way you could make it much better would be that, sure, you could certainly increase the size of the dataset, right?
+
+00:24:40:34 - 00:24:57:50
+Unbekannt
+We use 3000 examples. We have 50,000, if you don't mind running it overnight or something. You can just run it on one for all 15,000 or and we can also train it for just more epochs. We use only one epoch, if you recall, and we can run it for five epochs. We can also use a higher load around construct format.
+
+00:24:57:50 - 00:25:24:58
+Unbekannt
+We can try. Those are all things you welcome to try. Alternatively, this might be really fun. You can actually try to bring in your own instruction response dataset in this format, in the data format, and then you can find to jump on it and that you might actually find some very interesting things. Gemma is open source, which means that if you can actually fine tune it with your dataset, you can actually use it, I believe, quite freely for your own applications.
+
+00:25:25:03 - 00:25:44:37
+Unbekannt
+And so I imagine that a lot of people out there are working with open source datasets like these I'm sorry, open source, and I like these and adapting them with their own custom proprietary data set too, to serve as the basis for a whole bunch of very interesting business use, case oriented applications. All right, folks, that's all I had.
+
+00:25:44:42 - 00:25:46:05
+Unbekannt
+Be fine tuning my.
+
